@@ -9,6 +9,7 @@ package model;
  * @author Admin
  */
 public class Account {
+    int id;
     String user,pass,role;
 
     public Account() {
@@ -20,6 +21,14 @@ public class Account {
         this.role = role;
     }
 
+    public Account(int id, String user, String pass, String role) {
+        this.id = id;
+        this.user = user;
+        this.pass = pass;
+        this.role = role;
+    }
+
+    
     public String getUser() {
         return user;
     }

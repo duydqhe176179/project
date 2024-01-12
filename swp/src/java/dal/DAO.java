@@ -122,7 +122,47 @@ public class DAO extends DBContext {
             return false;
         }
     }
+public Account login(String username, String password) {
+        String query = "SELECT *"
+                + "FROM account "
+                + "WHERE username = ? AND password = ?";
 
+        try ( PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                int idAccount = resultSet.getInt(1);
+                String user = resultSet.getString(2);
+                String pass = resultSet.getString(3);
+                String role = resultSet.getString(4);
+
+                return new Account(idAccount, user, password, role);
+            }
+        } catch (Exception e) {
+            System.out.println("Login: " + e.getMessage());
+        }
+
+        return null;
+    }
+    public boolean changePassword(String username, String newPassword) {
+        String query = "UPDATE account SET password = ? WHERE username = ? ";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, username);
+            
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            System.out.println("Change Password: " + e.getMessage());
+        }
+
+        return false;
+    }
     public static void main(String[] args) {
         DAO dao = new DAO();
         System.out.println(dao.addAccount("test", "test"));

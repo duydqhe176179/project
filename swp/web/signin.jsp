@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="wapper">
-            <form action="signin" method="get">
+            <form action="signin" method="post">
                 <h1>Sign in</h1>
                 <div class="input-box">
                     <input type="text" id="uname" name="username" placeholder="Username" required>   
