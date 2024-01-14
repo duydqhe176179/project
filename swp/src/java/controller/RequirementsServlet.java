@@ -12,15 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Account;
+import model.Requirements;
 
 /**
  *
  * @author trang
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/change"})
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "RequirementsServlet", urlPatterns = {"/re"})
+public class RequirementsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +38,10 @@ public class ChangePasswordServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangePasswordServlet</title>");
+            out.println("<title>Servlet RequirementsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangePasswordServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet RequirementsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +59,7 @@ public class ChangePasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("changepass.jsp").forward(request, response);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**
@@ -74,34 +73,20 @@ public class ChangePasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String username = request.getParameter("username");
-        String oldPassword = request.getParameter("oldpassword");
-        String newPassword = request.getParameter("newpassword");
-        String confirmPassword = request.getParameter("confirm");
-
+        String title = request.getParameter("title");
+        String ddate = request.getParameter("ddate");
+        Float dhour = Float.parseFloat(request.getParameter("dhour"));
+        String content = request.getParameter("content");
+        String skill = request.getParameter("skill");
+        String status = request.getParameter("status");
+        Requirements r = new Requirements(title, content,skill, status, ddate, dhour);
         DAO d = new DAO();
-        Account a = d.login(username, oldPassword);
-        System.out.println(a);
-        if (a != null) {
-            if (newPassword.equals(confirmPassword)) {
-                d.changePassword(username, newPassword);
-                System.out.println("ok");
-                request.setAttribute("mess", "Change password succesfully");
-                request.getRequestDispatcher("changepass.jsp").forward(request, response);
-            } else {
-                String err = "Newpassword and confirmPassword are not the same";
-                request.setAttribute("err", err);
-                request.getRequestDispatcher("changepass.jsp").forward(request, response);
-            }
-
+        if (d.insertRe(r)) {
+            System.out.println("ok");
         } else {
-            String err = "Account or password is incorrect";
-            System.out.println(err);
-            request.setAttribute("error", err);
-            request.getRequestDispatcher("changepass.jsp").forward(request, response);
+            System.out.println("ko dc");
         }
-        // Use your DAO class to change the password in the database
+        request.getRequestDispatcher("home.jsp").forward(request, response);
 
     }
 

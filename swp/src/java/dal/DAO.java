@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
+import model.Requirements;
 
 /**
  *
@@ -162,6 +163,31 @@ public Account login(String username, String password) {
         }
 
         return false;
+    }
+    public boolean insertRe(Requirements r) {
+        String query = "INSERT INTO [dbo].[Requirements]\n"
+                + "           (title,content,skill,status,deadline,hour)\n"
+                + "VALUES (?, ?, ?, ?, ?,?)";
+
+        try ( PreparedStatement pstmt = connection.prepareStatement(query)) {
+            // Set the parameter values
+
+            pstmt.setString(1, r.getTitle());
+            pstmt.setString(2, r.getContent());
+            pstmt.setString(3, r.getSkill());
+            pstmt.setString(4, r.getStatus());
+            pstmt.setString(5, r.getDeadline());
+            pstmt.setFloat(6, r.getHour());
+
+            // Execute the query
+            int rowsInserted = pstmt.executeUpdate();
+
+            // Check if the insertion was successful
+            return (rowsInserted > 0);
+        } catch (SQLException e) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
     public static void main(String[] args) {
         DAO dao = new DAO();
