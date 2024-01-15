@@ -19,7 +19,7 @@ import model.Account;
  *
  * @author trang
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/change"})
+@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/changePass"})
 public class ChangePasswordServlet extends HttpServlet {
 
     /**
@@ -60,7 +60,7 @@ public class ChangePasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("changepass.jsp").forward(request, response);
+        request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ChangePasswordServlet extends HttpServlet {
         System.out.println(a);
         if (a != null) {
             if (newPassword.equals(confirmPassword)) {
-                d.changePassword(username, newPassword);
+                d.updatePassword(a.getId(), newPassword);
                 System.out.println("ok");
                 request.setAttribute("mess", "Change password succesfully");
                 request.getRequestDispatcher("changepass.jsp").forward(request, response);
