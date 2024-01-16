@@ -16,6 +16,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="stylesheet"  type="text/css" href="../css/style_2.css"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
@@ -34,9 +35,9 @@
 
         <!-- Additional CSS Files -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
-        <link rel="stylesheet" href="assets/css/animated.css">
-        <link rel="stylesheet" href="assets/css/owl.css">
+        <link rel="stylesheet"  type="text/css" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet"  type="text/css" href="assets/css/animated.css">
+        <link rel="stylesheet"  type="text/css" href="assets/css/owl.css">
         <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
     </head>
 
@@ -68,6 +69,9 @@
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
+                                <li>
+                                     <a href="profilecv" >Profile</a>
+                                </li>
                                 <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                 <li class="scroll-to-section"><a href="#about">About</a></li>
@@ -78,6 +82,8 @@
                                         <div class="gradient-button">
                                             <a  href="signin"><i class="fa fa-sign-in-alt"></i> Sign In Now</a>
                                             <a href="signup" >Register</a>
+                                             
+                                            
                                         </div>
                                     </li> 
 
@@ -87,6 +93,7 @@
                                     <input type="text" value="${account.user}" name="user" style="display: none">
                                 </c:if>
                             </ul>        
+                            
                             <a class='menu-trigger'>
                                 <span>Menu</span>
                             </a>
@@ -127,6 +134,7 @@
                     <div class="action_btns">
                         <div class="one_half"><a href="#" id="login_form" class="btn">Login</a></div>
                         <div class="one_half last"><a href="#" id="register_form" class="btn">Sign up</a></div>
+                       
                     </div>
                 </div>
 
