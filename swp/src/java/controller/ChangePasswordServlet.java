@@ -88,18 +88,18 @@ public class ChangePasswordServlet extends HttpServlet {
                 d.updatePassword(a.getId(), newPassword);
                 System.out.println("ok");
                 request.setAttribute("mess", "Change password succesfully");
-                request.getRequestDispatcher("changepass.jsp").forward(request, response);
+                request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
             } else {
                 String err = "Newpassword and confirmPassword are not the same";
                 request.setAttribute("err", err);
-                request.getRequestDispatcher("changepass.jsp").forward(request, response);
+                request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
             }
 
         } else {
             String err = "Account or password is incorrect";
             System.out.println(err);
             request.setAttribute("error", err);
-            request.getRequestDispatcher("changepass.jsp").forward(request, response);
+            request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
         }
         // Use your DAO class to change the password in the database
 

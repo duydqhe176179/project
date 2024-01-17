@@ -85,7 +85,7 @@ public class Signin extends HttpServlet {
             if (a.getConfirm() == 1) {
                 // Authentication successful
                 session.setAttribute("account", a);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                request.getRequestDispatcher("home").forward(request, response);
             } else {
                 session.setAttribute("account", a);
                 request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);

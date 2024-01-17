@@ -27,7 +27,7 @@
                 <p style="margin-bottom: 10px;color: red;font-size: large">${mess}</p>
                 <div class="remember">
                     <label style="text-align: left"><input type="checkbox"  name="remember pass" >Remember password</label> 
-
+                    <a href="reset-password">Reset password</a> 
                 </div>
 
                 <button class="button" type="submit" name="signup">

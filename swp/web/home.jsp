@@ -85,6 +85,7 @@
                                 <c:if test="${account ne null}">
                                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                                     <input type="text" value="${account.user}" name="user" style="display: none">
+                                    <a href="changePass">changePass</a>
                                 </c:if>
                             </ul>        
                             <a class='menu-trigger'>
