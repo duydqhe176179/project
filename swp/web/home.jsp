@@ -68,6 +68,12 @@
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
+                                <li>
+                                    <a href="profilecv" >Profile</a>
+                                </li>
+                                <li>
+                                    <a href="createcv" >Create CV</a>
+                                </li>
                                 <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                 <li class="scroll-to-section"><a href="#about">About</a></li>

@@ -79,7 +79,7 @@ public class signinAdmin extends HttpServlet {
         DAO dao = new DAO();
         HttpSession session = request.getSession();
         Account a = dao.login(user, pass);
-        if (a != null && a.getRole().equals("admin")) {
+        if (a != null && a.getRole().equals("Admin")) {
             session.setAttribute("account", a);
             request.getRequestDispatcher("admin").forward(request, response);
         }else{

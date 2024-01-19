@@ -139,6 +139,27 @@
                     </tbody>
                 </table>
             </div>
+            <br><br><br>
+
+            <h3>Skills <a href="addOldStudent"><i class="fa-solid fa-plus"></i></a></h3><br>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="o" items="${listO}" >
+                            <tr>
+                                <td>${o.name}</td>
+                                <td><a href="updateOldStudent?id_old=${o.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                <td><a href="deleteOldStudent?id_old=${o.id}" onclick="return confirmAccess('${link.url}')"><i class="fa-solid fa-trash"></i></a></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <br><br>
 
