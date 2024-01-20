@@ -74,6 +74,13 @@
                                 <li>
                                     <a href="createcv" >Create CV</a>
                                 </li>
+                                <li>
+                                    <a href="rate" >Rate</a>
+                                </li>
+                                 <li>
+                                    <a href="view" >View Request</a>
+                                </li>
+                                
                                 <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                 <li class="scroll-to-section"><a href="#about">About</a></li>
