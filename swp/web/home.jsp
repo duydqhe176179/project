@@ -68,32 +68,23 @@
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
-                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>
-                                <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
-                                <li class="scroll-to-section"><a href="rate" >Rate</a></li>
-                                <li class="scroll-to-section"><a href="#services">Skill</a></li>
-                                <li class="scroll-to-section"><a href="view" >View Request</a></li>
-                                <li>
-                                    <a href="Request?action=create" >Create Request</a>
-                                </li>
-<!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                 <li class="scroll-to-section"><a href="#about">About</a></li>
                                 <li class="scroll-to-section"><a href="#pricing">Pricing</a></li>
-                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>-->
+                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>
                                     <c:if test="${account eq null}">
                                     <li>
                                         <div class="gradient-button">
                                             <a  href="signin"><i class="fa fa-sign-in-alt"></i> Sign In Now</a>
-                                            <a href="signup" >Sign up</a>
+                                            <a href="signup" >Register</a>
                                         </div>
                                     </li> 
 
                                 </c:if>
                                 <c:if test="${account ne null}">
-                                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logoutUser"><i class="fa-solid fa-right-from-bracket"></i></a>
+                                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                                     <input type="text" value="${account.user}" name="user" style="display: none">
-                                    <a href="changePass">changePass</a>
                                 </c:if>
                             </ul>        
                             <a class='menu-trigger'>
@@ -232,29 +223,56 @@
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
-                            <h4>Amazing <em> skill</em> for you</h4>
+                            <h4>Amazing <em>Services &amp; Features</em> for you</h4>
                             <img src="assets/images/heading-line-dec.png" alt="">
                             <p>If you need the greatest collection of HTML templates for your business, please visit <a rel="nofollow" href="https://www.toocss.com/" target="_blank">TooCSS</a> Blog. If you need to have a contact form PHP script, go to <a href="https://templatemo.com/contact" target="_parent">our contact page</a> for more information.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="container">  
-            <div class="row">
-                <c:forEach   items="${listSkill}" var = "item">
-                        <div class="col-lg-3">
-                            <div class="service-item first-service">
-                                <div  >
-                                    <img src="${item.image}" height="237" width="246" alt="alt"/>
-                                </div>                          
-                            <h4> ${item.title} ${item.skillName}</h4>
-                            <p> ${item.skill_description}</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="service-item first-service">
+                            <div class="icon"></div>
+                            <h4>App Maintenance</h4>
+                            <p>You are not allowed to redistribute this template ZIP file on any other website.</p>
                             <div class="text-button">
                                 <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="service-item second-service">
+                            <div class="icon"></div>
+                            <h4>Rocket Speed of App</h4>
+                            <p>You are allowed to use the Chain App Dev HTML template. Feel free to modify or edit this layout.</p>
+                            <div class="text-button">
+                                <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
+                            </div>
                         </div>
-                    </c:forEach>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="service-item third-service">
+                            <div class="icon"></div>
+                            <h4>Multi Workflow Idea</h4>
+                            <p>If this template is beneficial for your work, please support us <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">a little via PayPal</a>. Thank you.</p>
+                            <div class="text-button">
+                                <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="service-item fourth-service">
+                            <div class="icon"></div>
+                            <h4>24/7 Help &amp; Support</h4>
+                            <p>Lorem ipsum dolor consectetur adipiscing elit sedder williamsburg photo booth quinoa and fashion axe.</p>
+                            <div class="text-button">
+                                <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -85,14 +85,10 @@ public class Signin extends HttpServlet {
             if (a.getConfirm() == 1) {
                 // Authentication successful
                 session.setAttribute("account", a);
-                session.setAttribute("us", username);
-                request.getRequestDispatcher("home").forward(request, response);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
             } else {
                 session.setAttribute("account", a);
-                session.setAttribute("us", username);
-//                request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
-                response.sendRedirect("home");
-
+                request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
             }
         } else {
             // Authentication failed

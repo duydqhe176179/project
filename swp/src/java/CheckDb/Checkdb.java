@@ -23,25 +23,16 @@ public class Checkdb extends DBContext {
     List<Account> listAccount = new ArrayList<>();
 
     public boolean IsUserExist(String user) {
-        List<Account> a = getAllAccount();
-        for (Account account : a) {
-            if (account.getUser().equals(user)) {
+        List<Account> a= getAllAccount();
+        for(Account account:a){
+            if(account.getUser().equals(user)){
                 return true;
             }
         }
         return false;
     }
-
-    public boolean isEmailUsed(String email) {
-        List<Account> a = getAllAccount();
-        for (Account account : a) {
-            if (email.equals(account.getEmail())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    
+    
     public List<Account> getAllAccount() {
         try {
             String strSelect = "SELECT * FROM dbo.account";
@@ -63,9 +54,9 @@ public class Checkdb extends DBContext {
         }
         return listAccount;
     }
-
+    
     public static void main(String[] args) {
-        Checkdb check = new Checkdb();
-        System.out.println(check.isEmailUsed("d@gmail.com"));
+        Checkdb check=new Checkdb();
+        System.out.println(check.IsUserExist("user1"));
     }
 }

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Ngo Tung Son
  */
 public class DBContext {
-    public Connection connection;
+    protected Connection connection;
     public  DBContext()
     {
         //@Students: You are allowed to edit user, pass, url variables to fit 
