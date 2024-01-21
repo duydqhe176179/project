@@ -68,24 +68,16 @@
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
-                                <li>
-                                    <a href="profilecv" >Profile</a>
-                                </li>
-                                <li>
-                                    <a href="createcv" >Create CV</a>
-                                </li>
-                                <li>
-                                    <a href="rate" >Rate</a>
-                                </li>
-                                 <li>
-                                    <a href="view" >View Request</a>
-                                </li>
-                                
-                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>
+                                <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
+                                <li class="scroll-to-section"><a href="rate" >Rate</a></li>
+                                <li class="scroll-to-section"><a href="view" >View Request</a></li>
+
+<!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                 <li class="scroll-to-section"><a href="#about">About</a></li>
                                 <li class="scroll-to-section"><a href="#pricing">Pricing</a></li>
-                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>
+                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>-->
                                     <c:if test="${account eq null}">
                                     <li>
                                         <div class="gradient-button">
