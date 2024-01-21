@@ -1,8 +1,3 @@
-<%-- 
-    Document   : manage
-    Created on : Nov 5, 2023, 10:35:45 PM
-    Author     : Admin
---%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -61,10 +56,10 @@
     <body >
         <header>
             <div class="row">
-                <div class="col-sm-3">
-                    <img src="img/logo.png" width="100%" " alt="alt"/> 
+                <div class="col-sm-2">
+<!--                    <img src="img/logo.png" width="100%" " alt="alt"/> -->
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-10">
                     <h1>Admin Page</h1>
                 </div>
             </div>
@@ -75,7 +70,7 @@
                 <!-- Admin content goes here -->
                 <h2 class="col-sm-11">Welcome, ${account.user}!</h2>
                 <div class="col-sm-1">
-                    <a class="btn btn-danger" href="logout" style="width: 100%">Log out</a>
+                    <a class="btn btn-danger" href="logoutAdmin" style="width: 100%">Log out</a>
                 </div>
             </section>
 
@@ -141,20 +136,43 @@
             </div>
             <br><br><br>
 
-            <h3>Skills <a href="addOldStudent"><i class="fa-solid fa-plus"></i></a></h3><br>
+            <h3>Skills <a href="addSkill"><i class="fa-solid fa-plus"></i></a></h3><br>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-
+                            <th>STT</th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Update</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="o" items="${listO}" >
+                        <c:forEach var="s" items="${listSkill}" varStatus="loop">
                             <tr>
-                                <td>${o.name}</td>
-                                <td><a href="updateOldStudent?id_old=${o.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                                <td><a href="deleteOldStudent?id_old=${o.id}" onclick="return confirmAccess('${link.url}')"><i class="fa-solid fa-trash"></i></a></td>
+                                <td>${loop.index + 1}</td>
+                                <td>${s.getId()}</td>
+                                <td>${s.getTiltle()}</td>
+                                <td><img src="${s.getImage()}" width="100rem"  alt="alt"/></td>
+                                <td>${s.getSkillName()}</td>
+                                <td>${s.getSkill_description()}</td>
+                                <c:if test="${s.getStatus() eq 'enable'}" >
+                                    <td style="color: #01df1f">
+                                        <p style="font-size: large">${s.getStatus()}</p>
+                                        <a class="btn btn-danger" href="activeSkill?idSkill=${s.getId()}" style="width: 70%">Disable</a>
+                                    </td>
+                                </c:if>
+                                <c:if test="${s.getStatus() ne 'enable'}" >
+                                    <td style="color: #ff1921">
+                                        <p style="font-size: large">${s.getStatus()}</p>
+                                        <a class="btn" style="background-color: #4acd3d; color: white;" href="activeSkill?idSkill=${s.getId()}" style="width: 70%">Enable</a>
+                                    </td>
+                                </c:if>
+                                <td><a href="updateSkill?idSkill=${s.getId()}"><i class="fa-solid fa-pen-to-square"></i></a></td>
                             </tr>
                         </c:forEach>
                     </tbody>

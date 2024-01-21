@@ -82,13 +82,13 @@
                                     <li>
                                         <div class="gradient-button">
                                             <a  href="signin"><i class="fa fa-sign-in-alt"></i> Sign In Now</a>
-                                            <a href="signup" >Register</a>
+                                            <a href="signup" >Sign up</a>
                                         </div>
                                     </li> 
 
                                 </c:if>
                                 <c:if test="${account ne null}">
-                                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logoutUser"><i class="fa-solid fa-right-from-bracket"></i></a>
                                     <input type="text" value="${account.user}" name="user" style="display: none">
                                     <a href="changePass">changePass</a>
                                 </c:if>

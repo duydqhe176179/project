@@ -4,22 +4,30 @@
  */
 package controller;
 
-import dal.DAO;
+import admin.AdminDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Account;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import model.SkillMentor;
 
 /**
  *
  * @author Admin
  */
-public class ConfirmAccount extends HttpServlet {
+@WebServlet(name = "addSkill", urlPatterns = {"/addSkill"})
+@MultipartConfig
+public class addSkill extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +46,10 @@ public class ConfirmAccount extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ConfirmAccount</title>");
+            out.println("<title>Servlet addSkill</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Not found</h1>");
+            out.println("<h1>Servlet addSkill at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,18 +67,7 @@ public class ConfirmAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        //get from session
-        Account a = (Account) session.getAttribute("account");
-        String verify = (String) session.getAttribute("verify");
-        System.out.println(verify + "doget");
-        System.out.println("den doget");
-        if ((Account) session.getAttribute("account") == null) {
-            processRequest(request, response);
-            System.out.println("ko co account");
-        } else {
-            request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
-        }
+        request.getRequestDispatcher("Admin/addSkill.jsp").forward(request, response);
     }
 
     /**
@@ -84,24 +81,34 @@ public class ConfirmAccount extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO dao = new DAO();
-        String confirm = request.getParameter("confirm").trim();
-        HttpSession session = request.getSession(true);
-        //get from session
-        Account a = (Account) session.getAttribute("account");
-        String verify = request.getParameter("verify");
+        String title = request.getParameter("title");
+        Part filePart = request.getPart("image");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
-        System.out.println(verify + "dopost");
-        if (verify.equals(confirm)) {
-            dao.confirmAccount(a.getUser());
-            String mess = "Confirm account successful";
-            request.setAttribute("mess", mess);
-            request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
-        } else {
-            String err = "Confirm account fail";
-            request.setAttribute("err", err);
-            request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
+        // Define the folder where you want to save the file
+        String uploadPath = getServletContext().getRealPath("/img");
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
         }
+        File existingFile = new File(uploadDir, fileName);
+        if (existingFile.exists()) {
+            existingFile.delete();
+        }
+        // Save the file to the folder
+        try ( InputStream fileInput = filePart.getInputStream()) {
+            Path imagePath = Paths.get(uploadDir.getAbsolutePath(), fileName);
+            Files.copy(fileInput, imagePath);
+        }
+
+        // Add the file URL to your database
+        String fileUrl = "img/" + fileName;
+        String name=request.getParameter("name");
+        String description=request.getParameter("description");
+        SkillMentor skill=new SkillMentor(title, fileUrl, name, description);
+        AdminDAO admin=new AdminDAO();
+        admin.addSkill(skill);
+        response.sendRedirect("admin");
     }
 
     /**
