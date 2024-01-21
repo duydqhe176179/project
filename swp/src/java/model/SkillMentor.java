@@ -19,6 +19,13 @@ public class SkillMentor {
     public SkillMentor() {
     }
 
+    public SkillMentor(String tiltle, String image, String skillName, String Skill_description) {
+        this.tiltle = tiltle;
+        this.image = image;
+        this.skillName = skillName;
+        this.Skill_description = Skill_description;
+    }
+
     public SkillMentor(int id, String tiltle, String image, String skillName, String Skill_description, String status) {
         this.id = id;
         this.tiltle = tiltle;

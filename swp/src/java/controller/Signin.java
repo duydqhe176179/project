@@ -81,7 +81,7 @@ public class Signin extends HttpServlet {
         Account a = d.login(username, password);
         HttpSession session = request.getSession();
         // For simplicity, let's assume valid credentials are "admin" and "password"
-        if (a != null) {
+        if (a != null && !a.getRole().equals("Admin")) {
             if (a.getConfirm() == 1) {
                 // Authentication successful
                 session.setAttribute("account", a);
