@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
+import model.Rate;
+import model.Requestt;
+import sun.net.idn.Punycode;
 
 /**
  *
@@ -48,6 +51,23 @@ public class DAO extends DBContext {
         }
 
         return null;
+    }
+    public boolean changePassword(String username, String newPassword) {
+        String query = "UPDATE account SET password = ? WHERE username = ? ";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, username);
+            
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            System.out.println("Change Password: " + e.getMessage());
+        }
+
+        return false;
     }
 
     public Account getAccountByUsername(String username) {
@@ -200,9 +220,79 @@ public class DAO extends DBContext {
             return false;
         }
     }
+    List<Requestt> list = new ArrayList<>();
 
+    public List<Requestt> getAllRequesttbyID(int idMentor) {
+        String sql = "select * from request\n"
+                + "where idMentor = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Requestt objE = new Requestt(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getFloat(9));
+                if (!objE.getStatus().equals("Reject")) {
+                    list.add(objE);
+                }
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error when selecting");
+        }
+        return list;
+    }
+
+    public boolean updateRe(int id, String newStatus) {
+        try {
+            String strUPDATE = "UPDATE request SET status = ? WHERE idRequest = ?";
+            stm = connection.prepareStatement(strUPDATE);
+            stm.setString(1, newStatus);
+            stm.setInt(2, id);
+
+            int rowsAffected = stm.executeUpdate();
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately, log or throw a custom exception
+            return false;
+        }
+    }
+
+    
+
+    public boolean insertr(Rate r) {
+        try {
+            String sql = "INSERT INTO [dbo].[rate]\n"
+                + "           ([idMentee]\n"
+                + "           ,[idMentor]\n"
+                + "           ,[star]\n"
+                + "           ,[comment]\n"
+                + "           ,[time])\n"
+                + "VALUES (?, ?, ?, ?, ?)";
+            stm = connection.prepareStatement(sql);
+            
+            stm.setInt(1, r.getIdMentor());
+            stm.setInt(2, r.getIdMentee());
+            stm.setInt(3, r.getStar());
+            stm.setString(4, r.getComment());
+            stm.setString(5, r.getTime());
+            
+
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
     public static void main(String[] args) {
         DAO dao = new DAO();
-        System.out.println(dao.confirmAccount("user6"));
+        
+        System.out.println(dao.changePassword("user1", "12345"));
     }
 }

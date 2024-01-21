@@ -12,9 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 import model.Account;
-import model.SkillMentor;
 
 /**
  *
@@ -63,21 +61,12 @@ public class admin extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
-        if (a != null && a.getRole().equals("Admin")) {
-            session.setAttribute("account", a);
-
-            ///// du lieu
-            AdminDAO addao = new AdminDAO();
-
-            // list Skill
-            List<SkillMentor> listSkill = addao.listAllSkill();
-            request.setAttribute("listSkill", listSkill);
-            System.out.println(listSkill.size());
-
-            request.getRequestDispatcher("Admin/admin.jsp").forward(request, response);
-
-        } else {
+        if (a == null) {
             request.getRequestDispatcher("signinAdmin").forward(request, response);
+        } else {
+            session.setAttribute("account", a);
+            ///// du lieu
+            request.getRequestDispatcher("Admin/admin.jsp").forward(request, response);
         }
     }
 

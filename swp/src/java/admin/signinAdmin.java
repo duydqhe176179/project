@@ -81,9 +81,9 @@ public class signinAdmin extends HttpServlet {
         Account a = dao.login(user, pass);
         if (a != null && a.getRole().equals("Admin")) {
             session.setAttribute("account", a);
-            response.sendRedirect(request.getContextPath() + "/admin");
-        } else {
-            String mess = "Username or Password not correct. Try again";
+            request.getRequestDispatcher("admin").forward(request, response);
+        }else{
+            String mess="Username or Password not correct. Try again";
             request.setAttribute("mess", mess);
             request.getRequestDispatcher("Admin/signinAdmin.jsp").forward(request, response);
         }

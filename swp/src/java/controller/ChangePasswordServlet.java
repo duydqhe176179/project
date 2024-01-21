@@ -71,39 +71,56 @@ public class ChangePasswordServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+ @Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String oldPassword = request.getParameter("oldpassword");
-        String newPassword = request.getParameter("newpassword");
-        String confirmPassword = request.getParameter("confirm");
+    String username = request.getParameter("username");
+    String oldPassword = request.getParameter("oldpassword");
+    String newPassword = request.getParameter("newpassword");
+    String confirmPassword = request.getParameter("confirm");
 
-        DAO d = new DAO();
-        Account a = d.login(username, oldPassword);
-        System.out.println(a);
-        if (a != null) {
-            if (newPassword.equals(confirmPassword)) {
+    DAO d = new DAO();
+    Account a = d.login(username, oldPassword);
+
+    if (a != null) {
+       
+        if (!newPassword.equals(oldPassword)) {
+            
+            if (newPassword.trim().equals(confirmPassword.trim())) {
+                // Update the password
                 d.updatePassword(a.getId(), newPassword);
-                System.out.println("ok");
-                request.setAttribute("mess", "Change password succesfully");
-                request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
+                // Display success message
+                request.setAttribute("messsucces", "Change password successfully, please sign in again!");
+                request.getRequestDispatcher("Account/signin.jsp").forward(request, response);
             } else {
-                String err = "Newpassword and confirmPassword are not the same";
-                request.setAttribute("err", err);
+                // Display error message if the new password and confirm password don't match
+                String err = "New password and confirm password are not the same";
+                request.setAttribute("erro", err);
                 request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
             }
-
         } else {
-            String err = "Account or password is incorrect";
-            System.out.println(err);
-            request.setAttribute("error", err);
+            // Display error message if the new password is the same as the old password
+            String err = "New password must be different from the old password";
+            request.setAttribute("err", err);
             request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
         }
-        // Use your DAO class to change the password in the database
-
+    } else {
+        // Display error message if the old password is incorrect
+        String err = "Account or password is incorrect";
+        System.out.println(err);
+        request.setAttribute("error", err);
+        request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
     }
+
+    // Logging for debugging
+    System.out.println("Username: " + username);
+    System.out.println("Old Password: " + oldPassword);
+    System.out.println("New Password: " + newPassword);
+    System.out.println("Confirm Password: " + confirmPassword);
+}
+
+
 
     /**
      * Returns a short description of the servlet.
