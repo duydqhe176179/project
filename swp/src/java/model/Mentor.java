@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -63,6 +65,26 @@ public class Mentor {
         this.age = age;
     }
 
+    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice) {
+        this.idMentor = idMentor;
+        this.fullname = fullname;
+        this.avatar = avatar;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        this.address = address;
+        this.registerDate = registerDate;
+        this.profession = profession;
+        this.pro_introduc = pro_introduc;
+        this.archivement_sescition = archivement_sescition;
+        this.framework = framework;
+        this.experience = experience;
+        this.education = education;
+        this.myservice = myservice;
+    }
+
+   
+    
     public String getRegisterDate() {
         return registerDate;
     }

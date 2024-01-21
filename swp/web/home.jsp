@@ -72,7 +72,9 @@
                                 <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
                                 <li class="scroll-to-section"><a href="rate" >Rate</a></li>
                                 <li class="scroll-to-section"><a href="view" >View Request</a></li>
-
+                                <li>
+                                    <a href="Request?action=create" >Create Request</a>
+                                </li>
 <!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                 <li class="scroll-to-section"><a href="#about">About</a></li>

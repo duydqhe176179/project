@@ -360,4 +360,42 @@ public class MentorDAO extends DBContext {
             return false;
         }
     }
+    public List<Mentor> getListOfMentors() {
+        List<Mentor> mentors = new ArrayList();
+        String query = "SELECT * FROM mentor";
+        try ( PreparedStatement pstmt = connection.prepareStatement(query)) {
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                Mentor mentor = mapResultSetToMentor(resultSet);
+                mentors.add(mentor);
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving mentors" + e.getMessage());
+        }
+        return mentors;
+    }
+    private Mentor mapResultSetToMentor(ResultSet resultSet) throws SQLException {
+    try {
+        return new Mentor(
+                resultSet.getInt("idMentor"),
+                resultSet.getString("fullname"),
+                resultSet.getString("avatar"),
+                resultSet.getString("phone"),
+                resultSet.getString("dob"),
+                resultSet.getString("sex"),
+                resultSet.getString("address"),
+                resultSet.getString("registerDate"),
+                resultSet.getString("profession"),
+                resultSet.getString("pro_introduc"),
+                resultSet.getString("archivement_descition"),
+                resultSet.getString("framework"),
+                resultSet.getString("experience"),
+                resultSet.getString("education"),
+                resultSet.getString("myservice")
+        );
+    } catch (SQLException e) {
+        throw new SQLException("Error mapping ResultSet to Mentor: " + e.getMessage(), e);
+    }
+}
+
 }
