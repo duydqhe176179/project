@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package admin;
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,16 +12,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 import model.Account;
-import model.SkillMentor;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "admin", urlPatterns = {"/admin"})
-public class admin extends HttpServlet {
+@WebServlet(name = "LogOutUser", urlPatterns = {"/logoutUser"})
+public class LogOutUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class admin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet admin</title>");
+            out.println("<title>Servlet LogOut</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet admin at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LogOut at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,24 +59,13 @@ public class admin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         Account a = (Account) session.getAttribute("account");
-        if (a != null && a.getRole().equals("Admin")) {
-            session.setAttribute("account", a);
-
-            ///// du lieu
-            AdminDAO addao = new AdminDAO();
-
-            // list Skill
-            List<SkillMentor> listSkill = addao.listAllSkill();
-            request.setAttribute("listSkill", listSkill);
-            System.out.println(listSkill.size());
-
-            request.getRequestDispatcher("Admin/admin.jsp").forward(request, response);
-
-        } else {
-            request.getRequestDispatcher("signinAdmin").forward(request, response);
-        }
+        if (a != null ) {
+            // Invalidate the session to log the user out
+            session.invalidate();
+            response.sendRedirect("home");
+        } 
     }
 
     /**
@@ -92,7 +79,7 @@ public class admin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Admin/admin.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

@@ -4,21 +4,30 @@
  */
 package controller;
 
+import admin.AdminDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import model.SkillMentor;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "LogOut", urlPatterns = {"/logout"})
-public class LogOut extends HttpServlet {
+@WebServlet(name = "updateSkill", urlPatterns = {"/updateSkill"})
+@MultipartConfig
+public class updateSkill extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +46,10 @@ public class LogOut extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogOut</title>");
+            out.println("<title>Servlet updateSkill</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogOut at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet updateSkill at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,13 +67,12 @@ public class LogOut extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        AdminDAO admindao = new AdminDAO();
+        SkillMentor s = admindao.getSkillById(Integer.parseInt(request.getParameter("idSkill")));
 
-        if (session != null) {
-            // Invalidate the session to log the user out
-            session.invalidate();
-        }
-        response.sendRedirect("home");
+        request.setAttribute("skill", s);
+
+        request.getRequestDispatcher("Admin/updateSkill.jsp").forward(request, response);
     }
 
     /**
@@ -78,7 +86,42 @@ public class LogOut extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AdminDAO admin = new AdminDAO();
+        int id = Integer.parseInt(request.getParameter("id"));
+        SkillMentor skill = admin.getSkillById(id);
+        String title = request.getParameter("title");
+
+        String fileName = "";
+        if (request.getPart("image") != null && !request.getPart("image").getSubmittedFileName().isEmpty()) {
+            Part filePart = request.getPart("image");
+            fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String imageDirectory = getServletContext().getRealPath("/img");
+
+// Create the directory if it doesn't exist
+            File uploadDir = new File(imageDirectory);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+// Check if a file with the same name already exists and delete it
+            File existingFile = new File(uploadDir, fileName);
+            if (existingFile.exists()) {
+                existingFile.delete();
+            }
+
+// Save the uploaded image with the desired file name to the directory
+            try ( InputStream fileInput = filePart.getInputStream()) {
+                Path imagePath = Paths.get(uploadDir.getAbsolutePath(), fileName);
+                Files.copy(fileInput, imagePath);
+            }
+            fileName = "img/" + fileName;
+        } else {
+            fileName = skill.getImage();
+        }
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        admin.updateSkill(id, title, fileName, name, description, skill.getStatus());
+        response.sendRedirect("admin");
     }
 
     /**

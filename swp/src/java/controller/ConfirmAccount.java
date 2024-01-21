@@ -63,15 +63,14 @@ public class ConfirmAccount extends HttpServlet {
         //get from session
         Account a = (Account) session.getAttribute("account");
         String verify = (String) session.getAttribute("verify");
-        System.out.println(verify+"doget");
+        System.out.println(verify + "doget");
         System.out.println("den doget");
-        if ((Account)session.getAttribute("account") == null) {
+        if ((Account) session.getAttribute("account") == null) {
             processRequest(request, response);
             System.out.println("ko co account");
         } else {
             request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
         }
-
     }
 
     /**
@@ -99,11 +98,10 @@ public class ConfirmAccount extends HttpServlet {
             request.setAttribute("mess", mess);
             request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
         } else {
-            String mess="Confirm account fail";
-            request.setAttribute("mess", mess);
+            String err="Confirm account fail";
+            request.setAttribute("err", err);
             request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
         }
-
     }
 
     /**

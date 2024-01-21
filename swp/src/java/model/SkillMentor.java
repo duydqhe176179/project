@@ -9,6 +9,7 @@ package model;
  * @author admin
  */
 public class SkillMentor {
+
     int id;
     String tiltle;
     String image;
@@ -17,6 +18,13 @@ public class SkillMentor {
     String status;
 
     public SkillMentor() {
+    }
+
+    public SkillMentor(String tiltle, String image, String skillName, String Skill_description) {
+        this.tiltle = tiltle;
+        this.image = image;
+        this.skillName = skillName;
+        this.Skill_description = Skill_description;
     }
 
     public SkillMentor(int id, String tiltle, String image, String skillName, String Skill_description, String status) {
@@ -80,5 +88,5 @@ public class SkillMentor {
     public String toString() {
         return "SkillMentor{" + "id=" + id + ", tiltle=" + tiltle + ", image=" + image + ", skillName=" + skillName + ", Skill_description=" + Skill_description + ", status=" + status + '}';
     }
-    
+
 }

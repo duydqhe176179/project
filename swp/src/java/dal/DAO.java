@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import model.Account;
 import model.Rate;
 import model.Requestt;
-import sun.net.idn.Punycode;
 
 /**
  *
@@ -52,13 +51,13 @@ public class DAO extends DBContext {
 
         return null;
     }
+
     public boolean changePassword(String username, String newPassword) {
         String query = "UPDATE account SET password = ? WHERE username = ? ";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try ( PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, username);
-            
 
             int rowsUpdated = pstmt.executeUpdate();
 
@@ -259,25 +258,22 @@ public class DAO extends DBContext {
         }
     }
 
-    
-
     public boolean insertr(Rate r) {
         try {
             String sql = "INSERT INTO [dbo].[rate]\n"
-                + "           ([idMentee]\n"
-                + "           ,[idMentor]\n"
-                + "           ,[star]\n"
-                + "           ,[comment]\n"
-                + "           ,[time])\n"
-                + "VALUES (?, ?, ?, ?, ?)";
+                    + "           ([idMentee]\n"
+                    + "           ,[idMentor]\n"
+                    + "           ,[star]\n"
+                    + "           ,[comment]\n"
+                    + "           ,[time])\n"
+                    + "VALUES (?, ?, ?, ?, ?)";
             stm = connection.prepareStatement(sql);
-            
+
             stm.setInt(1, r.getIdMentor());
             stm.setInt(2, r.getIdMentee());
             stm.setInt(3, r.getStar());
             stm.setString(4, r.getComment());
             stm.setString(5, r.getTime());
-            
 
             int rowsAffected = stm.executeUpdate();
 
@@ -290,9 +286,10 @@ public class DAO extends DBContext {
             return false;
         }
     }
+
     public static void main(String[] args) {
         DAO dao = new DAO();
-        
+
         System.out.println(dao.changePassword("user1", "12345"));
     }
 }
