@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 import model.Account;
 import model.Rate;
 import model.Requestt;
+import model.Skill;
 
 /**
  *
@@ -24,6 +26,7 @@ public class DAO extends DBContext {
     PreparedStatement stm;
     ResultSet rs;
     List<Account> listAccount = new ArrayList<>();
+    List<Skill> listAllSkill = new ArrayList<>();
 
     public Account login(String username, String password) {
         String query = "SELECT *"
@@ -286,10 +289,32 @@ public class DAO extends DBContext {
             return false;
         }
     }
+    
+    public List<Skill> ListAllSkill () {
+            Connection conn = null;
+            String query = "SELECT * FROM skill";
+            try {
+                conn = new DBContext().connection;
+                stm = conn.prepareStatement(query);
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                    listAllSkill.add(new Skill(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            
+        return listAllSkill;
+           
+    }
 
     public static void main(String[] args) {
         DAO dao = new DAO();
 
         System.out.println(dao.changePassword("user1", "12345"));
+        List<Skill> listAllSkill = dao.ListAllSkill();
+        for (Skill s : listAllSkill) {
+            System.out.println(s);
+        }
     }
 }

@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
+import java.util.List;
+import model.Request;
 
 /**
  *
- * @author trang
+ * @author ADMIN
  */
-@WebServlet(name = "SigninServlet", urlPatterns = {"/signin"})
-public class Signin extends HttpServlet {
+@WebServlet(name = "ListRequest", urlPatterns = {"/listrequest"})
+public class ListRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +39,10 @@ public class Signin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SigninServlet</title>");
+            out.println("<title>Servlet ListRequest</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SigninServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListRequest at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +60,20 @@ public class Signin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Account/signin.jsp").forward(request, response);
+        dal.ListRequest req = new dal.ListRequest();
+        HttpSession session = request.getSession();
+//        String rquest_id = request.getParameter("idRequest");
+//        String update_id = request.getParameter("idU");
+        //  String username = request.getParameter("username");
+//        session.getAttribute("username");
+        String userName = (String) session.getAttribute("username");
+        request.setAttribute("msg", userName);
+        int idAccount = req.getIdAccountByUsername(userName);
+//        int idAccount = (int) session.getAttribute("account");
+        List<Request> listRequest1 = req.ListRequestById(idAccount);
+        request.setAttribute("listReq1", listRequest1);
+//        request.setAttribute("msg", userName);
+        request.getRequestDispatcher("view/listallreq.jsp").forward(request, response);
     }
 
     /**
@@ -74,32 +87,7 @@ public class Signin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get user inputs from the login form
-        DAO d = new DAO();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        Account a = d.login(username, password);
-        HttpSession session = request.getSession();
-        // For simplicity, let's assume valid credentials are "admin" and "password"
-        if (a != null) {
-            if (a.getConfirm() == 1) {
-                // Authentication successful
-                session.setAttribute("account", a);
-                session.setAttribute("us", username);
-                request.getRequestDispatcher("home").forward(request, response);
-            } else {
-                session.setAttribute("account", a);
-                session.setAttribute("us", username);
-//                request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
-                response.sendRedirect("home");
 
-            }
-        } else {
-            // Authentication failed
-            String mess = "Username or password wrong!";
-            request.setAttribute("mess", mess);
-            request.getRequestDispatcher("Account/signin.jsp").forward(request, response);
-        }
     }
 
     /**
