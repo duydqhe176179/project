@@ -70,11 +70,11 @@ public class Profile_cvMenter extends HttpServlet {
         }else
         {
           
-              MentorDAO dao = new MentorDAO();
+        MentorDAO dao = new MentorDAO();
         Mentor list  = dao.getIDMentor(a.getId());
         request.setAttribute("cv", list);
             System.out.println(list);
-        Have_SKill hskill = dao.getidhaveskill(a.getId());
+        List<Have_SKill> hskill = dao.getidhaveskill(a.getId());
         System.out.println(hskill);
         request.setAttribute("cf", hskill);
         
@@ -86,6 +86,7 @@ public class Profile_cvMenter extends HttpServlet {
          request.getRequestDispatcher("Mentor/profileMentor.jsp").forward(request, response);
         }
        
+        
         
         
     } 

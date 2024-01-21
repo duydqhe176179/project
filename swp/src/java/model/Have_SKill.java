@@ -13,23 +13,37 @@ public class Have_SKill {
     int idSkill;
     int score;
     int cost;
-    String skillName;
+   String skillname;
 
     public Have_SKill() {
     }
 
-    public Have_SKill(int idMentor, int idSkill, int score, int cost, String skillName) {
+    public Have_SKill(int idMentor, int idSkill, int score, int cost, String skillname) {
         this.idMentor = idMentor;
         this.idSkill = idSkill;
         this.score = score;
         this.cost = cost;
-        this.skillName = skillName;
+        this.skillname = skillname;
     }
 
-    @Override
-    public String toString() {
-        return "Have_SKill{" + "idMentor=" + idMentor + ", idSkill=" + idSkill + ", score=" + score + ", cost=" + cost + ", skillName=" + skillName + '}';
+    public Have_SKill(int idMentor, int idSkill) {
+        this.idMentor = idMentor;
+        this.idSkill = idSkill;
     }
+
+    public Have_SKill(int idMentor, int idSkill, int score, int cost) {
+        this.idMentor = idMentor;
+        this.idSkill = idSkill;
+        this.score = score;
+        this.cost = cost;
+    }
+
+    public Have_SKill(int idMentor) {
+        this.idMentor = idMentor;
+    }
+
+    
+   
 
     public int getIdMentor() {
         return idMentor;
@@ -51,6 +65,11 @@ public class Have_SKill {
         return score;
     }
 
+    @Override
+    public String toString() {
+        return "Have_SKill{" + "idMentor=" + idMentor + ", idSkill=" + idSkill + ", score=" + score + ", cost=" + cost + ", skillname=" + skillname + '}';
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
@@ -63,13 +82,14 @@ public class Have_SKill {
         this.cost = cost;
     }
 
-    public String getSkillName() {
-        return skillName;
+    public String getSkillname() {
+        return skillname;
     }
 
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
+    public void setSkillname(String skillname) {
+        this.skillname = skillname;
     }
 
-  
+    
+   
 }
