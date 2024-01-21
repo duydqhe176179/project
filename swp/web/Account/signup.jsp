@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,33 +15,34 @@
             <form action="signup" method="post">
                 <h1>Sign up</h1>
                 You are: 
-                <select name="role">
+                <select name="role" value="${signup.getRole()}">
                     <option value="Mentor">Mentor</option>
                     <option value="Mentee">Mentee</option>
                 </select>
                 <div class="input-box">
-                    <input type="text" name="username" placeholder="Username" required>   
+                    <input type="text" name="username" placeholder="Username" value="${signup.getUser()}" required>   
                 </div>    
                 <div class="input-box">
-                    <input type="password"name="pass" placeholder="Password" required>   
+                    <input type="password"name="pass" placeholder="Password" value="${signup.getPass()}" required>   
                 </div> 
                 <div class="input-box">
-                    <input type="password" name="repass" placeholder="Re-enter Password" required>   
+                    <input type="password" name="repass" placeholder="Re-enter Password" value="${signup.getRepass()}" required>   
                 </div>
                 <div class="input-box">
-                    <input type="email"  name="email" placeholder="Email" required>   
+                    <input type="email"  name="email" placeholder="Email" oninput="delayedCheckEmailAvailability()" value="${signup.getEmail()}" required>   
                 </div> 
                 <div class="input-box">
-                    <input type="text"  name="fullname" placeholder="Fullname" required>   
+                    <input type="text"  name="fullname" placeholder="Fullname" value="${signup.getFullname()}" required>   
                 </div> 
                 <div class="input-box">
-                    <input type="number"  name="phone" placeholder="Phone" required>   
+                    <input type="tel"  name="phone" id="phoneInput" placeholder="Phone" value="${signup.getPhone()}" required pattern="[0-9]{10}">   
+                    <span id="phoneWarning" style="color: red;"></span>
                 </div> 
                 <div class="input-box">
-                    <input type="date"  name="birth" placeholder="Birthday" required>   
+                    <input type="date"  name="birth" placeholder="Birthday" value="${signup.getBirth()}" required>   
                 </div> 
                 <div class="input-box">
-                    <input type="text"  name="address" placeholder="Address" required>   
+                    <input type="text"  name="address" placeholder="Address" value="${signup.getAddress()}" required>   
                 </div>
                 <p style="font-size: large">Gender:</p>
                 <div class="row">
@@ -58,7 +60,7 @@
                 <p style="color: red;font-size: large">${err}</p>
 
 
-                <button class="button" type="submit" >
+                <button class="button" type="submit" onclick="validatePhoneNumber()" >
                     SIGN UP
                 </button>
                 <div class="resiter-link">
@@ -69,5 +71,25 @@
             </form>
 
         </div>
+        <script>
+            function validatePhoneNumber() {
+                const phoneNumberInput = document.getElementById('phoneInput');
+                const phoneWarning = document.getElementById('phoneWarning');
+                const phoneNumber = phoneNumberInput.value.replace(/\D/g, ''); // Remove non-digit characters
+
+                if (phoneNumber.length === 10) {
+                    // Phone number is valid
+                    phoneWarning.textContent = ''; // Clear the warning message
+                    console.log('Valid phone number:', phoneNumber);
+                    // You can perform additional actions here if needed
+                } else {
+                    // Phone number is invalid
+                    phoneWarning.textContent = 'Please enter a valid 10-digit phone number';
+                    console.log('Invalid phone number:', phoneNumber);
+                    // You can display an error message or perform other actions
+                }
+            }
+        </script>
+       
     </body>
 </html>
