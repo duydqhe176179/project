@@ -21,7 +21,7 @@
                 
                 <h1>Change Password</h1>
                 <p style="text-align: center;">Please enter your user name and password</p>
-                <p style="text-align: center; color: green;"> ${mess}</p>
+                <p style="text-align: center; color: green;"> ${messsucces}</p>
                 <p style="text-align: center; color: red;"> ${error}</p>
                 <p style="text-align: center; color: red;"> ${err}</p>
                 <p style="text-align: center; color: red;"> ${erro}</p>

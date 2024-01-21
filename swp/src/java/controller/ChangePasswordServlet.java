@@ -91,8 +91,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
                 // Update the password
                 d.updatePassword(a.getId(), newPassword);
                 // Display success message
-                request.setAttribute("mess", "Change password successfully");
-                request.getRequestDispatcher("Account/changepass.jsp").forward(request, response);
+                request.setAttribute("messsucces", "Change password successfully, please sign in again!");
+                request.getRequestDispatcher("Account/signin.jsp").forward(request, response);
             } else {
                 // Display error message if the new password and confirm password don't match
                 String err = "New password and confirm password are not the same";
