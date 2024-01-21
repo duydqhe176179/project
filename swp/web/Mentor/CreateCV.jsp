@@ -13,8 +13,8 @@
         <title>JSP Page</title>
 
 
-<!--        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_4.css"/>-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style4.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_4.css"/>
+<!--        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style4.css"/>-->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/js1.js"></script>
 
@@ -151,7 +151,7 @@
                                         <label class="fieldlabels">Address: *</label> 
                                         <input type="text" name="address" placeholder="Address" value="${mentor.address}"/>
                                         <label class="fieldlabels">Phone: *</label> 
-                                        <input type="number" name="phone" placeholder="Phone" value="${mentor.phone}" required pattern="[0-9]{10}" />
+                                        <input type="text" name="phone" placeholder="Phone" value="${mentor.phone}" required pattern="[0-9]{10}" title="Please enter a 10-digit phone number" />
                                     </div>
                                 </div> <input type="button" name="next" class="next action-button" value="Next" />
                             </fieldset>
