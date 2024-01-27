@@ -17,6 +17,7 @@
         <div class="wapper">
             <div class="back"><a href="home.jsp"><i class="fa fa-home" style="font-size: 24px;color: black;"></i></a></div>
             <form action="signin" method="post">
+                <p style="text-align: center; color: green;"> ${messsucces}</p>
                 <h1>Sign in</h1>
                 <div class="input-box">
                     <input type="text" id="uname" name="username" placeholder="Username" required>   
@@ -27,7 +28,7 @@
                 <p style="margin-bottom: 10px;color: red;font-size: large">${mess}</p>
                 <div class="remember">
                     <label style="text-align: left"><input type="checkbox"  name="remember pass" >Remember password</label> 
-
+                    <a href="reset-password">Reset password</a> 
                 </div>
 
                 <button class="button" type="submit" name="signup">
