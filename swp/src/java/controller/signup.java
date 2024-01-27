@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import model.Account;
 import EmailDAO.Email;
+import model.Signup;
 
 /**
  *
@@ -76,51 +77,71 @@ public class signup extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Checkdb check = new Checkdb();
+        DAO dao = new DAO();
         String role = request.getParameter("role");
         String user = request.getParameter("username");
         String pass = request.getParameter("pass");
         String repass = request.getParameter("repass");
+
+        System.out.println(pass);
+        System.out.println(repass);
+        System.out.println(pass.equals(repass));
+
         String email = request.getParameter("email");
         String fullname = request.getParameter("fullname");
         String phone = request.getParameter("phone");
         String birth = request.getParameter("birth");
         String address = request.getParameter("address");
         String gender = request.getParameter("gender");
+        Signup signup = new Signup(role, user, pass, repass, email, fullname, phone, birth, address, gender);
 
-        Checkdb check = new Checkdb();
-        DAO dao = new DAO();
         String err = "";
         LocalDateTime registrationTime = LocalDateTime.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String registerDate = registrationTime.format(formatter);
+
         if (!check.IsUserExist(user)) { // nêu tài khoan dã tôn tai
-            if (!pass.equals(repass)) {
-                err += "password and re-password not same";
-                request.setAttribute("err", err);
-                request.getRequestDispatcher("signup.jsp").forward(request, response);
-            } else {
-                dao.addAccount(user, pass, role, email);
-                Account a = dao.login(user, pass);
-                if (role.equalsIgnoreCase("Mentor")) {
-                    dao.addMentor(a.getId(), fullname, phone, birth, gender, address, registerDate);
-                } else {
-                    dao.addMentee(a.getId(), fullname, birth, phone, gender, registerDate, address);
-                    //thieu gui email xac nhan tai khoan
-                }
+
+            if (!check.isEmailUsed(email)) { // neu email da ton tai
+
+                if (repass.equals(pass)) {
+                    dao.addAccount(user, pass, role, email);
+                    Account a = dao.login(user, pass);
+                    if (role.equalsIgnoreCase("Mentor")) {
+                        dao.addMentor(a.getId(), fullname, phone, birth, gender, address, registerDate);
+                    } else {
+                        dao.addMentee(a.getId(), fullname, birth, phone, gender, registerDate, address);
+                        //thieu gui email xac nhan tai khoan
+                    }
 //                Email emailDAO = new Email();
 //                String verify = emailDAO.verifyMail();
 //                emailDAO.sendEmail(email, verify);
 
-                HttpSession session = request.getSession();
-                session.setAttribute("account", a);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("account", a);
 //                session.setAttribute("verify", verify);
 
-                request.getRequestDispatcher("sendEmailVerify").forward(request, response);
+                    request.getRequestDispatcher("sendEmailVerify").forward(request, response);
+
+                } else {
+                    err += "password and re-password not same";
+                    request.setAttribute("err", err);
+                    request.setAttribute("signup", signup);
+                    request.getRequestDispatcher("Account/signup.jsp").forward(request, response);
+                }
+            } else {
+                err += "Email already exists";
+                request.setAttribute("err", err);
+                request.setAttribute("signup", signup);
+                request.getRequestDispatcher("Account/signup.jsp").forward(request, response);
             }
+
         } else {
             err += "Username already exists";
             request.setAttribute("err", err);
+            request.setAttribute("signup", signup);
             request.getRequestDispatcher("Account/signup.jsp").forward(request, response);
         }
     }
