@@ -1,98 +1,75 @@
-<%-- 
-    Document   : form
-    Created on : Jan 13, 2024, 7:53:20 PM
-    Author     : trang
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Happy Programming</title>
-        <link rel="stylesheet" href="css/style_re.css">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>View Requests</title>
+    <link rel="stylesheet" href="css/viewrequestmentor.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-....." crossorigin="anonymous" />
+</head>
+<body>
+    <div style="background-color: #3BB3F6; text-align: left; padding: 10px; margin-bottom: 20px;">
+        <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
+            <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
+        </a>
+        <h1 style="text-align: center;">View List Requests</h1>
+    </div>
+    <h1 style="color: Red; text-align: center;">${errorMessage}</h1>
 
-        <!----===== Iconscout CSS ===== -->
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-
-    </head>
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Happy Programming</title>
-            <link rel="stylesheet" href="css/style_re.css">
-
-            <!-- Iconscout CSS -->
-            <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-        </head>
-        <body>
-
-            <div class="container"> 
-                <i style="margin-left: 95%" class="uil uil-times" id="closeButton"></i>
-                <header>View request</header>
-
-                <div class="form first">
-                    <div class="details personal">
-                        <span class="title">Details</span>
-                        <c:if test="${not empty errorMessage}">
-                            <div class="error-message">
-                                ${errorMessage}
-                            </div>
-                        </c:if>
-
-                        <c:forEach var="listR" items="${listR}">
-
-                            <div class="fields">
-                                <div class="input-field">
-                                    <label>Title (subject): ${listR.title} </label>
-                                </div>
-
-                                <div class="input-field">
-                                    <label>Content of request: ${listR.content}</label>
-                                </div>
-
-                                <div class="input-field">
-                                    <label>Deadline date: ${listR.deadline} </label>
-                                </div>
-
-                                <div class="input-field">
-                                    <label>Deadline hour: ${listR.hour} h</label>
-                                </div>
-
-                                <div class="input-field">
-                                    <label>Skill: ${listR.skill}</label>
-                                </div>
-
-                                <div class="input-field">
-                                    <label>Status: ${listR.status}</label>
-                                </div>
-                            </div>
-
-                            <button onclick="return confirmReject();">
-                                <a style="text-decoration: none;" href="reject?idRequest=${listR.getIdRequest()}&action=reject">Reject</a>
+    <c:if test="${isMentor}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Title</th>
+                    <th>Content of request</th>
+                    <th>Start Date</th>
+                    <th>Deadline Date</th>
+                    <th style="width: 10%;">Deadline Hour (h)</th>
+                    <th>Skills</th>
+                    <th>Status</th>
+                    <th style="width: 8%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody style="text-align: center;">
+                <c:forEach var="a" items="${listR}">
+                    <tr style="height: 10%;">
+                        <td>${a.title}</td>
+                        <td>${a.content}</td>
+                        <td>${a.startDate}</td>
+                        <td>${a.deadline}</td>
+                        <td>${a.hour}</td>
+                        <td>${a.skill}</td>
+                        <td>${a.status}</td>
+                        <td class="btn-container">
+                            <button onclick="confirmReject(${a.idRequest});" style="background-color: red; border-radius: 5px; border: none; height: 30px; width: 60px; margin-left: 5px;">
+                                <a style="text-decoration: none; color: white;" href="#">Reject</a>
                             </button>
-                        </div>
-                        <br>
-                        <br>
-                    </c:forEach>
-                </div> 
-            </div>
+                            <button onclick="confirmAccept(${a.idRequest});" style="background-color: green; border-radius: 5px; border: none; height: 30px; width: 60px">
+                                <a style="text-decoration: none; color: white;" href="#">Accept</a>
+                            </button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
 
-            <!-- Script for the close button -->
-            <script>
-                // Lắng nghe sự kiện click trên biểu tượng "close"
-                document.getElementById("closeButton").addEventListener("click", function () {
-                    // Chuyển hướng về trang home.jsp
-                    window.location.href = "home.jsp";
-                });
-            </script>
-        </body>
-    </html>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit-code.js" crossorigin="anonymous"></script>
+    <script>
+        function confirmReject(idRequest) {
+            if (confirm('Are you sure you want to reject this request?')) {
+                // If user clicks OK, redirect to the reject servlet
+                window.location.href = 'reject?idRequest=' + idRequest + '&action=reject';
+            }
+        }
 
-
-
+        function confirmAccept(idRequest) {
+            if (confirm('Are you sure you want to accept this request?')) {
+                // If user clicks OK, redirect to the accept servlet
+                window.location.href = 'accept?idRequest=' + idRequest + '&action=accept';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
-import model.Mentor;
+import model.Mentorr;
 import model.Rate;
 
 @WebServlet(name = "RateServlet", urlPatterns = {"/rate"})
@@ -32,7 +32,7 @@ public class rateServlet extends HttpServlet {
         } else {
             // Assuming you have a method in DAO to get all mentors
             DAO dao = new DAO();
-            List<Mentor> mentors = dao.getAllMentor();  // Assuming a correct method name
+            List<Mentorr> mentors = dao.getAllMentor();  // Assuming a correct method name
 
             // Set the mentors attribute for use in rate.jsp
             request.setAttribute("mentors", mentors);

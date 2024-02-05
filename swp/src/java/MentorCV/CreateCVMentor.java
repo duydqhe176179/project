@@ -132,8 +132,19 @@ public class CreateCVMentor extends HttpServlet {
         String education = request.getParameter("education");
         String myservice = request.getParameter("service");
         String[] idSkill = request.getParameterValues("skills");
-        for (String selectedSkill : idSkill) {
-            dao.addHave_Skill(new Have_SKill(a.getId(), Integer.parseInt(selectedSkill)));
+        //dao.deleteMentor(idMentor);
+
+//        for (String selectedSkill : idSkill) {
+//            dao.addHave_Skill(new Have_SKill(a.getId(), Integer.parseInt(selectedSkill)));
+//        }
+        if (idSkill != null && idSkill.length > 0) {
+            dao.deleteMentorbyhaveskill(idMentor);
+            for (String selectedSkill : idSkill) {
+                dao.addHave_Skill(new Have_SKill(a.getId(), Integer.parseInt(selectedSkill)));
+            }
+        } else {
+            // Assuming you want to add a default skill if no skills are selected
+         dao.deleteMentorbyhaveskill(idMentor);
         }
 
         // Process the selected skills
@@ -145,10 +156,11 @@ public class CreateCVMentor extends HttpServlet {
             e.printStackTrace();
             result = false;// Log the exception
         }
+
         request.setAttribute("mess", "Update successfully!");
-      
-        
-           response.sendRedirect("Succesfull.jsp");
+
+        response.sendRedirect("Succesfull.jsp");
+
         
 
     }

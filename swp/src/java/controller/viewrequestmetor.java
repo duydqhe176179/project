@@ -12,14 +12,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
+import model.Request;
 
 /**
  *
  * @author trang
  */
-@WebServlet(name = "RejectRequest", urlPatterns = {"/reject"})
-public class RejectRequest extends HttpServlet {
+@WebServlet(name = "viewrequestmetor", urlPatterns = {"/reqmentor"})
+public class viewrequestmetor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +41,10 @@ public class RejectRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RejectRequest</title>");
+            out.println("<title>Servlet viewrequestmetor</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RejectRequest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet viewrequestmetor at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,27 +62,27 @@ public class RejectRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO dao = new DAO();
-        String action = request.getParameter("action");
+        Account account = (Account) request.getSession().getAttribute("account");
 
-        if ("reject".equals(action)) {
-            // Update the status in the database to "Reject"
-            String idRequest = request.getParameter("idRequest"); // Get the ID from the request
+        if (account != null && "Mentor".equals(account.getRole())) {
+            int mentorId = account.getId(); // Assuming getId() returns the mentor's ID
+            DAO dao = new DAO();
+            List<Request> list = dao.getAllRequesttbyID(mentorId);
 
-            // Assuming updateRe returns a boolean indicating success
-            boolean updateSuccess = dao.updateRe(Integer.parseInt(idRequest), "Cancel");
-
-            if (updateSuccess) {
-                // Redirect to success page or yourOriginalPage.jsp
-                response.sendRedirect("reqmentor"); // Provide an appropriate success page
-                return; // Return to avoid further processing
+            if (!list.isEmpty()) {
+                request.setAttribute("listR", list);
+                request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
             } else {
-                // Handle update failure, redirect to an error page or log the error
-                String mess = "Ko update dc";
-                response.sendRedirect("reject?message=" + URLEncoder.encode(mess, "UTF-8"));
-                return; // Return to avoid further processing
+                String errorMessage = "No requests found for this mentor.";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
             }
+        } else {
+            String errorMessage = "You do not have permission to access this page.";
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
         }
+
     }
 
     /**

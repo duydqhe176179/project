@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package admin;
 
-import dal.DAO;
+import dal.MenteeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +12,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
+import model.Mentee;
+import model.SkillMentor;
+import model.StaticMentee;
 
 /**
  *
- * @author trang
+ * @author admin
  */
-@WebServlet(name = "RejectRequest", urlPatterns = {"/reject"})
-public class RejectRequest extends HttpServlet {
+@WebServlet(name = "statisticmentee", urlPatterns = {"/statistic"})
+public class statisticmentee extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +43,10 @@ public class RejectRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RejectRequest</title>");
+            out.println("<title>Servlet statisticmentee</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RejectRequest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet statisticmentee at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,27 +64,32 @@ public class RejectRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO dao = new DAO();
-        String action = request.getParameter("action");
 
-        if ("reject".equals(action)) {
-            // Update the status in the database to "Reject"
-            String idRequest = request.getParameter("idRequest"); // Get the ID from the request
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        if (a != null && a.getRole().equals("Admin")) {
+            session.setAttribute("account", a);
 
-            // Assuming updateRe returns a boolean indicating success
-            boolean updateSuccess = dao.updateRe(Integer.parseInt(idRequest), "Cancel");
+            ///// du lieu
+            MenteeDAO dao = new MenteeDAO();
 
-            if (updateSuccess) {
-                // Redirect to success page or yourOriginalPage.jsp
-                response.sendRedirect("reqmentor"); // Provide an appropriate success page
-                return; // Return to avoid further processing
-            } else {
-                // Handle update failure, redirect to an error page or log the error
-                String mess = "Ko update dc";
-                response.sendRedirect("reject?message=" + URLEncoder.encode(mess, "UTF-8"));
-                return; // Return to avoid further processing
+            List<StaticMentee> list = dao.getStaticMetee();
+            request.setAttribute("list", list);
+            List<Mentee> men = dao.getlistallMentee();
+           int result = 0;
+            for (Mentee mentee : men) {
+                result++;
             }
+            System.out.println(result);
+            request.setAttribute("result", result);
+            
+
+            request.getRequestDispatcher("Admin/AllMentee.jsp").forward(request, response);
+
+        } else {
+            request.getRequestDispatcher("signinAdmin").forward(request, response);
         }
+
     }
 
     /**

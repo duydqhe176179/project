@@ -31,6 +31,25 @@ public class MentorDAO extends DBContext {
     List<info> listinfo = new ArrayList<>();
     List<SkillMentor> skill = new ArrayList<>();
 
+    public boolean deleteMentorbyhaveskill(int idMentor) {
+        try {
+            String sql = "DELETE FROM [dbo].[have_skill]\n"
+                    + "      WHERE idMentor=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        } finally {
+            // Close the connection here if necessary
+        }
+    }
+
     public List<SkillMentor> getAllskill() {
         try {
 
@@ -167,6 +186,7 @@ public class MentorDAO extends DBContext {
         return null;
     }
 
+    
     public SkillMentor skill() {
         try {
             String strSelect = "select * \n"
@@ -299,9 +319,7 @@ public class MentorDAO extends DBContext {
             return false;
         }
     }
-
     
-
     public List<Mentor> listMentorBySkill(String skillName) {
         List<Mentor> mentors = new ArrayList<>();
         try {
@@ -311,14 +329,14 @@ public class MentorDAO extends DBContext {
                     + "JOIN dbo.skill ON skill.id = have_skill.idSkill\n"
                     + "WHERE skillName like ?";
             stm = connection.prepareStatement(sql);
-            stm.setString(1,"%" + skillName+ "%");
+            stm.setString(1, "%" + skillName + "%");
             rs = stm.executeQuery();
             while (rs.next()) {
-                int idMentor=rs.getInt(1);
-                String fullname=rs.getString(2);
+                int idMentor = rs.getInt(1);
+                String fullname = rs.getString(2);
                 String user = rs.getString(3);
-                int idSkill=rs.getInt(4);
-                String nameSkill=rs.getString(5);
+                int idSkill = rs.getInt(4);
+                String nameSkill = rs.getString(5);
 
 //                Mentor m = new Mentor(idMentor, fullname, rate, user, totalRequest, totalInvite, idSkill, nameSkill);
 //                mentors.add(new Mentor(idMentor, fullname, rate, user, totalRequest, totalInvite, idSkill, nameSkill));
@@ -389,6 +407,6 @@ public class MentorDAO extends DBContext {
         List<Mentor> vd = new ArrayList<>();
         vd = mentorDAO.listMentorBySkill("C#");
         System.out.println(vd.get(0).getTotalRequest());
-        
+
     }
 }

@@ -98,6 +98,22 @@
                 </table>
             </div>
             <br><br><br>
+            <h3>Statistic of Mentee<a href="statistic"><i class="fa-solid fa-plus"></i></a></h3><br>
+
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <br><br><br>
 
             <h3>Mentee <a href="addInfo"><i class="fa-solid fa-plus"></i></a></h3><br>
             <div class="table-responsive">
@@ -116,6 +132,7 @@
             <br><br><br>
 
             <h3>Request <a href="addOldStudent"><i class="fa-solid fa-plus"></i></a></h3><br>
+            <h3 style="text-decoration: none;"><a href="viewall">ViewRequest</a></h3>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>

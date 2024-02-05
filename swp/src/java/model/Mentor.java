@@ -57,7 +57,7 @@ public class Mentor {
         this.imgSkill = imgSkill;
     }
 
-    public Mentor(int idMentor, String fullname, float rate, String user, int totalRequest, int invite, int idSkill, String skillName,String imgSkill) {
+    public Mentor(int idMentor, String fullname, float rate, String user, int totalRequest, int invite, int idSkill, String skillName, String imgSkill) {
         this.idMentor = idMentor;
         this.fullname = fullname;
         this.rate = rate;
@@ -66,7 +66,7 @@ public class Mentor {
         this.invite = invite;
         this.idSkill = idSkill;
         this.skillName = skillName;
-        this.imgSkill=imgSkill;
+        this.imgSkill = imgSkill;
     }
 
     public Mentor(int idMentor, String fullname, String user, int idSkill, String skillName) {
@@ -77,16 +77,10 @@ public class Mentor {
         this.skillName = skillName;
     }
 
-    
-    
     @Override
     public String toString() {
         return "Mentor{" + "idMentor=" + idMentor + ", fullname=" + fullname + ", age=" + age + ", rate=" + rate + ", user=" + user + ", totalRequest=" + totalRequest + ", invite=" + invite + ", idSkill=" + idSkill + ", skillName=" + skillName + '}';
     }
-
-   
-
-    
 
     public Mentor(int idMentor, String fullname) {
         this.idMentor = idMentor;
@@ -110,38 +104,6 @@ public class Mentor {
         this.education = education;
         this.myservice = myservice;
         this.age = age;
-    }
-
-    public float getRate() {
-        return rate;
-    }
-
-    public void setRate(float rate) {
-        this.rate = rate;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public int getTotalRequest() {
-        return totalRequest;
-    }
-
-    public void setTotalRequest(int totalRequest) {
-        this.totalRequest = totalRequest;
-    }
-
-    public int getInvite() {
-        return invite;
-    }
-
-    public void setInvite(int invite) {
-        this.invite = invite;
     }
 
     public String getRegisterDate() {
@@ -264,6 +226,38 @@ public class Mentor {
         this.education = education;
     }
 
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public int getTotalRequest() {
+        return totalRequest;
+    }
+
+    public void setTotalRequest(int totalRequest) {
+        this.totalRequest = totalRequest;
+    }
+
+    public int getInvite() {
+        return invite;
+    }
+
+    public void setInvite(int invite) {
+        this.invite = invite;
+    }
+
     public int getIdSkill() {
         return idSkill;
     }
@@ -280,5 +274,4 @@ public class Mentor {
         this.skillName = skillName;
     }
 
-    
 }

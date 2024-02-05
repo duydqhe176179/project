@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package Menteepro;
 
-import dal.DAO;
+import dal.MenteeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,18 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 import model.Account;
-import model.Mentor;
-import model.Request;
+import model.Mentee;
 
 /**
  *
- * @author trang
+ * @author admin
  */
-@WebServlet(name = "view", urlPatterns = {"/view"})
-public class view extends HttpServlet {
+@WebServlet(name = "update", urlPatterns = {"/update"})
+public class update extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +40,10 @@ public class view extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet view</title>");
+            out.println("<title>Servlet update</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet view at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet update at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,30 +62,26 @@ public class view extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-
-        if (account != null && "Mentor".equals(account.getRole())) {
-            int mentorId = account.getId();
-            DAO dao = new DAO();
-            List<Request> list = dao.getAllRequestbyID(mentorId);
-
-            if (!list.isEmpty()) {
-                request.setAttribute("listR", list);
-                request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
-            } else {
-                // If the list is empty, set an appropriate message
-                String errorMessage = "No requests found for this mentor.";
-                request.setAttribute("errorMessage", errorMessage);
-                request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
-            }
+        Account a = (Account) session.getAttribute("account");
+        if (a == null) {
+            processRequest(request, response);
         } else {
-            // If the user is not a mentor, set an appropriate message
-            String errorMessage = "You do not have permission to access this page.";
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
+
+            MenteeDAO dao = new MenteeDAO();
+
+            Account account = dao.getAccountByid(a.getId());
+            request.setAttribute("account", account);
+            Mentee mentee = dao.getallMentee(a.getId());
+//            String fileName = mentee.getAvatar(); // Default to existing avatar
+
+//            Part filePart = request.getPart("imageprofile");
+//            if (filePart != null && !filePart.getSubmittedFileName().isEmpty()) {
+//                fileName = handleFileUpload(filePart);
+//            }
+            request.setAttribute("mentee", mentee);
+            request.getRequestDispatcher("Mentee/updatePMentee.jsp").forward(request, response);
         }
     }
-    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -101,7 +94,29 @@ public class view extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        if (a == null) {
+            processRequest(request, response);
+        } else {
+
+            MenteeDAO dao = new MenteeDAO();
+            int idMentee = a.getId();
+            String fullname = request.getParameter("fullnamem");
+            String birth = request.getParameter("birth");
+            String sex  = request.getParameter("gengers");
+            String address = request.getParameter("addresss");
+            
+            boolean result = false;
+            try {
+                result = dao.updatePMentee(idMentee, fullname, birth, sex, address);
+                System.out.println(result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            result = false;
+            }
+            response.sendRedirect("profileMentee");
+    }
     }
 
     /**

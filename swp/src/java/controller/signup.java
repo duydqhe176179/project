@@ -97,8 +97,8 @@ public class signup extends HttpServlet {
         Signup signup = new Signup(role, user, pass, repass, email, fullname, phone, birth, address, gender);
 
         String err = "";
-        
         LocalDateTime registrationTime = LocalDateTime.now();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String registerDate = registrationTime.format(formatter);
 

@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package admin;
 
-import dal.DAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
+import java.util.List;
+import model.Adshowreq;
 
 /**
  *
  * @author trang
  */
-@WebServlet(name = "RejectRequest", urlPatterns = {"/reject"})
-public class RejectRequest extends HttpServlet {
+@WebServlet(name = "Search", urlPatterns = {"/search"})
+public class Search extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +39,10 @@ public class RejectRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RejectRequest</title>");
+            out.println("<title>Servlet Search</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RejectRequest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Search at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,29 +58,10 @@ public class RejectRequest extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO dao = new DAO();
-        String action = request.getParameter("action");
-
-        if ("reject".equals(action)) {
-            // Update the status in the database to "Reject"
-            String idRequest = request.getParameter("idRequest"); // Get the ID from the request
-
-            // Assuming updateRe returns a boolean indicating success
-            boolean updateSuccess = dao.updateRe(Integer.parseInt(idRequest), "Cancel");
-
-            if (updateSuccess) {
-                // Redirect to success page or yourOriginalPage.jsp
-                response.sendRedirect("reqmentor"); // Provide an appropriate success page
-                return; // Return to avoid further processing
-            } else {
-                // Handle update failure, redirect to an error page or log the error
-                String mess = "Ko update dc";
-                response.sendRedirect("reject?message=" + URLEncoder.encode(mess, "UTF-8"));
-                return; // Return to avoid further processing
-            }
-        }
+        request.getRequestDispatcher("viewall").forward(request, response);
     }
 
     /**
@@ -93,7 +75,39 @@ public class RejectRequest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        String searchTerm = request.getParameter("searchTerm");
+//        int currentPage = 1;
+//
+//        // Get the current page parameter
+//        String pageParam = request.getParameter("page");
+//        if (pageParam != null && !pageParam.isEmpty()) {
+//            currentPage = Integer.parseInt(pageParam);
+//        }
+//
+//        AdminDAO dao = new AdminDAO();
+//
+//        if (searchTerm != null && !searchTerm.isEmpty()) {
+//            List<Adshowreq> searchResults = dao.searchAdshowreq(searchTerm);
+//
+//            // Paginate the search results
+//            int recordsPerPage = 6;
+//            int totalRecords = searchResults.size();
+//            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+//            int startIdx = (currentPage - 1) * recordsPerPage;
+//            int endIdx = Math.min(startIdx + recordsPerPage, totalRecords);
+//            List<Adshowreq> paginatedResults = searchResults.subList(startIdx, endIdx);
+//
+//            request.setAttribute("listRequest", paginatedResults);
+//            request.setAttribute("totalPages", totalPages);
+//            request.setAttribute("currentPage", currentPage);
+//        } else {
+//            // No search term, retrieve all requests
+//            List<Adshowreq> allRequests = dao.getAllAdshowreq();
+//            request.setAttribute("listRequest", allRequests);
+//        }
+//
+//        request.getRequestDispatcher("Admin/viewadmin.jsp").forward(request, response);
+        //request.getRequestDispatcher("viewall").forward(request, response);
     }
 
     /**
