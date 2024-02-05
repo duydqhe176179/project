@@ -11,12 +11,25 @@ package model;
 public class Requestt {
 
     int idRequest, idMentee, idMentor;
-    String title, content, skill, status, deadline;
+    String title, content, skill, status,startDate, deadline;
     float hour;
 
     public Requestt() {
     }
 
+    public Requestt(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
+        this.idRequest = idRequest;
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.hour = hour;
+    }
+   
     public Requestt(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
         this.idRequest = idRequest;
         this.idMentee = idMentee;
@@ -83,6 +96,14 @@ public class Requestt {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
     public String getDeadline() {

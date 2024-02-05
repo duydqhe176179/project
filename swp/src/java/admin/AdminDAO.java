@@ -9,15 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import model.Account;
+
 import model.SkillMentor;
 
 /**
  *
  * @author Admin
  */
-public class AdminDAO extends DBContext{
+public class AdminDAO extends DBContext {
 
     PreparedStatement stm;
     ResultSet rs;
@@ -140,8 +142,4 @@ public class AdminDAO extends DBContext{
         }
     }
 
-    public static void main(String[] args) {
-        AdminDAO dao = new AdminDAO();
-        System.out.println(dao.activeSkill("1"));
-    }
 }
