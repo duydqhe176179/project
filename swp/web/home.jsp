@@ -3,12 +3,14 @@
     Created on : Jan 15, 2024, 2:39:49 PM
     Author     : Admin
 --%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dal.ViewStatisticRequestDAO" %>
+<%@ page import="model.MentorStatistic" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
 
         <meta charset="UTF-8">
@@ -18,6 +20,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
         <title>Chain App Dev - App Landing Page HTML5 Template</title>
 
@@ -73,6 +76,8 @@
                                 <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
                                 <li class="scroll-to-section"><a href="rate" >Rate</a></li>
                                 <li class="scroll-to-section"><a href="view" >View Request</a></li>
+                                <li class="scroll-to-section"><a href="createRequest">Create Request</a></li>
+                                <li class="scroll-to-section"><a href="#" data-toggle="modal" data-target="#statisticsModal">View Statistic Request</a></li>
                                 <li class="scroll-to-section"><a href="listrequest" >List all request</a></li>
                                 <!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
@@ -759,8 +764,60 @@
                 </div>
             </footer>
 
+            <div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-labelledby="statisticsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document"> <!-- Added modal-lg class -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="statisticsModalLabel">Statistic Request Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="statisticsTable" class="table">
+                                <p style="text-align: center; color: red;"> ${errorMess}</p> 
+                                <tbody>
+                                    <c:set var="mentorStats" value="${mentorStats}" />
+
+                                    <tr>
+                                        <td>Processing Request Count:</td>
+                                        <td>${mentorStats.processingRequestCount}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Open Request Count:</td>
+                                        <td>${mentorStats.openRequestCount}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cancel Request Count:</td>
+                                        <td>${mentorStats.cancelRequestCount}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cancel Ratio:</td>
+                                        <td>${mentorStats.cancelRatio}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Closed Ratio:</td>
+                                        <td>${mentorStats.closedRatio}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rating star:</td>
+                                        <td>${mentorStats.averageRating}</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Scripts -->
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
             <script src="vendor/jquery/jquery.min.js"></script>
             <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="assets/js/owl-carousel.js"></script>
@@ -768,5 +825,9 @@
             <script src="assets/js/imagesloaded.js"></script>
             <script src="assets/js/popup.js"></script>
             <script src="assets/js/custom.js"></script>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     </body>
 </html>

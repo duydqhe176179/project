@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
-
+import java.util.Date;
 /**
  *
  * @author admin
@@ -14,11 +14,10 @@ public class Mentor {
     String fullname;
     String avatar;
     String phone;
-    String dob;
-   
+    Date dob;
     String sex;
     String address;
-    String registerDate;
+    Date registerDate;
     String profession;
     String pro_introduc;
     String archivement_sescition;
@@ -26,25 +25,12 @@ public class Mentor {
     String experience;
     String education;
     String myservice;
-    int age;
+    String stk;
 
     public Mentor() {
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "Mentor{" + "idMentor=" + idMentor + ", fullname=" + fullname + ", avatar=" + avatar + ", phone=" + phone + ", dob=" + dob + ", sex=" + sex + ", address=" + address + ", registerDate=" + registerDate + ", profession=" + profession + ", pro_introduc=" + pro_introduc + ", archivement_sescition=" + archivement_sescition + ", framework=" + framework + ", experience=" + experience + ", education=" + education + ", myservice=" + myservice + ", age=" + age + '}';
-    }
-
-    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, int age) {
+    public Mentor(int idMentor, String fullname, String avatar, String phone, Date dob, String sex, String address, Date registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, String stk) {
         this.idMentor = idMentor;
         this.fullname = fullname;
         this.avatar = avatar;
@@ -60,32 +46,16 @@ public class Mentor {
         this.experience = experience;
         this.education = education;
         this.myservice = myservice;
-        this.age = age;
+        this.stk = stk;
     }
 
-    public String getRegisterDate() {
-        return registerDate;
-    }
-
-    public void setRegisterDate(String registerDate) {
-        this.registerDate = registerDate;
-    }
-
-   
-
-    public String getMyservice() {
-        return myservice;
-    }
-
-    public void setMyservice(String myservice) {
-        this.myservice = myservice;
+    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, Date registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, int age) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getIdMentor() {
         return idMentor;
     }
-
-   
 
     public void setIdMentor(int idMentor) {
         this.idMentor = idMentor;
@@ -115,11 +85,11 @@ public class Mentor {
         this.phone = phone;
     }
 
-    public String getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -137,6 +107,14 @@ public class Mentor {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
     public String getProfession() {
@@ -187,4 +165,24 @@ public class Mentor {
         this.education = education;
     }
 
+    public String getMyservice() {
+        return myservice;
+    }
+
+    public void setMyservice(String myservice) {
+        this.myservice = myservice;
+    }
+
+    public String getStk() {
+        return stk;
+    }
+
+    public void setStk(String stk) {
+        this.stk = stk;
+    }
+    
+    
+
+   
+    
 }

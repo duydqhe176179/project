@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Account;
 import model.Have_SKill;
@@ -23,6 +24,44 @@ import model.info;
  * @author admin
  */
 public class MentorDAO extends DBContext {
+    public List<Mentor> getListOfMentors() {
+        List<Mentor> mentors = new ArrayList();
+        String query = "SELECT * FROM mentor";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                Mentor mentor = mapResultSetToMentor(resultSet);
+                mentors.add(mentor);
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving mentors" + e.getMessage());
+        }
+
+        return mentors;
+    }
+    private Mentor mapResultSetToMentor(ResultSet resultSet) throws Exception {
+        return new Mentor(
+                resultSet.getInt("idMentor"),
+                resultSet.getString("fullname"),
+                resultSet.getString("avatar"),
+                resultSet.getString("phone"),
+                (Date) resultSet.getDate("dob"),
+                resultSet.getString("sex"),
+                resultSet.getString("address"),
+                (Date) resultSet.getDate("registerDate"),
+                resultSet.getString("profession"),
+                resultSet.getString("pro_introduc"),
+                resultSet.getString("archivement_descition"),
+                resultSet.getString("framework"),
+                resultSet.getString("experience"),
+                resultSet.getString("education"),
+                resultSet.getString("myservice"),
+                 resultSet.getString("stk")
+        );
+    }
+    
 
     PreparedStatement stm;
     ResultSet rs;
@@ -32,10 +71,24 @@ public class MentorDAO extends DBContext {
     List<SkillMentor> skill = new ArrayList<>();
 
     public static void main(String[] args) {
-        MentorDAO cv = new MentorDAO();
+//        MentorDAO cv = new MentorDAO();
         // System.out.println(cv.updateCV(1, "c", "anh12.jpg", "0988722722", "2022-2-2", "Male", "d", "d", "d", "d", "d", "D", "d", "d", new String[]{"1", "2"}));
       //  System.out.println(cv.addHave_Skill(new Have_SKill(1, 2)));
-        System.out.println(cv.getidhaveskill(1));
+//        System.out.println(cv.getidhaveskill(1));
+        
+                // Đầu tiên, bạn cần tạo một đối tượng DAO hoặc nơi chứa phương thức getListOfMentors
+        MentorDAO dao = new MentorDAO(); // Thay thế YourDAO bằng tên thật của đối tượng DAO của bạn
+
+        // Gọi phương thức để lấy danh sách các mentors
+        List<Mentor> mentors = dao.getListOfMentors();
+
+        // In thông tin về từng mentor trong danh sách
+        for (Mentor mentor : mentors) {
+            System.out.println("Mentor ID: " + mentor.getFullname());
+
+            // Thêm các thông tin khác nếu cần
+            System.out.println("-------------------------");
+        }
 //        
     }
 
@@ -156,7 +209,7 @@ public class MentorDAO extends DBContext {
 
                 String sex = rs.getString(6);
                 String address = rs.getString(7);
-                String registerDate = rs.getString(8);
+                Date registerDate = rs.getDate(8);
                 String profession = rs.getString(9);
                 String pro_introduc = rs.getString(10);
                 String archivement_sescition = rs.getString(11);
@@ -202,7 +255,7 @@ public class MentorDAO extends DBContext {
 
                 String sex = rs.getString(6);
                 String address = rs.getString(7);
-                String registerDate = rs.getString(8);
+                Date registerDate = rs.getDate(8);
                 String profession = rs.getString(8);
                 String pro_introduc = rs.getString(9);
                 String archivement_sescition = rs.getString(10);
@@ -353,4 +406,8 @@ public class MentorDAO extends DBContext {
             return false;
         }
     }
+    
+
+    
+    
 }

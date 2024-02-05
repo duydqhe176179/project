@@ -4,11 +4,14 @@
  */
 package dal;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Account;
 import model.Request;
@@ -19,27 +22,37 @@ import model.Request;
  */
 public class ListRequest extends DBContext {
 
-    PreparedStatement stm;
-    ResultSet rs;
-    List<Request> listRequest = new ArrayList<Request>();
+    private List<Request> listRequest = new ArrayList<>();
+    private Connection conn;
+    private PreparedStatement stm;
+    private ResultSet rs;
 
-    public List<Request> getAllRequest() {
-        Connection conn = null;
-        String query = "SELECT * FROM request";
+       public List<Request> getAllRequest() {
+        String query = "SELECT idRequest, idMentee, idMentor, title, content, skill, status, deadlineDate, deadlineHour, hour FROM request";
         try {
             conn = new DBContext().connection;
             stm = conn.prepareStatement(query);
             rs = stm.executeQuery();
+
             while (rs.next()) {
-                listRequest.add(new Request(rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getFloat(9)));
+                int idRequest = rs.getInt("idRequest");
+                int idMentee = rs.getInt("idMentee");
+                int idMentor = rs.getInt("idMentor");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String skill = rs.getString("skill");
+                String status = rs.getString("status");
+                String deadlineDate = rs.getString("deadlineDate");
+                BigDecimal deadlineHour = rs.getBigDecimal("deadlineHour");
+
+                listRequest.add(new Request(idRequest, idMentee, idMentor, title, content, skill, status, deadlineDate, deadlineHour));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-
         return listRequest;
-
     }
+    
 
     public int getIdAccountByUsername(String username) {
         Connection conn = null;
@@ -65,7 +78,7 @@ public class ListRequest extends DBContext {
     public List<Request> ListRequestById(int idAccount) {
         List<Request> listRequest1 = new ArrayList<>();
         Connection conn = null;
-        String query = "SELECT idMentee,idMentor, title, content, skill, status, deadline, hour " +
+        String query = "SELECT idMentee,idMentor, title, content, skill, status, deadlineDate, deadlineHour " +
                    "FROM request r JOIN account a ON r.idMentee = a.idAccount " +
                    "WHERE a.idAccount =  ? " ;
         
@@ -84,8 +97,8 @@ public class ListRequest extends DBContext {
                 request.setContent(_rs.getString("content"));
                 request.setSkill(_rs.getString("skill"));
                 request.setStatus(_rs.getString("status"));
-                request.setDeadline(_rs.getString("deadline"));
-                request.setHour(_rs.getFloat("hour"));
+                request.setDeadlineDate(_rs.getString("deadlineDate"));
+                request.setDeadlineHour(_rs.getBigDecimal("deadlineHour"));
                 listRequest1.add(request);
             }
         } catch (Exception e) {

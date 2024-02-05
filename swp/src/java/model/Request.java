@@ -4,30 +4,43 @@
  */
 package model;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  *
  * @author ADMIN
  */
 public class Request {
-    int idMentee, idMentor;
-    String title, content, skill, status, deadline;
-    float hour;
+    
+    private int idRequest, idMentee, idMentor;
+    private String title, content, skill, status;
+    private String deadlineDate;
+    private BigDecimal deadlineHour;
 
     public Request() {
     }
 
-    public Request(int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadlineDate, BigDecimal deadlineHour) {
+        this.idRequest = idRequest;
         this.idMentee = idMentee;
         this.idMentor = idMentor;
         this.title = title;
         this.content = content;
         this.skill = skill;
         this.status = status;
-        this.deadline = deadline;
-        this.hour = hour;
+        this.deadlineDate = deadlineDate;
+        this.deadlineHour = deadlineHour;
     }
 
-   
+    public int getIdRequest() {
+        return idRequest;
+    }
+
+    public void setIdRequest(int idRequest) {
+        this.idRequest = idRequest;
+    }
 
     public int getIdMentee() {
         return idMentee;
@@ -69,8 +82,6 @@ public class Request {
         this.skill = skill;
     }
 
-    
-
     public String getStatus() {
         return status;
     }
@@ -79,26 +90,28 @@ public class Request {
         this.status = status;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getDeadlineDate() {
+        return deadlineDate;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setDeadlineDate(String deadlineDate) {
+        this.deadlineDate = deadlineDate;
     }
 
-    public float getHour() {
-        return hour;
+    public BigDecimal getDeadlineHour() {
+        return deadlineHour;
     }
 
-    public void setHour(float hour) {
-        this.hour = hour;
+    public void setDeadlineHour(BigDecimal deadlineHour) {
+        this.deadlineHour = deadlineHour;
     }
 
     @Override
     public String toString() {
-        return "Request{" + "idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", deadline=" + deadline + ", hour=" + hour + '}';
+        return "Request{" + "idRequest=" + idRequest + ", idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", deadlineDate=" + deadlineDate + ", deadlineHour=" + deadlineHour + '}';
     }
+
+   
     
-    
+   
 }

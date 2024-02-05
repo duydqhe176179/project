@@ -8,6 +8,10 @@
         <servlet-name>ConfirmAccount</servlet-name>
         <servlet-class>controller.ConfirmAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddRequestController</servlet-name>
+        <servlet-class>controller.AddRequestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>signup</servlet-name>
         <url-pattern>/signup</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ConfirmAccount</servlet-name>
         <url-pattern>/confirm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddRequestController</servlet-name>
+        <url-pattern>/createRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

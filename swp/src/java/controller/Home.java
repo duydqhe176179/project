@@ -5,6 +5,7 @@
 package controller;
 
 import dal.DAO;
+import dal.ViewStatisticRequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +13,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Account;
+import model.MentorStatistic;
 import model.Skill;
 
 /**
@@ -60,11 +64,22 @@ public class Home extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {       
-        DAO dao = new DAO();
+              DAO dao = new DAO();
         List<Skill> listAllSkill = dao.ListAllSkill();
         request.setAttribute("listSkill", listAllSkill);
-        System.out.println(listAllSkill.size());
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        System.out.println("Number of skills: " + listAllSkill.size());
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null || !"Mentor".equals(account.getRole())) {
+            System.out.println("Error: User not signed in or does not have the role 'Mentee'");
+            request.setAttribute("errorMess", "You do not have permission to access this page.");
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+        } else {
+            ViewStatisticRequestDAO viewStatisticDAO = new ViewStatisticRequestDAO();
+            MentorStatistic mentorStats = viewStatisticDAO.getMentorStatistics(account.getId());
+            request.setAttribute("mentorStats", mentorStats);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+        }
     }
 
     /**
