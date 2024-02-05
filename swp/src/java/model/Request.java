@@ -9,13 +9,41 @@ package model;
  * @author ADMIN
  */
 public class Request {
+    int idRequest;
     int idMentee, idMentor;
-    String title, content, skill, status, deadline;
+    String title, content, skill, status, startDate,deadline;
     float hour;
 
     public Request() {
     }
 
+    public Request(int idRequest,int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
+        this.idRequest=idRequest;
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.hour = hour;
+    }
+
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
+        this.idRequest = idRequest;
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.deadline = deadline;
+        this.hour = hour;
+    }
+
+    
+    
     public Request(int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
         this.idMentee = idMentee;
         this.idMentor = idMentor;
@@ -26,6 +54,9 @@ public class Request {
         this.deadline = deadline;
         this.hour = hour;
     }
+    
+    
+    
 
    
 

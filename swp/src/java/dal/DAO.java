@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
-import model.Mentorr;
+import model.Mentor;
 import model.Rate;
 
-import model.Requestt;
+import model.Request;
 import model.Skill;
 
 /**
@@ -224,9 +224,9 @@ public class DAO extends DBContext {
             return false;
         }
     }
-    List<Requestt> list = new ArrayList<>();
+    List<Request> list = new ArrayList<>();
 
-    public List<Requestt> getAllRequesttbyID(int idMentor) {
+    public List<Request> getAllRequestbyID(int idMentor) {
         String sql = "select * from request\n"
                 + "where idMentor = ?";
         try {
@@ -234,7 +234,7 @@ public class DAO extends DBContext {
             stm.setInt(1, idMentor);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Requestt objE = new Requestt(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getFloat(9));
+                Request objE = new Request(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(9), rs.getFloat(10));
                 if (!objE.getStatus().equals("Reject")) {
                     list.add(objE);
                 }
@@ -262,18 +262,18 @@ public class DAO extends DBContext {
             return false;
         }
     }
-    List<Mentorr> listm = new ArrayList<>();
+    List<Mentor> listm = new ArrayList<>();
 
-    public List<Mentorr> getAllMentor() {
+    public List<Mentor> getAllMentor() {
         String sql = "SELECT idMentor, fullname FROM mentor";
         try ( PreparedStatement stm = connection.prepareStatement(sql);  ResultSet rs = stm.executeQuery()) {
 
             while (rs.next()) {
-                Mentorr mentorr = new Mentorr(
+                Mentor mentor = new Mentor(
                         rs.getInt("idMentor"),
                         rs.getString("fullname")
                 );
-                listm.add(mentorr);
+                listm.add(mentor);
             }
         } catch (SQLException e) {
             System.out.println("Error when selecting mentors: " + e.getMessage());
@@ -329,9 +329,26 @@ public class DAO extends DBContext {
 
     }
 
+    public String getUserNameById(int id) {
+        String user = null;
+        try {
+            String sql = "SELECT username FROM dbo.account \n"
+                    + "WHERE idAccount=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                user = rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("loi lay user bang id");
+        }
+        return user;
+    }
+
     public static void main(String[] args) {
         DAO dao = new DAO();
 
-        System.out.println(dao.changePassword("user1", "12345"));
+        System.out.println(dao.getUserNameById(1));
     }
 }
