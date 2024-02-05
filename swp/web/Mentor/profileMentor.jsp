@@ -73,7 +73,15 @@
                         <span class="fas fa-at"></span>
                         <span class="link">Contact</span>
                     </a>
-
+                    <a href="createcv">
+                        <span class="fa-solid fa-pen-nib"></span>
+                        <span class="link">Update</span>
+                    </a>
+                    
+                    <a href="home.jsp">
+                        <span class="fa-thin fa-house"></span>
+                        <span class="link">Home</span>
+                    </a>
                 </nav>
             </header>
             <main>

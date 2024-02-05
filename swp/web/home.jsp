@@ -68,6 +68,7 @@
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
+                                 <li class="scroll-to-section"><a href="profileMentee" >ProfileMentee</a></li>
                                 <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>
                                 <li class="scroll-to-section"><a href="#services">Skill</a></li>
                                 <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>

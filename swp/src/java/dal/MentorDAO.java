@@ -34,9 +34,28 @@ public class MentorDAO extends DBContext {
     public static void main(String[] args) {
         MentorDAO cv = new MentorDAO();
         // System.out.println(cv.updateCV(1, "c", "anh12.jpg", "0988722722", "2022-2-2", "Male", "d", "d", "d", "d", "d", "D", "d", "d", new String[]{"1", "2"}));
-      //  System.out.println(cv.addHave_Skill(new Have_SKill(1, 2)));
+        //  System.out.println(cv.addHave_Skill(new Have_SKill(1, 2)));
         System.out.println(cv.getidhaveskill(1));
 //        
+    }
+
+    public boolean deleteMentorbyhaveskill(int idMentor) {
+        try {
+            String sql = "DELETE FROM [dbo].[have_skill]\n"
+                    + "      WHERE idMentor=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        } finally {
+            // Close the connection here if necessary
+        }
     }
 
     public List<SkillMentor> getAllskill() {
@@ -257,10 +276,10 @@ public class MentorDAO extends DBContext {
             while (rs.next()) {
                 int idMentor = rs.getInt(1);
                 int idSkill = rs.getInt(2);
-              
+
                 String skillname = rs.getString(3);
 
-                Have_SKill a = new Have_SKill(idMentor, idSkill,skillname);
+                Have_SKill a = new Have_SKill(idMentor, idSkill, skillname);
                 listhskill.add(a);
 
             }

@@ -19,6 +19,13 @@
         <script src="${pageContext.request.contextPath}/js/js1.js"></script>
 
         <style>
+            #msform input, #msform textarea {
+
+                border-radius: 0px;
+                margin-bottom: 0px;
+                margin-top: 2px;
+
+            }
             body{
                 display: flex;
                 align-items: center;
@@ -47,35 +54,15 @@
                 margin-bottom: 0px;
             }
             .bb{
-                margin:20px;
+                margin:30px;
             }
             .fieldlabels {
                 color: gray;
                 text-align: left;
-                margin-top: 12px;
+                margin-top: 10px;
             }
         </style>
-        <script>
-            function validateForm() {
-                var checkboxes = document.getElementsByName('skills');
-                var isChecked = false;
 
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].checked) {
-                        isChecked = true;
-                        break;
-                    }
-                }
-
-                if (!isChecked) {
-                    alert('Bạn phải chọn ít nhất một kỹ năng.');
-                    return false;
-                }
-
-                // Gửi mẫu nếu validation thành công
-                document.getElementById('yourFormId').submit();
-            }
-        </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const allStar = document.querySelectorAll('.rating .star');
@@ -103,19 +90,21 @@
                     });
                 });
             });
+
+
         </script>
-      
+
     </head>
     <body>
 
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="row justify-content-center">
                 <div class="col-11 col-sm-10 col-md-10 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
                     <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
                         <h2 id="heading">Update cv of Mentor</h2>
                         <p>Fill all form field to go to next step</p>
-                        <form id="msform" method="POST" action="createcv" enctype="multipart/form-data" style="margin-top: 30px">
+                        <form id="msform" method="POST" action="createcv" enctype="multipart/form-data" style="margin-top: 30px" onsubmit="return submitForm();">
                             <!-- progressbar -->
                             <ul id="progressbar">
                                 <li class="active" id="account"><strong>Users Info</strong></li>
@@ -131,9 +120,8 @@
                                 <div class="form-card">
                                     <div class="row">
                                         <div class="col-7">
-                                            <h2 class="fs-title">User info: ${cx.user}</h2>
+                                            <h2 class="fs-title">Account User: ${cx.user}</h2>
                                         </div>
-
                                     </div> 
                                     <div class="container bb">
                                         <label class="fieldlabels">Upload Your Photo:</label>
@@ -142,10 +130,16 @@
                                         <input  type="email" name="email" id="emailInput" placeholder="Email" value="${cx.email}" readonly/> 
 
                                         <label class="fieldlabels">Fullname: *</label> 
-                                        <input  type="text" name="uname" placeholder="FullName" value="${mentor.fullname}" /> 
+                                        <input  type="text" name="uname" placeholder="FullName" value="${mentor.fullname}" />                                      
                                         <label class="fieldlabels">Sex: *</label> 
-                                        <input  type="text" name="gender" placeholder="Sex" value="${mentor.sex}" readonly/> 
+                                          <!--  <input  type="text" name="gender" placeholder="Sex" value="${mentor.sex}" readonly/> -->
+                                        <select class="fieldlabels" name="gender" value="${mentor.sex}">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Others">Others</option>
 
+                                        </select>
+                                            <br/>
                                         <label   class="fieldlabels">Date: *</label> 
                                         <input  type="date" name="date" placeholder="Date" value="${mentor.dob}"/>
                                         <label class="fieldlabels">Address: *</label> 
@@ -184,24 +178,21 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
-                                    <div class="row">
-                                        <div class="col-7">
-                                            <h2 class="fs-title">Skills:</h2>
-                                        </div>
 
-                                    </div> 
-                                    <div class="container my-15 bb">
+                                    <div class="container bb">
 
                                         <!--                                        <label class="fieldlabels">Skills: *</label> -->
 
                                         <c:forEach var="e" items="${skill}">
-                                            <input type="checkbox" name="skills" value="${e.id}" style="vertical-align: middle;">
-                                            <span style="vertical-align: middle;">${e.skillName}</span>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input skillCheckbox"  type="checkbox" name="skills" value="${e.id}">
+                                                <label class="form-check-label"  for="skills" >${e.skillName}</label><br>
+                                            </div> 
                                         </c:forEach>
                                         <br>
-                                        <input type="button" value="Add" onclick="validateForm()">
 
-                                        <div class="fieldlabels">Programing framework: *</div> 
+
+                                        <label class="fieldlabels">Programing framework: *</label> 
                                         <input type="text" name="framework" placeholder="Framework" value="${mentor.framework}"/>
 
 
@@ -209,17 +200,17 @@
 
                                     </div>
                                 </div> 
+                                <div class="form-card">
+                                    <button type="submit" class="next action-button" onclick="confirm('Are you sure to update ')"style=" color: white; background: green">Update</button>
 
-                                <input type="button" name="next" class="next action-button" value="Next" /> 
+                                </div>
+                                <!--                                <input type="button" id="nextButton" name="next" class="next action-button" value="Next" /> -->
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                             </fieldset>
                             <fieldset>
-                                <div class="form-card">
-                                    <button type="submit" class="next action-button" onclick="confirm('Are you sure to update ')"style=" color: white; background: red">Update</button>
-                                   
-                                </div>
+
                             </fieldset>
-                                        ${mess}
+                            ${mess}
                         </form>
 
 
