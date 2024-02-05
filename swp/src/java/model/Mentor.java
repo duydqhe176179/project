@@ -15,7 +15,7 @@ public class Mentor {
     String avatar;
     String phone;
     String dob;
-   
+
     String sex;
     String address;
     String registerDate;
@@ -28,6 +28,16 @@ public class Mentor {
     String myservice;
     int age;
 
+    //
+    float rate;
+    String user;
+    int totalRequest; // tong so request
+    int invite; // số request đang yêu câu còn hiệu lực
+    int idSkill;
+    String skillName;
+    String imgSkill;
+    //
+
     public Mentor() {
     }
 
@@ -39,9 +49,42 @@ public class Mentor {
         this.age = age;
     }
 
+    public String getImgSkill() {
+        return imgSkill;
+    }
+
+    public void setImgSkill(String imgSkill) {
+        this.imgSkill = imgSkill;
+    }
+
+    public Mentor(int idMentor, String fullname, float rate, String user, int totalRequest, int invite, int idSkill, String skillName, String imgSkill) {
+        this.idMentor = idMentor;
+        this.fullname = fullname;
+        this.rate = rate;
+        this.user = user;
+        this.totalRequest = totalRequest;
+        this.invite = invite;
+        this.idSkill = idSkill;
+        this.skillName = skillName;
+        this.imgSkill = imgSkill;
+    }
+
+    public Mentor(int idMentor, String fullname, String user, int idSkill, String skillName) {
+        this.idMentor = idMentor;
+        this.fullname = fullname;
+        this.user = user;
+        this.idSkill = idSkill;
+        this.skillName = skillName;
+    }
+
     @Override
     public String toString() {
-        return "Mentor{" + "idMentor=" + idMentor + ", fullname=" + fullname + ", avatar=" + avatar + ", phone=" + phone + ", dob=" + dob + ", sex=" + sex + ", address=" + address + ", registerDate=" + registerDate + ", profession=" + profession + ", pro_introduc=" + pro_introduc + ", archivement_sescition=" + archivement_sescition + ", framework=" + framework + ", experience=" + experience + ", education=" + education + ", myservice=" + myservice + ", age=" + age + '}';
+        return "Mentor{" + "idMentor=" + idMentor + ", fullname=" + fullname + ", age=" + age + ", rate=" + rate + ", user=" + user + ", totalRequest=" + totalRequest + ", invite=" + invite + ", idSkill=" + idSkill + ", skillName=" + skillName + '}';
+    }
+
+    public Mentor(int idMentor, String fullname) {
+        this.idMentor = idMentor;
+        this.fullname = fullname;
     }
 
     public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, int age) {
@@ -71,8 +114,6 @@ public class Mentor {
         this.registerDate = registerDate;
     }
 
-   
-
     public String getMyservice() {
         return myservice;
     }
@@ -84,8 +125,6 @@ public class Mentor {
     public int getIdMentor() {
         return idMentor;
     }
-
-   
 
     public void setIdMentor(int idMentor) {
         this.idMentor = idMentor;
@@ -185,6 +224,54 @@ public class Mentor {
 
     public void setEducation(String education) {
         this.education = education;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public int getTotalRequest() {
+        return totalRequest;
+    }
+
+    public void setTotalRequest(int totalRequest) {
+        this.totalRequest = totalRequest;
+    }
+
+    public int getInvite() {
+        return invite;
+    }
+
+    public void setInvite(int invite) {
+        this.invite = invite;
+    }
+
+    public int getIdSkill() {
+        return idSkill;
+    }
+
+    public void setIdSkill(int idSkill) {
+        this.idSkill = idSkill;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
     }
 
 }

@@ -31,14 +31,6 @@ public class MentorDAO extends DBContext {
     List<info> listinfo = new ArrayList<>();
     List<SkillMentor> skill = new ArrayList<>();
 
-    public static void main(String[] args) {
-        MentorDAO cv = new MentorDAO();
-        // System.out.println(cv.updateCV(1, "c", "anh12.jpg", "0988722722", "2022-2-2", "Male", "d", "d", "d", "d", "d", "D", "d", "d", new String[]{"1", "2"}));
-        //  System.out.println(cv.addHave_Skill(new Have_SKill(1, 2)));
-        System.out.println(cv.getidhaveskill(1));
-//        
-    }
-
     public boolean deleteMentorbyhaveskill(int idMentor) {
         try {
             String sql = "DELETE FROM [dbo].[have_skill]\n"
@@ -194,52 +186,7 @@ public class MentorDAO extends DBContext {
         return null;
     }
 
-    public Mentor getMentor() {
-        try {
-            String strSelect = "select * from mentor where idMentor = 6";
-
-            stm = connection.prepareStatement(strSelect);
-
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                int idMentor = rs.getInt(1);
-                String fullname = rs.getString(2);
-                String avatar = rs.getString(3);
-                String phone = rs.getString(4);
-
-                String dob = rs.getString(5);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-                // Chuyển đổi ngày sinh từ chuỗi sang LocalDate
-                LocalDate ngaySinh = LocalDate.parse(dob, formatter);
-
-                // Lấy ngày hiện tại
-                LocalDate ngayHienTai = LocalDate.now();
-
-                // Tính tuổi
-                Period period = Period.between(ngaySinh, ngayHienTai);
-
-                String sex = rs.getString(6);
-                String address = rs.getString(7);
-                String registerDate = rs.getString(8);
-                String profession = rs.getString(8);
-                String pro_introduc = rs.getString(9);
-                String archivement_sescition = rs.getString(10);
-                String framework = rs.getString(11);
-                String experience = rs.getString(12);
-                String education = rs.getString(13);
-                String myservice = rs.getString(14);
-                int age = period.getYears();
-
-                Mentor a = new Mentor(idMentor, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_sescition, framework, experience, education, myservice, age);
-                return a;
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
+    
     public SkillMentor skill() {
         try {
             String strSelect = "select * \n"
@@ -371,5 +318,95 @@ public class MentorDAO extends DBContext {
             System.out.println(ex);
             return false;
         }
+    }
+    
+    public List<Mentor> listMentorBySkill(String skillName) {
+        List<Mentor> mentors = new ArrayList<>();
+        try {
+            String sql = "SELECT mentor.idMentor,fullname,username,idSkill,skillName\n"
+                    + "FROM dbo.account JOIN dbo.mentor ON mentor.idMentor = account.idAccount\n"
+                    + "JOIN dbo.have_skill ON have_skill.idMentor = mentor.idMentor\n"
+                    + "JOIN dbo.skill ON skill.id = have_skill.idSkill\n"
+                    + "WHERE skillName like ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + skillName + "%");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int idMentor = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String user = rs.getString(3);
+                int idSkill = rs.getInt(4);
+                String nameSkill = rs.getString(5);
+
+//                Mentor m = new Mentor(idMentor, fullname, rate, user, totalRequest, totalInvite, idSkill, nameSkill);
+//                mentors.add(new Mentor(idMentor, fullname, rate, user, totalRequest, totalInvite, idSkill, nameSkill));
+                mentors.add(new Mentor(idMentor, fullname, user, idSkill, nameSkill));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("loi ham listMentorBySkill");
+        }
+        return mentors;
+    }
+
+    public float getRate(int idMentor) {
+        float sum = 0;
+        int count = 0;
+        try {
+            String sql = "SELECT * FROM dbo.rate \n"
+                    + "WHERE idMentor=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                sum += rs.getInt(4);
+                count++;
+            }
+            return (float) (sum / count);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int totalRequest(int idMentor) {
+        int totalRequest = 0;
+        try {
+            String sql = "SELECT COUNT(idRequest) FROM dbo.request\n"
+                    + "WHERE idMentor=? ";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                totalRequest = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ko lay duoc total request");
+        }
+        return totalRequest;
+    }
+
+    public int totalInvite(int idMentor) {
+        int total = 0;
+        try {
+            String sql = "SELECT COUNT(idRequest) FROM dbo.request\n"
+                    + "WHERE idMentor=?  AND status='Open'";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ko lay dc total invite");
+        }
+        return total;
+    }
+
+    public static void main(String[] args) {
+        MentorDAO mentorDAO = new MentorDAO();
+        List<Mentor> vd = new ArrayList<>();
+        vd = mentorDAO.listMentorBySkill("C#");
+        System.out.println(vd.get(0).getTotalRequest());
+
     }
 }

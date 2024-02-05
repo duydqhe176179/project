@@ -16,7 +16,7 @@ import model.Account;
 import model.Mentorr;
 import model.Rate;
 
-import model.Requestt;
+import model.Request;
 import model.Skill;
 
 /**
@@ -225,8 +225,8 @@ public class DAO extends DBContext {
         }
     }
 
-    public List<Requestt> getAllRequesttbyID(int idMentor) {
-        List<Requestt> list = new ArrayList<>();  // Initialize a new list
+    public List<Request> getAllRequesttbyID(int idMentor) {
+        List<Request> list = new ArrayList<>();  // Initialize a new list
 
         String sql = "select * from request\n"
                 + "         where idMentor = ?";
@@ -235,13 +235,13 @@ public class DAO extends DBContext {
             stm.setInt(1, idMentor);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Requestt objE = new Requestt(
-                        rs.getInt(1),rs.getInt(2),rs.getInt(3),
-                        rs.getString(4),rs.getString(5),rs.getString(6),
-                        rs.getString(7),rs.getString(8),
-                        rs.getString(9),rs.getFloat(10)
+                Request objE = new Request(
+                        rs.getInt(1), rs.getInt(2), rs.getInt(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6),
+                        rs.getString(7), rs.getString(8),
+                        rs.getString(9), rs.getFloat(10)
                 );
-                if (!objE.getStatus().equals("Cancel") && !objE.getStatus().equals("Close")&& !objE.getStatus().equals("Processing")) {
+                if (!objE.getStatus().equals("Cancel") && !objE.getStatus().equals("Close") && !objE.getStatus().equals("Processing")) {
                     list.add(objE);
                 }
             }
@@ -333,6 +333,23 @@ public class DAO extends DBContext {
 
         return listAllSkill;
 
+    }
+
+    public String getUserNameById(int id) {
+        String user = null;
+        try {
+            String sql = "SELECT username FROM dbo.account \n"
+                    + "WHERE idAccount=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                user = rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("loi lay user bang id");
+        }
+        return user;
     }
 
     public static void main(String[] args) {
