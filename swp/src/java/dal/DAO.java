@@ -224,24 +224,30 @@ public class DAO extends DBContext {
             return false;
         }
     }
-    List<Requestt> list = new ArrayList<>();
 
     public List<Requestt> getAllRequesttbyID(int idMentor) {
+        List<Requestt> list = new ArrayList<>();  // Initialize a new list
+
         String sql = "select * from request\n"
-                + "where idMentor = ?";
+                + "         where idMentor = ?";
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, idMentor);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Requestt objE = new Requestt(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getFloat(9));
-                if (!objE.getStatus().equals("Reject")) {
+                Requestt objE = new Requestt(
+                        rs.getInt(1),rs.getInt(2),rs.getInt(3),
+                        rs.getString(4),rs.getString(5),rs.getString(6),
+                        rs.getString(7),rs.getString(8),
+                        rs.getString(9),rs.getFloat(10)
+                );
+                if (!objE.getStatus().equals("Cancel") && !objE.getStatus().equals("Close")&& !objE.getStatus().equals("Processing")) {
                     list.add(objE);
                 }
-
             }
         } catch (SQLException e) {
             System.out.println("Error when selecting");
+            // Handle the exception properly, logging or rethrowing if needed
         }
         return list;
     }
@@ -332,6 +338,6 @@ public class DAO extends DBContext {
     public static void main(String[] args) {
         DAO dao = new DAO();
 
-        System.out.println(dao.changePassword("user1", "12345"));
+        System.out.println(dao.getAllRequesttbyID(1));
     }
 }
