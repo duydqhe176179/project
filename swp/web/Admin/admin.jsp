@@ -98,6 +98,22 @@
                 </table>
             </div>
             <br><br><br>
+            <h3>Statistic of Mentee<a href="statistic"><i class="fa-solid fa-plus"></i></a></h3><br>
+
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <br><br><br>
 
             <h3>Mentee <a href="addInfo"><i class="fa-solid fa-plus"></i></a></h3><br>
             <div class="table-responsive">
