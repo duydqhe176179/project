@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package User;
 
-import dal.DAO;
+import admin.AdminDAO;
+import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,17 +13,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
-import model.Account;
-import model.Request;
+import model.Mentor;
 
 /**
  *
- * @author trang
+ * @author Admin
  */
-@WebServlet(name = "viewrequestmetor", urlPatterns = {"/reqmentor"})
-public class viewrequestmetor extends HttpServlet {
+@WebServlet(name = "searchMentor", urlPatterns = {"/searchMentor"})
+public class searchMentor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class viewrequestmetor extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet viewrequestmetor</title>");
+            out.println("<title>Servlet searchMentor</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet viewrequestmetor at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet searchMentor at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,27 +62,8 @@ public class viewrequestmetor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Account account = (Account) request.getSession().getAttribute("account");
-
-        if (account != null && "Mentor".equals(account.getRole())) {
-            int mentorId = account.getId(); // Assuming getId() returns the mentor's ID
-            DAO dao = new DAO();
-            List<Request> list = dao.getAllRequesttbyID(mentorId);
-
-            if (!list.isEmpty()) {
-                request.setAttribute("listR", list);
-                request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
-            } else {
-                String errorMessage = "No requests found for this mentor.";
-                request.setAttribute("errorMessage", errorMessage);
-                request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
-            }
-        } else {
-            String errorMessage = "You do not have permission to access this page.";
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("viewrequest.jsp").forward(request, response);
-        }
-
+//        response.sendRedirect("suggestMentor.jsp");
+        request.getRequestDispatcher("suggestMentor.jsp").forward(request, response);
     }
 
     /**
@@ -96,7 +77,26 @@ public class viewrequestmetor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        MentorDAO dao = new MentorDAO();
+        AdminDAO admin=new AdminDAO();
+        List<Mentor> list = new ArrayList<>();
+        List<Mentor> listM = new ArrayList<>();
+        String search = request.getParameter("searchBySkill");
+        list = dao.listMentorBySkill(search);
+
+        float rate;
+        int totalRequest, totalInvite;
+        for (Mentor m : list) {
+            rate = dao.getRate(m.getIdMentor());
+            totalRequest = dao.totalRequest(m.getIdMentor());
+            totalInvite = dao.totalInvite(m.getIdMentor());
+            String img=admin.getSkillById(m.getIdSkill()).getImage();
+            System.out.println(img);
+            listM.add(new Mentor(m.getIdMentor(), m.getFullname(), rate, m.getUser(), totalRequest, totalInvite, m.getIdSkill(), m.getSkillName(),img));
+        }
+        request.setAttribute("listM", listM);
+//        response.sendRedirect("suggestMentor.jsp");
+        request.getRequestDispatcher("suggestMentor.jsp").forward(request, response);
     }
 
     /**
