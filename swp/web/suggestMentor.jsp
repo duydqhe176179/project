@@ -62,7 +62,7 @@
                     <div class="col-12">
                         <nav class="main-nav">
                             <!-- ***** Logo Start ***** -->
-                            <a href="index.html" class="logo">
+                            <a href="home" class="logo">
                                 <img src="assets/images/logo.png" alt="Chain App Dev">
                             </a>
                             <!-- ***** Logo End ***** -->
@@ -112,76 +112,52 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row">
-                            <div class="col-lg-6 align-self-center">
+                            <div class="col-lg-12 align-self-center">
                                 <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h2>Get The Latest App From App Stores</h2>
-                                            <p>Chain App Dev is an app landing page HTML5 template based on Bootstrap v5.1.3 CSS layout provided by TemplateMo, a great website to download free CSS templates.</p>
+                                    <form action="searchMentor" method="post">
+                                        <div class="input-group mb-3">
+                                            <input name="searchBySkill" type="text" class="form-control" placeholder="Search skill">
+                                            <button class="btn btn-success" type="submit">Go</button>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <div class="white-button first-button scroll-to-section">
-                                                <a href="#contact">Free Quote <i class="fab fa-apple"></i></a>
-                                            </div>
-                                            <div class="white-button scroll-to-section">
-                                                <a href="#contact">Free Quote <i class="fab fa-google-play"></i></a>
-                                            </div>
-                                        </div>
+                                    </form>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th>Mentor</th>
+                                                    <th>Username</th>
+                                                    <th>Rating</th>
+                                                    <th>Requests</th>
+                                                    <th>Invites</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="o" items="${listM}" >
+                                                    <tr>
+                                                        <td><img src="${o.getImgSkill()}" alt="alt" style="width: 8rem"></td>
+                                                        <td>${o.getFullname()}</td>
+                                                        <td>${o.getUser()}</td>
+                                                        <td>${o.getRate()} <i class="fa-solid fa-star" style="color: #FFD43B;"></i></td>
+                                                        <td>${o.getTotalRequest()}</td>
+                                                        <td>${o.getInvite()}</td>
+                                                        <td><button><a href="Request?action=create&idMentor=${o.getIdMentor()}">Invite</a></button></td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                                    <img src="assets/images/slider-dec.png" alt="">
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <%-- search mentor by skill name ------------------------------------------------------------------------- --%>
-        <div class="container">    
-            <form action="searchMentor" method="post">
-                <div class="input-group mb-3">
-                    <input name="searchBySkill" type="text" class="form-control" placeholder="Search skill">
-                    <button class="btn btn-success" type="submit">Go</button>
-                </div>
-            </form>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Course</th>
-                            <th>Mentor</th>
-                            <th>Username</th>
-                            <th>Rating</th>
-                            <th>Requests</th>
-                            <th>Invites</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="o" items="${listM}" >
-                            <tr>
-                                <td><img src="${o.getImgSkill()}" alt="alt" style="width: 8rem"></td>
-                                <td>${o.getFullname()}</td>
-                                <td>${o.getUser()}</td>
-                                <td>${o.getRate()} <i class="fa-solid fa-star" style="color: #FFD43B;"></i></td>
-                                <td>${o.getTotalRequest()}</td>
-                                <td>${o.getInvite()}</td>
-                                <td><button><a href="createRequest?idMentor=${o.getIdMentor()}">Invite</a></button></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <%-- ---------------------------------------------------------------------------------------------------- --%>
-
-
-
+        
         <footer id="newsletter">
             <div class="container">
                 <div class="row">

@@ -62,7 +62,7 @@
                     <div class="col-12">
                         <nav class="main-nav">
                             <!-- ***** Logo Start ***** -->
-                            <a href="index.html" class="logo">
+                            <a href="home" class="logo">
                                 <img src="assets/images/logo.png" alt="Chain App Dev">
                             </a>
                             <!-- ***** Logo End ***** -->

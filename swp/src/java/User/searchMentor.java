@@ -87,7 +87,7 @@ public class searchMentor extends HttpServlet {
         float rate;
         int totalRequest, totalInvite;
         for (Mentor m : list) {
-            rate = dao.getRate(m.getIdMentor());
+            rate = (float) (Math.round(dao.getRate(m.getIdMentor()) * 10.0) / 10.0);
             totalRequest = dao.totalRequest(m.getIdMentor());
             totalInvite = dao.totalInvite(m.getIdMentor());
             String img=admin.getSkillById(m.getIdSkill()).getImage();

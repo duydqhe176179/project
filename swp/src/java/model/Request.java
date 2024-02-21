@@ -13,9 +13,9 @@ import java.util.Date;
  * @author ADMIN
  */
 public class Request {
-    
+
     private int idRequest, idMentee, idMentor;
-    private String title, content, skill, status,  startDate, deadline;
+    private String title, content, skill, status, startDate, deadline;
     private float hour;
     private String deadlineDate;
     private BigDecimal deadlineHour;
@@ -71,12 +71,28 @@ public class Request {
         this.deadlineHour = deadlineHour;
     }
 
-    public Request(int aInt, int aInt0, String string, String string0, String string1, String string2, String string3, float aFloat) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Request(int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.deadline = deadline;
+        this.hour = hour;
     }
 
-    public Request(int aInt, int aInt0, int aInt1, String string, String string0, String string1, String string2, String string3, String string4, float aFloat) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
+        this.idRequest = idRequest;
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.hour = hour;
     }
 
     public int getIdRequest() {
@@ -153,10 +169,9 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request{" + "idRequest=" + idRequest + ", idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", deadlineDate=" + deadlineDate + ", deadlineHour=" + deadlineHour + '}';
+        return "Request{" + "idRequest=" + idRequest + ", idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", startDate=" + startDate + ", deadline=" + deadline + ", hour=" + hour + ", deadlineDate=" + deadlineDate + ", deadlineHour=" + deadlineHour + '}';
     }
 
-   
     
-   
+
 }

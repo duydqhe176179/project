@@ -39,6 +39,7 @@ public class RequestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        String idMentor=request.getParameter("idMentor");
         switch (action) {
             case "list":
                 listRequests(request, response);

@@ -17,7 +17,7 @@
     </div>
     <h1 style="color: Red; text-align: center;">${errorMessage}</h1>
 
-    <c:if test="${isMentor}">
+    
         <table border="1">
             <thead>
                 <tr>
@@ -53,7 +53,6 @@
                 </c:forEach>
             </tbody>
         </table>
-    </c:if>
 
     <script src="https://kit.fontawesome.com/your-font-awesome-kit-code.js" crossorigin="anonymous"></script>
     <script>
