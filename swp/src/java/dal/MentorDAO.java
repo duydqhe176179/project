@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,10 +12,13 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Account;
 import model.Have_SKill;
 import model.Mentor;
+import model.Request;
+import model.Skill;
 import model.SkillMentor;
 import model.info;
 
@@ -186,7 +190,43 @@ public class MentorDAO extends DBContext {
         return null;
     }
 
-    
+    public List<Mentor> getListOfMentors() {
+        List<Mentor> mentors = new ArrayList();
+        String query = "SELECT * FROM mentor";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                Mentor mentor = mapResultSetToMentor(resultSet);
+                mentors.add(mentor);
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving mentors" + e.getMessage());
+        }
+
+        return mentors;
+    }
+     private Mentor mapResultSetToMentor(ResultSet resultSet) throws Exception {
+        return new Mentor(
+                resultSet.getInt("idMentor"),
+                resultSet.getString("fullname"),
+                resultSet.getString("avatar"),
+                resultSet.getString("phone"),
+                resultSet.getString("dob"),
+                resultSet.getString("sex"),
+                resultSet.getString("address"),
+                resultSet.getString("registerDate"),
+                resultSet.getString("profession"),
+                resultSet.getString("pro_introduc"),
+                resultSet.getString("archivement_descition"),
+                resultSet.getString("framework"),
+                resultSet.getString("experience"),
+                resultSet.getString("education"),
+                resultSet.getString("myservice"),
+                resultSet.getInt("stk")
+        );
+    }
     public SkillMentor skill() {
         try {
             String strSelect = "select * \n"
@@ -400,6 +440,72 @@ public class MentorDAO extends DBContext {
             System.out.println("ko lay dc total invite");
         }
         return total;
+    }
+    
+    public List<Mentor> getMentor() {
+        Connection conn = null;
+        List<Mentor> listMentor1 = new ArrayList<>();
+        String query = "SELECT idMentor, fullname from mentor";
+        try {
+            conn = new DBContext().connection;
+            stm = conn.prepareStatement(query);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                listMentor1.add(new Mentor(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listMentor1;
+    }
+
+    public List<Skill> getSkill() {
+        Connection conn = null;
+        List<Skill> list1 = new ArrayList<>();
+        String query = "SELECT * from Skill";
+        try {
+            conn = new DBContext().connection;
+            stm = conn.prepareStatement(query);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list1.add(new Skill(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+        return list1;
+    }
+
+    public List<Request> ListRequestById(int idMentor) {
+        List<Request> list5 = new ArrayList<>();
+        Connection conn = null;
+        String query = "SELECT idRequest, idMentee, title, content, skill, status, deadline, hour " +
+                   "FROM request r JOIN account a ON r.idMentor = a.idAccount " +
+                   "WHERE a.idAccount =  ? " ;
+        
+    PreparedStatement _stm;
+    ResultSet rs;
+        try {
+            conn = new DBContext().connection;
+            _stm = conn.prepareStatement(query);
+            _stm.setInt(1, idMentor);
+            rs = _stm.executeQuery();
+            while (rs.next()) {
+                int idRequest=rs.getInt(1);
+                int idMentee =rs.getInt(2);
+                String title = rs.getString(3);
+                String content = rs.getString(4);
+                String skill = rs.getString(5);
+                String status = rs.getString(6);
+                String deadline = rs.getString(7);
+                float hour = rs.getFloat(8);
+                
+                list5.add(new Request(idRequest, idMentee, idMentor, title, content, skill, status, deadline, hour));
+            }
+        } catch (Exception e) {
+        }
+        return list5;
     }
 
     public static void main(String[] args) {

@@ -65,7 +65,7 @@ public class ListRequest extends DBContext {
     public List<Request> ListRequestById(int idAccount) {
         List<Request> listRequest1 = new ArrayList<>();
         Connection conn = null;
-        String query = "SELECT idMentee,idMentor, title, content, skill, status, deadline, hour " +
+        String query = "SELECT idRequest, idMentee,idMentor, title, content, skill, status, deadline, hour " +
                    "FROM request r JOIN account a ON r.idMentee = a.idAccount " +
                    "WHERE a.idAccount =  ? " ;
         
@@ -78,6 +78,7 @@ public class ListRequest extends DBContext {
             _rs = _stm.executeQuery();
             while (_rs.next()) {
                 Request request = new Request();
+                request.setIdRequest(_rs.getInt("idRequest"));
                 request.setIdMentee(_rs.getInt("idMentee"));
                 request.setIdMentor(_rs.getInt("idmentor"));
                 request.setTitle(_rs.getString("title"));

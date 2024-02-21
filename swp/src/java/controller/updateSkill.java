@@ -120,7 +120,9 @@ public class updateSkill extends HttpServlet {
         }
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        admin.updateSkill(id, title, fileName, name, description, skill.getStatus());
+        String status=request.getParameter("status");
+        System.out.println(status);
+        admin.updateSkill(id, title, fileName, name, description, status);
         response.sendRedirect("admin");
     }
 

@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package User;
 
-import dal.DAO;
-import dal.ViewStatisticRequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,17 +12,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Account;
-import model.MentorStatistic;
-import model.Skill;
+import model.Request;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
-@WebServlet(name = "Home", urlPatterns = {"/home"})
-public class Home extends HttpServlet {
+@WebServlet(name = "StatisticRequest", urlPatterns = {"/statisticreq"})
+public class StatisticRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +42,10 @@ public class Home extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Home</title>");
+            out.println("<title>Servlet StatisticRequest</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Home at sad" + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet StatisticRequest at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,23 +62,50 @@ public class Home extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
-        DAO dao = new DAO();
-        List<Skill> listAllSkill = dao.ListAllSkill();
-        request.setAttribute("listSkill", listAllSkill);
-        //System.out.println("Number of skills: " + listAllSkill.size());
+            throws ServletException, IOException {
+        dal.ListRequest req = new dal.ListRequest();
         HttpSession session = request.getSession();
+//        String rquest_id = request.getParameter("idRequest");
+//        String update_id = request.getParameter("idU");
+        //  String username = request.getParameter("username");
+//        session.getAttribute("username");
+
+//        String userName = (String) session.getAttribute("username");
+//        request.setAttribute("msg", userName);
+        //cach 2:
         Account account = (Account) session.getAttribute("account");
-        if (account == null || !"Mentor".equals(account.getRole())) {
-            System.out.println("Error: User not signed in or does not have the role 'Mentee'");
-            request.setAttribute("errorMess", "You do not have permission to access this page.");
-            request.getRequestDispatcher("home.jsp").forward(request, response);
-        } else {
-            ViewStatisticRequestDAO viewStatisticDAO = new ViewStatisticRequestDAO();
-            MentorStatistic mentorStats = viewStatisticDAO.getMentorStatistics(account.getId());
-            request.setAttribute("mentorStats", mentorStats);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+        String userName = account.getUser();
+        dal.StatisticRequest sr = new dal.StatisticRequest();
+
+        int idAccount = req.getIdAccountByUsername(userName);
+//        request.setAttribute("msg", userName);
+        List<Request> listRequest1 = req.ListRequestById(idAccount);
+        request.setAttribute("listReq", listRequest1);
+        
+
+        // Calculate totals
+        int totalRequests = sr.getTotalRequests(listRequest1);
+        float totalHours = sr.getTotalHours(listRequest1);
+        Map<Integer, Integer> mentorCounts = sr.getTotalMentors(listRequest1);
+
+        // Get mentor names
+        
+        Map<Integer, String> mentorNames = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : mentorCounts.entrySet()) {
+            int idMentor = entry.getKey();
+            String mentorName = sr.getMentorNameById(idMentor);
+            mentorNames.put(idMentor, mentorName);
         }
+
+        // Set attributes for JSP page
+        request.setAttribute("listReq", listRequest1);
+        request.setAttribute("totalRequests", totalRequests);
+        request.setAttribute("totalHours", totalHours);
+        request.setAttribute("mentorCounts", mentorCounts);
+        request.setAttribute("mentorNames", mentorNames);
+
+        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
+        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
     }
 
     /**
@@ -93,7 +119,7 @@ public class Home extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

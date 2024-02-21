@@ -19,7 +19,7 @@
 
                     <form method="post" action="addSkill" enctype="multipart/form-data" style="margin-top: 30px" >
                         <div class="card" style="border-radius: 15px;">
-                            <h1 class="mb-4" style="text-align: center; margin-top: 20px">UPDATE SKILL</h1>
+                            <h1 class="mb-4" style="text-align: center; margin-top: 20px">ADD NEW SKILL</h1>
                             <div class="card-body">
                                 <div class="row align-items-center pt-4 pb-3">
                                     <div class="col-md-3 ps-5">             

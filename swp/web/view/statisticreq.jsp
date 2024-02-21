@@ -1,4 +1,10 @@
 <%-- 
+    Document   : statisticreq
+    Created on : Feb 5, 2024, 11:12:34 PM
+    Author     : ADMIN
+--%>
+
+<%-- 
     Document   : listallreq
     Created on : Jan 18, 2024, 11:43:47 PM
     Author     : ADMIN
@@ -80,7 +86,7 @@
                 <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
                 Home
             </a>
-            <h1 style="margin-left: auto;">List of Requests</h1>
+            <h1 style="margin-left: auto;">Statistic of Requests</h1>
         </header>
 
         <section>
@@ -93,7 +99,7 @@
                         <th>Deadline Date</th>
                         <th>Deadline Hour</th>
                         <th>Status</th>
-                        <th>Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -106,13 +112,52 @@
                             <td>${request.deadline}</td>
                             <td>${request.hour}</td>
                             <td>${request.status}</td>
-                            <td class="btn-container">
-                                <button class="update-btn" > <a href="updatereq?idrequest=${request.idRequest} ">Update</a></button>
 
-                            </td>
                         </tr>
-                    </c:forEach>
 
+                    </c:forEach>
+                    <tr>
+                        <td>Total Request</td>
+                        <td>${totalRequests}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <!-- First empty column -->
+
+                            <!-- Second empty column -->
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Total Hour</td>
+                        <td>${totalHours}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mentor Name</td>
+                        <c:forEach var="entry" items="${mentorNames}">
+                        <td>${entry.value}</td>
+                        </c:forEach>
+                        <td></td>
+                        <td></td>
+                        
+                        
+                    </tr>
+                    <tr>
+                        <td>Total Request send to Mentor</td>
+                        <c:forEach var="entry" items="${mentorCounts}">
+                        <td>${entry.value}</td>
+                        </c:forEach>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
                     <!-- Add more rows as needed -->
                 </tbody>
             </table>
@@ -120,3 +165,4 @@
 
     </body>
 </html>
+

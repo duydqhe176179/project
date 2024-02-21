@@ -67,6 +67,17 @@
                                         <input type="text" name="description" id="form3Example4" class="form-control form-control-lg" value="${skill.getSkill_description()}" required>
                                     </div>
                                 </div>
+                                <div class="row align-items-center pt-4 pb-3">
+                                    <div class="col-md-3 ps-5">
+                                        Status
+                                    </div>
+                                    <div class="col-md-9 pe-5">
+                                        <select name="status">
+                                            <option value="enable">Enable</option>
+                                            <option value="disable">Disable</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="row align-items-center py-3" style="display: flex;justify-content: end"> 
                                     <div class="col-md-3 ps-5">
@@ -76,7 +87,7 @@
                             </div>
                         </div>
                     </form>
-                                    
+
                 </div>
             </div>
         </div>

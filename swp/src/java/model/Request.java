@@ -4,30 +4,46 @@
  */
 package model;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  *
  * @author ADMIN
  */
 public class Request {
-
-    int idRequest;
-    int idMentee, idMentor;
-    String title, content, skill, status, startDate, deadline;
-    float hour;
+    
+    private int idRequest, idMentee, idMentor;
+    private String title, content, skill, status,  startDate, deadline;
+    private float hour;
+    private String deadlineDate;
+    private BigDecimal deadlineHour;
 
     public Request() {
     }
 
-    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
-        this.idRequest = idRequest;
-        this.idMentee = idMentee;
-        this.idMentor = idMentor;
-        this.title = title;
-        this.content = content;
-        this.skill = skill;
-        this.status = status;
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public float getHour() {
+        return hour;
+    }
+
+    public void setHour(float hour) {
         this.hour = hour;
     }
 
@@ -43,15 +59,32 @@ public class Request {
         this.hour = hour;
     }
 
-    public Request(int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadlineDate, BigDecimal deadlineHour) {
+        this.idRequest = idRequest;
         this.idMentee = idMentee;
         this.idMentor = idMentor;
         this.title = title;
         this.content = content;
         this.skill = skill;
         this.status = status;
-        this.deadline = deadline;
-        this.hour = hour;
+        this.deadlineDate = deadlineDate;
+        this.deadlineHour = deadlineHour;
+    }
+
+    public Request(int aInt, int aInt0, String string, String string0, String string1, String string2, String string3, float aFloat) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Request(int aInt, int aInt0, int aInt1, String string, String string0, String string1, String string2, String string3, String string4, float aFloat) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public int getIdRequest() {
+        return idRequest;
+    }
+
+    public void setIdRequest(int idRequest) {
+        this.idRequest = idRequest;
     }
 
     public int getIdMentee() {
@@ -102,25 +135,28 @@ public class Request {
         this.status = status;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getDeadlineDate() {
+        return deadlineDate;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setDeadlineDate(String deadlineDate) {
+        this.deadlineDate = deadlineDate;
     }
 
-    public float getHour() {
-        return hour;
+    public BigDecimal getDeadlineHour() {
+        return deadlineHour;
     }
 
-    public void setHour(float hour) {
-        this.hour = hour;
+    public void setDeadlineHour(BigDecimal deadlineHour) {
+        this.deadlineHour = deadlineHour;
     }
 
     @Override
     public String toString() {
-        return "Request{" + "idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", deadline=" + deadline + ", hour=" + hour + '}';
+        return "Request{" + "idRequest=" + idRequest + ", idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", deadlineDate=" + deadlineDate + ", deadlineHour=" + deadlineHour + '}';
     }
 
+   
+    
+   
 }

@@ -9,6 +9,7 @@ package model;
  * @author ADMIN
  */
 public class Skill {
+    int idSkill;
     String title, image, skillName, skill_description, status;
 
     public Skill() {
@@ -20,6 +21,23 @@ public class Skill {
         this.skillName = skillName;
         this.skill_description = skill_description;
         this.status = status;
+    }
+
+    public Skill(int idSkill, String title, String image, String skillName, String skill_description, String status) {
+        this.idSkill = idSkill;
+        this.title = title;
+        this.image = image;
+        this.skillName = skillName;
+        this.skill_description = skill_description;
+        this.status = status;
+    }
+
+    public int getIdSkill() {
+        return idSkill;
+    }
+
+    public void setIdSkill(int idSkill) {
+        this.idSkill = idSkill;
     }
 
     public String getTitle() {

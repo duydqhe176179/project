@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
-import model.Mentorr;
+import model.Mentor;
 import model.Rate;
 
 import model.Request;
@@ -268,14 +268,14 @@ public class DAO extends DBContext {
             return false;
         }
     }
-    List<Mentorr> listm = new ArrayList<>();
+    List<Mentor> listm = new ArrayList<>();
 
-    public List<Mentorr> getAllMentor() {
+    public List<Mentor> getAllMentor() {
         String sql = "SELECT idMentor, fullname FROM mentor";
         try ( PreparedStatement stm = connection.prepareStatement(sql);  ResultSet rs = stm.executeQuery()) {
 
             while (rs.next()) {
-                Mentorr mentorr = new Mentorr(
+                Mentor mentorr = new Mentor(
                         rs.getInt("idMentor"),
                         rs.getString("fullname")
                 );

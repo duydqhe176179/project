@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
-import dal.DAO;
-import dal.ViewStatisticRequestDAO;
+import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,46 +16,42 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
-import model.MentorStatistic;
-import model.Skill;
+import model.Request;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
-@WebServlet(name = "Home", urlPatterns = {"/home"})
-public class Home extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="ViewRequestMentee", urlPatterns={"/viewrequestmentee"})
+public class ViewRequestMentee extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Home</title>");
+            out.println("<title>Servlet ViewRequestMentee</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Home at sad" + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewRequestMentee at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,28 +59,21 @@ public class Home extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
-        DAO dao = new DAO();
-        List<Skill> listAllSkill = dao.ListAllSkill();
-        request.setAttribute("listSkill", listAllSkill);
-        //System.out.println("Number of skills: " + listAllSkill.size());
+    throws ServletException, IOException {
+        dal.ListRequest req = new dal.ListRequest();
+        MentorDAO md = new MentorDAO();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        if (account == null || !"Mentor".equals(account.getRole())) {
-            System.out.println("Error: User not signed in or does not have the role 'Mentee'");
-            request.setAttribute("errorMess", "You do not have permission to access this page.");
-            request.getRequestDispatcher("home.jsp").forward(request, response);
-        } else {
-            ViewStatisticRequestDAO viewStatisticDAO = new ViewStatisticRequestDAO();
-            MentorStatistic mentorStats = viewStatisticDAO.getMentorStatistics(account.getId());
-            request.setAttribute("mentorStats", mentorStats);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
-        }
-    }
+        String userName = account.getUser();
 
-    /**
+        int idAccount = req.getIdAccountByUsername(userName);
+        List<Request> list5 = md.ListRequestById(idAccount);
+        request.setAttribute("list5", list5);
+        request.getRequestDispatcher("Mentor/ViewRequestMentee.jsp").forward(request, response);
+    } 
+
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -92,13 +81,12 @@ public class Home extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+    throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

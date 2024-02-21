@@ -1,6 +1,6 @@
 <%-- 
-    Document   : listallreq
-    Created on : Jan 18, 2024, 11:43:47 PM
+    Document   : ViewRequestMentee
+    Created on : Feb 6, 2024, 3:07:15 PM
     Author     : ADMIN
 --%>
 
@@ -75,18 +75,19 @@
     <body>
 
         <header>
-            <!--            <h1>List of Requests</h1>-->
+<!--            <h1>List of Requests</h1>-->
             <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
                 <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
                 Home
             </a>
-            <h1 style="margin-left: auto;">List of Requests</h1>
+            <h1 style="margin-left: auto;">List of Invited Requests</h1>
         </header>
 
         <section>
             <table>
                 <thead>
                     <tr>
+                        <th>IDMentee</th>
                         <th>Title</th>
                         <th>Skills</th>
                         <th>Description</th>
@@ -98,8 +99,9 @@
                 </thead>
                 <tbody>
 
-                    <c:forEach var="request" items="${listReq}">
+                    <c:forEach var="request" items="${list5}">
                         <tr>
+                            <td>${request.idMentee}</td>
                             <td>${request.title}</td>
                             <td>${request.skill}</td>
                             <td>${request.content}</td>
@@ -107,12 +109,12 @@
                             <td>${request.hour}</td>
                             <td>${request.status}</td>
                             <td class="btn-container">
-                                <button class="update-btn" > <a href="updatereq?idrequest=${request.idRequest} ">Update</a></button>
-
+                                <button class="update-btn" > Accept</button>
+                                <button class="delete-btn">Reject</button>
                             </td>
                         </tr>
                     </c:forEach>
-
+                        
                     <!-- Add more rows as needed -->
                 </tbody>
             </table>

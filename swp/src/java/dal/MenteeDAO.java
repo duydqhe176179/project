@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,8 @@ import java.util.List;
 import model.Account;
 import model.Mentee;
 import model.Mentor;
+import model.Request;
+import model.Skill;
 import model.StaticMentee;
 
 /**
@@ -27,7 +30,38 @@ public class MenteeDAO extends DBContext {
     ResultSet rs;
     List<Mentee> mentee = new ArrayList<>();
     List<StaticMentee> list = new ArrayList<>();
+    public Mentee getMenteeByAccountId(int idAccount) {
+        String query = "SELECT m.* FROM mentee m " +
+                       "JOIN account a ON m.idMentee = a.idAccount " +
+                       "WHERE a.idAccount = ?";
 
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, idAccount);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                return mapResultSetToMentee(resultSet);
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving mentee by accountId: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private Mentee mapResultSetToMentee(ResultSet resultSet) throws Exception {
+        return new Mentee(
+                resultSet.getInt("idMentee"),
+                resultSet.getString("fullname"),
+                resultSet.getString("avatar"),
+                resultSet.getString("story"),
+                resultSet.getString("dob"),
+                resultSet.getString("phone"),
+                resultSet.getString("sex"),
+                resultSet.getString("experience"),
+                resultSet.getString("registerDate"),
+                resultSet.getString("address")
+        );
+    }
     public boolean updateAvatar(int idMentee, String avatar) {
         try {
             String strUPDATE = "UPDATE [dbo].[mentee]\n"
@@ -169,6 +203,8 @@ public class MenteeDAO extends DBContext {
         }
         return null;
     }
+    
+    
 
     public static void main(String[] args) {
         MenteeDAO cv = new MenteeDAO();
