@@ -71,7 +71,6 @@ public class Home extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null || !"Mentor".equals(account.getRole())) {
-            System.out.println("Error: User not signed in or does not have the role 'Mentee'");
             request.setAttribute("errorMess", "You do not have permission to access this page.");
             request.getRequestDispatcher("home.jsp").forward(request, response);
         } else {

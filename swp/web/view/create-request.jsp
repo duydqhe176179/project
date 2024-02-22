@@ -109,13 +109,11 @@
         <div class="container">
             <h2>Create Request</h2>
             <form action="Request?action=create" method="post">
-                <label for="mentor">Select Mentor:</label>
-                <select id="mentor" name="idMentor">
-                    <c:forEach var="mentorItem" items="${listMentor}">
-                        <option value="${mentorItem.idMentor}">${mentorItem.fullname}</option>
-                    </c:forEach>
-                </select>
-
+                <label for="mentor">Mentor:</label>
+                <span>${mentor.getFullname()}</span>
+                <input type="text" name="idMentor" value="${mentor.idMentor}" style="display: none">
+                
+                <br><br>
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" required>
 

@@ -39,13 +39,14 @@ public class RequestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        String idMentor=request.getParameter("idMentor");
+        int idMentor = Integer.parseInt(request.getParameter("idMentor"));
+        System.out.println(idMentor);
         switch (action) {
             case "list":
                 listRequests(request, response);
                 break;
             case "create":
-                showRequestForm(request, response);
+                showRequestForm(idMentor, request, response);
                 break;
             case "edit":
                 showEditForm(request, response);
@@ -82,7 +83,7 @@ public class RequestController extends HttpServlet {
         request.getRequestDispatcher("request-list.jsp").forward(request, response);
     }
 
-    private void showRequestForm(HttpServletRequest request, HttpServletResponse response)
+    private void showRequestForm(int idMentor, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         Account account = (Account) request.getSession().getAttribute("account");
@@ -90,10 +91,10 @@ public class RequestController extends HttpServlet {
             response.sendRedirect("signin");
             return;
         }
+        
         MentorDAO dao = new MentorDAO();
-        List<Mentor> mentor = dao.getListOfMentors();
-        request.setAttribute("listMentor", mentor);
-
+        Mentor m=dao.getIDMentor(idMentor);
+        request.setAttribute("mentor", m);
 
         request.getRequestDispatcher("view/create-request.jsp").forward(request, response);
     }
@@ -112,6 +113,7 @@ public class RequestController extends HttpServlet {
         try {
             // Retrieve form data
             int idMentor = Integer.parseInt(request.getParameter("idMentor"));
+            System.out.println(idMentor);
             String title = request.getParameter("title");
             String deadlineDateStr = request.getParameter("deadlineDate");
             String deadlineHourStr = request.getParameter("deadlineHour");
@@ -129,13 +131,13 @@ public class RequestController extends HttpServlet {
 
             // Create a new Request object
             Request newRequest = new Request(0, idMentee, idMentor, title, content, String.join(", ", skills), "Open", deadlineDateStr, deadlineHour);
-System.out.println(newRequest.toString());
+            System.out.println(newRequest.toString());
 
             // Save the new request to the database
             RequestDAO requestDAO1 = new RequestDAO();
             requestDAO1.createRequest(newRequest);
-            String msg= "success";
-            request.setAttribute("msg","success");
+            String msg = "success";
+            request.setAttribute("msg", "success");
             request.getRequestDispatcher("view/create-request.jsp").forward(request, response);
 //        if (result) {
 //            // Redirect to a success page
