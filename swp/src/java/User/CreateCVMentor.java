@@ -159,7 +159,7 @@ public class CreateCVMentor extends HttpServlet {
 
         request.setAttribute("mess", "Update successfully!");
 
-        response.sendRedirect("profilecv");
+        response.sendRedirect("Succesfull.jsp");
 
         
 
