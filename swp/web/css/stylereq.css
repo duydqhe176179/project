@@ -49,7 +49,7 @@ body {
 .input-box label {
   color: #333;
 }
-.form :where(input-box input, select-box) {
+.form :where(.input-box input, .select-box) {
   position: relative;
   height: 50px;
   width: 100%;
@@ -78,7 +78,7 @@ body {
   font-weight: 400;
   margin-bottom: 8px;
 }
-.form :where(gender-option, gender) {
+.form :where(.gender-option, .gender) {
   display: flex;
   align-items: center;
   column-gap: 50px;
@@ -90,13 +90,13 @@ body {
 .gender input {
   accent-color: rgb(130, 106, 251);
 }
-.form :where(gender input, gender label) {
+.form :where(.gender input, .gender label) {
   cursor: pointer;
 }
 .gender label {
   color: #707070;
 }
-.address :where(input, select-box) {
+.address :where(input, .select-box) {
   margin-top: 15px;
 }
 .select-box select {
@@ -127,7 +127,7 @@ body {
   .form .column {
     flex-wrap: wrap;
   }
-  .form :where(gender-option, gender) {
+  .form :where(.gender-option, .gender) {
     row-gap: 15px;
   }
 }

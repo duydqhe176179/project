@@ -68,7 +68,7 @@
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
-                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>
+<!--                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>-->
                                 <li class="scroll-to-section"><a href="#services">Skill</a></li>
                                 <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
                                 <li class="scroll-to-section"><a href="rate" >Rate</a></li>
@@ -137,7 +137,7 @@
                                                 <c:forEach var="o" items="${listM}" >
                                                     <tr>
                                                         <td><img src="${o.getImgSkill()}" alt="alt" style="width: 8rem"></td>
-                                                        <td>${o.getFullname()}</td>
+                                                        <td><a href="profilecv?action=view&idMentor=${o.getIdMentor()}" style="color: black">${o.getFullname()}</a></td>
                                                         <td>${o.getUser()}</td>
                                                         <td>${o.getRate()} <i class="fa-solid fa-star" style="color: #FFD43B;"></i></td>
                                                         <td>${o.getTotalRequest()}</td>
