@@ -79,25 +79,26 @@ public class MentorDAO extends DBContext {
     }
 
     public boolean updateCV(int id_Mentor, String fullname, String avatar, String phone, String dob, String sex, String address, String profession, String pro_introduc,
-            String archivement_descition, String framework, String experience, String education, String myservice, String[] idSkill) {
+            String archivement_descition, String framework, String experience, String education, String myservice, int cost, String[] idSkill) {
         try {
 
             String strUPDATE = "UPDATE [dbo].[mentor]\n"
-                    + "   SET \n"
-                    + "      [fullname] = ?,\n"
-                    + "      [avatar] = ?,\n"
-                    + "      [phone] = ?,\n"
-                    + "      [dob] = ?,\n"
-                    + "      [sex] = ?,\n"
-                    + "      [address] = ?,\n"
-                    + "      [profession] = ?,\n"
-                    + "      [pro_introduc] = ?,\n"
-                    + "      [archivement_descition] = ?,\n"
-                    + "      [framework] = ?,\n"
-                    + "      [experience] = ?,\n"
-                    + "      [education] = ?,\n"
-                    + "      [myservice] = ?\n"
-                    + " WHERE idMentor = ?;";
+                    + "SET \n"
+                    + "    [fullname] = ?,\n"
+                    + "    [avatar] = ?,\n"
+                    + "    [phone] = ?,\n"
+                    + "    [dob] = ?,\n"
+                    + "    [sex] = ?,\n"
+                    + "    [address] = ?,\n"
+                    + "    [profession] = ?,\n"
+                    + "    [pro_introduc] = ?,\n"
+                    + "    [archivement_descition] = ?,\n"
+                    + "    [framework] = ?,\n"
+                    + "    [experience] = ?,\n"
+                    + "    [education] = ?,\n"
+                    + "    [myservice] = ?,\n"
+                    + "    [cost] = ?\n"
+                    + "WHERE idMentor = ?;";
             PreparedStatement stm;
             stm = connection.prepareStatement(strUPDATE);
             stm.setString(1, fullname);
@@ -114,28 +115,11 @@ public class MentorDAO extends DBContext {
             stm.setString(11, experience);
             stm.setString(12, education);
             stm.setString(13, myservice);
-            stm.setInt(14, id_Mentor);
+            stm.setInt(14, cost);
+            stm.setInt(15, id_Mentor);
             stm.executeUpdate();
 
-            String sql2 = " UPDATE [dbo].[have_skill]\n"
-                    + "   SET \n"
-                    + "      [idSkill] = ?\n"
-                    + "      \n"
-                    + "     \n"
-                    + " WHERE idMentor=?";
-
-            PreparedStatement stm2;
-            stm2 = connection.prepareStatement(sql2);
-
-            for (String string : idSkill) {
-                int value_id = Integer.parseInt(string);
-                stm2.setInt(1, value_id);
-                stm2.setInt(2, id_Mentor);
-                stm2.executeUpdate();
-
-            }
             //stm2.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("loi, ko update dc");
             return false;
@@ -180,8 +164,9 @@ public class MentorDAO extends DBContext {
                 String education = rs.getString(14);
                 String myservice = rs.getString(15);
                 int age = period.getYears();
+                int cost = rs.getInt(17);
 
-                Mentor a = new Mentor(idMentor, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_sescition, framework, experience, education, myservice, age);
+                Mentor a = new Mentor(idMentor, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_sescition, framework, experience, education, myservice, age, cost);
                 return a;
             }
         } catch (SQLException e) {
@@ -194,7 +179,7 @@ public class MentorDAO extends DBContext {
         List<Mentor> mentors = new ArrayList();
         String query = "SELECT * FROM mentor";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try ( PreparedStatement pstmt = connection.prepareStatement(query)) {
 
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
@@ -207,7 +192,8 @@ public class MentorDAO extends DBContext {
 
         return mentors;
     }
-     private Mentor mapResultSetToMentor(ResultSet resultSet) throws Exception {
+
+    private Mentor mapResultSetToMentor(ResultSet resultSet) throws Exception {
         return new Mentor(
                 resultSet.getInt("idMentor"),
                 resultSet.getString("fullname"),
@@ -227,6 +213,7 @@ public class MentorDAO extends DBContext {
                 resultSet.getInt("stk")
         );
     }
+
     public SkillMentor skill() {
         try {
             String strSelect = "select * \n"
@@ -359,7 +346,7 @@ public class MentorDAO extends DBContext {
             return false;
         }
     }
-    
+
     public List<Mentor> listMentorBySkill(String skillName) {
         List<Mentor> mentors = new ArrayList<>();
         try {
@@ -399,7 +386,7 @@ public class MentorDAO extends DBContext {
             stm.setInt(1, idMentor);
             rs = stm.executeQuery();
             while (rs.next()) {
-                sum += rs.getInt(4);
+                sum += rs.getInt(5);
                 count++;
             }
             return (float) (sum / count);
@@ -441,7 +428,7 @@ public class MentorDAO extends DBContext {
         }
         return total;
     }
-    
+
     public List<Mentor> getMentor() {
         Connection conn = null;
         List<Mentor> listMentor1 = new ArrayList<>();
@@ -480,32 +467,55 @@ public class MentorDAO extends DBContext {
     public List<Request> ListRequestById(int idMentor) {
         List<Request> list5 = new ArrayList<>();
         Connection conn = null;
-        String query = "SELECT idRequest, idMentee, title, content, skill, status, deadline, hour " +
-                   "FROM request r JOIN account a ON r.idMentor = a.idAccount " +
-                   "WHERE a.idAccount =  ? " ;
-        
-    PreparedStatement _stm;
-    ResultSet rs;
+        String query = "SELECT idRequest, idMentee, title, content, skill, status, deadline, hour "
+                + "FROM request r JOIN account a ON r.idMentor = a.idAccount "
+                + "WHERE a.idAccount =  ? ";
+
+        PreparedStatement _stm;
+        ResultSet rs;
         try {
             conn = new DBContext().connection;
             _stm = conn.prepareStatement(query);
             _stm.setInt(1, idMentor);
             rs = _stm.executeQuery();
             while (rs.next()) {
-                int idRequest=rs.getInt(1);
-                int idMentee =rs.getInt(2);
+                int idRequest = rs.getInt(1);
+                int idMentee = rs.getInt(2);
                 String title = rs.getString(3);
                 String content = rs.getString(4);
                 String skill = rs.getString(5);
                 String status = rs.getString(6);
                 String deadline = rs.getString(7);
                 float hour = rs.getFloat(8);
-                
+
                 list5.add(new Request(idRequest, idMentee, idMentor, title, content, skill, status, deadline, hour));
             }
         } catch (Exception e) {
         }
         return list5;
+    }
+
+    public Mentor getIdMtor(int idmentor) {
+        try {
+            String strSelect = "select idMentor, fullname, avatar,dob, sex , [address]   from mentor where idMentor = ? ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, idmentor);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String dob = rs.getString(4);
+                String sex = rs.getString(5);
+                String address = rs.getString(6);
+
+                Mentor a = new Mentor(idmentor, fullname, avatar, dob, sex, address);
+                return a;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     public static void main(String[] args) {

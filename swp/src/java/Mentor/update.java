@@ -2,32 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package Mentor;
 
-import admin.AdminDAO;
+import dal.MenteeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import model.SkillMentor;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.Mentee;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
-@WebServlet(name = "addSkill", urlPatterns = {"/addSkill"})
-@MultipartConfig
-public class addSkill extends HttpServlet {
+@WebServlet(name = "update", urlPatterns = {"/update"})
+public class update extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +40,10 @@ public class addSkill extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet addSkill</title>");
+            out.println("<title>Servlet update</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet addSkill at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet update at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,7 +61,26 @@ public class addSkill extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Admin/addSkill.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        if (a == null) {
+            processRequest(request, response);
+        } else {
+
+            MenteeDAO dao = new MenteeDAO();
+
+            Account account = dao.getAccountByid(a.getId());
+            request.setAttribute("account", account);
+            Mentee mentee = dao.getallMentee(a.getId());
+//            String fileName = mentee.getAvatar(); // Default to existing avatar
+
+//            Part filePart = request.getPart("imageprofile");
+//            if (filePart != null && !filePart.getSubmittedFileName().isEmpty()) {
+//                fileName = handleFileUpload(filePart);
+//            }
+            request.setAttribute("mentee", mentee);
+            request.getRequestDispatcher("Mentee/updatePMentee.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -81,34 +94,29 @@ public class addSkill extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String title = request.getParameter("title");
-        Part filePart = request.getPart("image");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+       HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        if (a == null) {
+            processRequest(request, response);
+        } else {
 
-        // Define the folder where you want to save the file
-        String uploadPath = getServletContext().getRealPath("/img");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-        File existingFile = new File(uploadDir, fileName);
-        if (existingFile.exists()) {
-            existingFile.delete();
-        }
-        // Save the file to the folder
-        try ( InputStream fileInput = filePart.getInputStream()) {
-            Path imagePath = Paths.get(uploadDir.getAbsolutePath(), fileName);
-            Files.copy(fileInput, imagePath);
-        }
-
-        // Add the file URL to your database
-        String fileUrl = "img/" + fileName;
-        String name=request.getParameter("name");
-        String description=request.getParameter("description");
-        SkillMentor skill=new SkillMentor(title, fileUrl, name, description);
-        AdminDAO admin=new AdminDAO();
-        admin.addSkill(skill);
-        response.sendRedirect("admin");
+            MenteeDAO dao = new MenteeDAO();
+            int idMentee = a.getId();
+            String fullname = request.getParameter("fullnamem");
+            String birth = request.getParameter("birth");
+            String sex  = request.getParameter("gengers");
+            String address = request.getParameter("addresss");
+            
+            boolean result = false;
+            try {
+                result = dao.updatePMentee(idMentee, fullname, birth, sex, address);
+                System.out.println(result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            result = false;
+            }
+            response.sendRedirect("profileMentee");
+    }
     }
 
     /**

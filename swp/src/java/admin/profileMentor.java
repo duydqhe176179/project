@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package admin;
 
+import dal.MenteeDAO;
 import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,16 +15,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 import model.Account;
-import model.Request;
+import model.Mentee;
+import model.Mentor;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
-@WebServlet(name="ViewRequestMentee", urlPatterns={"/viewrequestmentee"})
-public class ViewRequestMentee extends HttpServlet {
+@WebServlet(name="profileMentor", urlPatterns={"/profileMtor"})
+public class profileMentor extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +41,10 @@ public class ViewRequestMentee extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewRequestMentee</title>");  
+            out.println("<title>Servlet profileMentor</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewRequestMentee at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet profileMentor at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,16 +61,20 @@ public class ViewRequestMentee extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        dal.ListRequest req = new dal.ListRequest();
-        MentorDAO md = new MentorDAO();
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        String userName = account.getUser();
+        Account a = (Account) session.getAttribute("account");
+        if (a == null) {
+            processRequest(request, response);
+        } else {
 
-        int idAccount = req.getIdAccountByUsername(userName);
-        List<Request> list5 = md.ListRequestById(idAccount);
-        request.setAttribute("list5", list5);
-        request.getRequestDispatcher("Mentor/ViewRequestMentee.jsp").forward(request, response);
+          MentorDAO dao = new MentorDAO();
+
+            Account account = dao.getAccountByid(a.getId());
+            request.setAttribute("account", account);
+            Mentor mentor = dao.getIdMtor(a.getId());      
+            request.setAttribute("mentor", mentor);
+            request.getRequestDispatcher("Mentor/ProfileMtor.jsp").forward(request, response);
+        }
     } 
 
     /** 

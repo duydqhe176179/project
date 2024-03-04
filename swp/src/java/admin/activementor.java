@@ -3,10 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package User;
+package admin;
 
-import dal.MentorDAO;
-import dal.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,17 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import model.Mentor;
-import model.Skill;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
-@WebServlet(name="UpdateRequest", urlPatterns={"/updatereq"})
-public class UpdateRequest extends HttpServlet {
+@WebServlet(name="activementor", urlPatterns={"/activementor"})
+public class activementor extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,10 +35,10 @@ public class UpdateRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateRequest</title>");  
+            out.println("<title>Servlet activementor</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateRequest at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet activementor at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,20 +55,16 @@ public class UpdateRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        MentorDAO dao = new MentorDAO();
-        List<Skill> list1 = dao.getSkill();
-        request.setAttribute("Skill", list1);
-        List<Mentor> listMentor1 = dao.getMentor();
-        
-        String idRequest=request.getParameter("idrequest");
-        System.out.println(idRequest);
-        request.setAttribute("idRequest", idRequest);
-        
-        request.setAttribute("MentorName", listMentor1);
-        
-        request.getRequestDispatcher("view/updatereq.jsp").forward(request, response);
-        System.out.println(list1.size());
-        
+       AdminDAO admindao = new AdminDAO();
+       int id = Integer.parseInt(request.getParameter("id"));
+       boolean success = admindao.activeMentor(id);
+       
+       if (success) {
+           System.out.println("Successfully activated/deactivated mentor with ID: " + id);
+       } else {
+           System.out.println("Failed to activate/deactivate mentor with ID: " + id);
+       }
+       request.getRequestDispatcher("admin").forward(request, response);
     } 
 
     /** 
@@ -87,20 +77,7 @@ public class UpdateRequest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String idr = request.getParameter("idRequest");
-        String title = request.getParameter("title");
-        System.out.println(idr);
-        String des = request.getParameter("sdep");
-        String dhour = request.getParameter("hour");
-        String ddate = request.getParameter("date");
-        String skill = request.getParameter("skills");
-        String mentorName = request.getParameter("mentorname");
-        int idMentor = Integer.parseInt(mentorName);
-        String status = request.getParameter("status");
-        RequestDAO rq = new RequestDAO();
-        rq.UpdateRequest(idr, title, des, dhour, ddate, skill, idMentor, status);
-        response.sendRedirect("listrequest");
-        
+        processRequest(request, response);
     }
 
     /** 

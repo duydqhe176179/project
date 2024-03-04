@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package Guest;
 
 import dal.DAO;
 import java.io.IOException;
@@ -12,14 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
  * @author trang
  */
-@WebServlet(name = "RejectRequest", urlPatterns = {"/reject"})
-public class RejectRequest extends HttpServlet {
+@WebServlet(name = "SigninServlet", urlPatterns = {"/signin"})
+public class Signin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +39,10 @@ public class RejectRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RejectRequest</title>");
+            out.println("<title>Servlet SigninServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RejectRequest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SigninServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,27 +60,7 @@ public class RejectRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO dao = new DAO();
-        String action = request.getParameter("action");
-
-        if ("reject".equals(action)) {
-            // Update the status in the database to "Reject"
-            String idRequest = request.getParameter("idRequest"); // Get the ID from the request
-
-            // Assuming updateRe returns a boolean indicating success
-            boolean updateSuccess = dao.updateRe(Integer.parseInt(idRequest), "Cancel");
-
-            if (updateSuccess) {
-                // Redirect to success page or yourOriginalPage.jsp
-                response.sendRedirect("reqmentor"); // Provide an appropriate success page
-                return; // Return to avoid further processing
-            } else {
-                // Handle update failure, redirect to an error page or log the error
-                String mess = "Ko update dc";
-                response.sendRedirect("reject?message=" + URLEncoder.encode(mess, "UTF-8"));
-                return; // Return to avoid further processing
-            }
-        }
+        request.getRequestDispatcher("Account/signin.jsp").forward(request, response);
     }
 
     /**
@@ -93,7 +74,29 @@ public class RejectRequest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Get user inputs from the login form
+        DAO d = new DAO();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        Account a = d.login(username, password);
+        HttpSession session = request.getSession();
+        // For simplicity, let's assume valid credentials are "admin" and "password"
+        if (a != null) {
+            if (a.getConfirm() == 1) {
+                // Authentication successful
+                session.setAttribute("account", a);
+//                request.getRequestDispatcher("home").forward(request, response);
+                response.sendRedirect("home");
+            } else {
+                session.setAttribute("account", a);
+                request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
+            }
+        } else {
+            // Authentication failed
+            String mess = "Username or password wrong!";
+            request.setAttribute("mess", mess);
+            request.getRequestDispatcher("Account/signin.jsp").forward(request, response);
+        }
     }
 
     /**

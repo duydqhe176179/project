@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package User;
+package Guest;
 
-import dal.MenteeDAO;
+import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +13,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import model.Account;
-import model.Mentee;
+import model.Have_SKill;
+import model.Mentor;
+import model.info;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "update", urlPatterns = {"/update"})
-public class update extends HttpServlet {
+@WebServlet(name = "Profile_cvMenter", urlPatterns = {"/profilecv"})
+public class Profile_cvMentor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +43,10 @@ public class update extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet update</title>");
+            out.println("<title>Servlet Profile_cvMenter</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet update at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Profile_cvMenter at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,26 +64,38 @@ public class update extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+      HttpSession session  = request.getSession();
         Account a = (Account) session.getAttribute("account");
-        if (a == null) {
+        if(a == null )
+        {
             processRequest(request, response);
-        } else {
-
-            MenteeDAO dao = new MenteeDAO();
-
-            Account account = dao.getAccountByid(a.getId());
-            request.setAttribute("account", account);
-            Mentee mentee = dao.getallMentee(a.getId());
-//            String fileName = mentee.getAvatar(); // Default to existing avatar
-
-//            Part filePart = request.getPart("imageprofile");
-//            if (filePart != null && !filePart.getSubmittedFileName().isEmpty()) {
-//                fileName = handleFileUpload(filePart);
-//            }
-            request.setAttribute("mentee", mentee);
-            request.getRequestDispatcher("Mentee/updatePMentee.jsp").forward(request, response);
+        }else
+        {
+          
+        MentorDAO dao = new MentorDAO();
+        Mentor list  = dao.getIDMentor(a.getId());
+        request.setAttribute("cv", list);
+            System.out.println(list);
+        List<Have_SKill> hskill = dao.getidhaveskill(a.getId());
+        System.out.println(hskill);
+        request.setAttribute("cf", hskill);
+        
+       info info = dao.getIdinfo(a.getId());
+        request.setAttribute("cs", info);
+        Account account = dao.getAccountByid(a.getId());
+        request.setAttribute("cx", account);
+        
+         request.getRequestDispatcher("Mentor/profileMentor.jsp").forward(request, response);
         }
+       
+        
+//        Account a = (Account) session.getAttribute("account");
+//        if (a == null) {
+//            processRequest(request, response);
+//        } else {
+//
+//
+//        }
     }
 
     /**
@@ -94,29 +109,7 @@ public class update extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       HttpSession session = request.getSession();
-        Account a = (Account) session.getAttribute("account");
-        if (a == null) {
-            processRequest(request, response);
-        } else {
-
-            MenteeDAO dao = new MenteeDAO();
-            int idMentee = a.getId();
-            String fullname = request.getParameter("fullnamem");
-            String birth = request.getParameter("birth");
-            String sex  = request.getParameter("gengers");
-            String address = request.getParameter("addresss");
-            
-            boolean result = false;
-            try {
-                result = dao.updatePMentee(idMentee, fullname, birth, sex, address);
-                System.out.println(result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            result = false;
-            }
-            response.sendRedirect("profileMentee");
-    }
+        processRequest(request, response);
     }
 
     /**

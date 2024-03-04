@@ -121,11 +121,11 @@
                         </div>-->
                     </div>
 
-
-                    <div class="gradient-button">
-                        <a  href="Request?action=create&idMentor=${cv.getIdMentor()}">Create Request</a>
-                    </div>
-
+                    <c:if test="${action eq 'request'}">
+                        <div class="gradient-button">
+                            <a  href="Request?action=create&idMentor=${cv.getIdMentor()}">Create Request</a>
+                        </div>
+                    </c:if>
                 </section>
                 <section id="about" class="about view">
                     <article class="about-aboutMe">
@@ -145,6 +145,9 @@
 
                                 <div>
                                     <span>ADDRESS : </span>${cv.address}
+                                </div>
+                                <div>
+                                    <span>$/1h : </span>${cv.cost}VNĐ
                                 </div>
                             </div>
                         </div>

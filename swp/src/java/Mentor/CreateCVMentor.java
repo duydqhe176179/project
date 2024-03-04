@@ -132,6 +132,7 @@ public class CreateCVMentor extends HttpServlet {
         String education = request.getParameter("education");
         String myservice = request.getParameter("service");
         String[] idSkill = request.getParameterValues("skills");
+        int cost = Integer.parseInt(request.getParameter("cost"));
         //dao.deleteMentor(idMentor);
 
 //        for (String selectedSkill : idSkill) {
@@ -146,11 +147,11 @@ public class CreateCVMentor extends HttpServlet {
             // Assuming you want to add a default skill if no skills are selected
          dao.deleteMentorbyhaveskill(idMentor);
         }
-
+        System.out.println("experiwence" + experience);
         // Process the selected skills
         boolean result = false;
         try {
-            result = dao.updateCV(idMentor, fullname, fileName, phone, dob, sex, address, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, idSkill);
+            result = dao.updateCV(idMentor, fullname, fileName, phone, dob, sex, address, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, cost, idSkill);
             System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,7 +160,7 @@ public class CreateCVMentor extends HttpServlet {
 
         request.setAttribute("mess", "Update successfully!");
 
-        response.sendRedirect("Succesfull.jsp");
+        response.sendRedirect("profilecv");
 
         
 

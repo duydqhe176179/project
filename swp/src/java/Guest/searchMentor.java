@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package User;
+package Guest;
 
+import admin.AdminDAO;
+import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,19 +13,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import model.Account;
-import model.Request;
+import model.Mentor;
 
 /**
  *
- * @author ADMIN
+ * @author Admin
  */
-@WebServlet(name = "StatisticRequest", urlPatterns = {"/statisticreq"})
-public class StatisticRequest extends HttpServlet {
+@WebServlet(name = "searchMentor", urlPatterns = {"/searchMentor"})
+public class searchMentor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +41,10 @@ public class StatisticRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StatisticRequest</title>");
+            out.println("<title>Servlet searchMentor</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StatisticRequest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet searchMentor at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,49 +62,8 @@ public class StatisticRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        dal.ListRequest req = new dal.ListRequest();
-        HttpSession session = request.getSession();
-//        String rquest_id = request.getParameter("idRequest");
-//        String update_id = request.getParameter("idU");
-        //  String username = request.getParameter("username");
-//        session.getAttribute("username");
-
-//        String userName = (String) session.getAttribute("username");
-//        request.setAttribute("msg", userName);
-        //cach 2:
-        Account account = (Account) session.getAttribute("account");
-        String userName = account.getUser();
-        dal.StatisticRequest sr = new dal.StatisticRequest();
-
-        int idAccount = req.getIdAccountByUsername(userName);
-//        request.setAttribute("msg", userName);
-        List<Request> listRequest1 = req.ListRequestById(idAccount);
-        request.setAttribute("listReq", listRequest1);
-        
-
-        // Calculate totals
-        int totalRequests = sr.getTotalRequests(listRequest1);
-        float totalHours = sr.getTotalHours(listRequest1);
-        Map<Integer, Integer> mentorCounts = sr.getTotalMentors(listRequest1);
-
-        // Get mentor names
-        
-        Map<Integer, String> mentorNames = new HashMap<>();
-        for (Map.Entry<Integer, Integer> entry : mentorCounts.entrySet()) {
-            int idMentor = entry.getKey();
-            String mentorName = sr.getMentorNameById(idMentor);
-            mentorNames.put(idMentor, mentorName);
-        }
-
-        // Set attributes for JSP page
-        request.setAttribute("listReq", listRequest1);
-        request.setAttribute("totalRequests", totalRequests);
-        request.setAttribute("totalHours", totalHours);
-        request.setAttribute("mentorCounts", mentorCounts);
-        request.setAttribute("mentorNames", mentorNames);
-
-        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
-        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
+//        response.sendRedirect("suggestMentor.jsp");
+        request.getRequestDispatcher("suggestMentor.jsp").forward(request, response);
     }
 
     /**
@@ -119,7 +77,26 @@ public class StatisticRequest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        MentorDAO dao = new MentorDAO();
+        AdminDAO admin=new AdminDAO();
+        List<Mentor> list = new ArrayList<>();
+        List<Mentor> listM = new ArrayList<>();
+        String search = request.getParameter("searchBySkill");
+        list = dao.listMentorBySkill(search);
+
+        float rate;
+        int totalRequest, totalInvite;
+        for (Mentor m : list) {
+            rate = (float) (Math.round(dao.getRate(m.getIdMentor()) * 10.0) / 10.0);
+            totalRequest = dao.totalRequest(m.getIdMentor());
+            totalInvite = dao.totalInvite(m.getIdMentor());
+            String img=admin.getSkillById(m.getIdSkill()).getImage();
+            System.out.println(img);
+            listM.add(new Mentor(m.getIdMentor(), m.getFullname(), rate, m.getUser(), totalRequest, totalInvite, m.getIdSkill(), m.getSkillName(),img));
+        }
+        request.setAttribute("listM", listM);
+//        response.sendRedirect("suggestMentor.jsp");
+        request.getRequestDispatcher("suggestMentor.jsp").forward(request, response);
     }
 
     /**

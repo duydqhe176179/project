@@ -11,8 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import model.AListMentor;
 import model.Account;
 import model.Adshowreq;
+import model.Mentor;
 import model.ReDetail;
 
 import model.SkillMentor;
@@ -26,6 +28,278 @@ public class AdminDAO extends DBContext {
     PreparedStatement stm;
     ResultSet rs;
     List<SkillMentor> listSkill = new ArrayList<>();
+    List<AListMentor> lis = new ArrayList<>();
+    List<Mentor> liss = new ArrayList<>();
+
+    public List<AListMentor> getListByPage(List<AListMentor> list, int start, int end) {
+        ArrayList<AListMentor> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
+    public List<Mentor> listMentorByadmin(String searchMentor) {
+        List<Mentor> mentors = new ArrayList<>();
+        try {
+            String sql = "SELECT m.idMentor, fullname, username, m.profession\n"
+                    + "                   FROM dbo.account a\n"
+                    + "                   JOIN dbo.mentor m ON m.idMentor = a.idAccount            \n"
+                    + "                    WHERE a.username like ? or m.fullname like ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + searchMentor + "%");
+            stm.setString(2, "%" + searchMentor + "%");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String FullName = rs.getString(2);
+                String accountname = rs.getString(3);
+                String profession = rs.getString(4);
+
+                mentors.add(new Mentor(id, FullName, accountname, profession));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("loi ham listMentorBySkill");
+        }
+        return mentors;
+    }
+
+    public Account getAccountByid(int idAccount) {
+        try {
+            String strSelect = "SELECT * FROM dbo.account WHERE idAccount = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, idAccount);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String user = rs.getString(2);
+                String email = rs.getString(3);
+                String pass = rs.getString(4);
+                String role = rs.getString(5);
+                int confirm = rs.getInt(6);
+                int active = rs.getInt(7);
+                Account a = new Account(id, user, email, pass, role, confirm, active);
+                return a;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public boolean activeMentortt(int id, boolean active) {
+        AdminDAO admindao = new AdminDAO();
+        Account s = admindao.getAccountByid(id);
+        try {
+            String strUPDATE = "UPDATE dbo.account\n"
+                    + "SET Active = ?\n"
+                    + "WHERE idAccount = ?";
+            stm = connection.prepareStatement(strUPDATE);
+
+            stm.setBoolean(1, active); // Đây là nơi phát sinh lỗi
+            stm.setInt(2, id);
+
+            int rowsAffected = stm.executeUpdate();
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println("Error: Unable to update the status.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Mentor> getlistallMentor() {
+        try {
+            String strSelect = "select * from Mentor \n";
+
+            stm = connection.prepareStatement(strSelect);
+
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int idMentor = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String phone = rs.getString(4);
+                String dob = rs.getString(5);
+                String sex = rs.getString(6);
+                String address = rs.getString(7);
+                String registerDate = rs.getString(8);
+                String profession = rs.getString(9);
+                String pro_introduc = rs.getString(10);
+                String archivement_sescition = rs.getString(11);
+                String framework = rs.getString(12);
+                String experience = rs.getString(13);
+                String education = rs.getString(14);
+                String myservice = rs.getString(15);
+
+                Mentor a = new Mentor(idMentor, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_sescition, framework, experience, education, myservice);
+                liss.add(a);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return liss;
+    }
+
+    public boolean activeMentor(int id) {
+        AdminDAO admindao = new AdminDAO();
+        Account s = admindao.getAccountByid(id);
+        try {
+            String strUPDATE = "UPDATE dbo.account\n"
+                    + "SET Active = ?\n"
+                    + "WHERE idAccount = ?";
+            stm = connection.prepareStatement(strUPDATE);
+            int Active;
+            if (s.getActive() == 0) {
+                Active = 1;
+            } else {
+                Active = 0;
+            }
+
+            stm.setInt(1, Active);
+            stm.setInt(2, id);
+
+            int rowsAffected = stm.executeUpdate();
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println("Error: Unable to update the status.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public float getRate(int idMentor) {
+        float sum = 0;
+        int count = 0;
+        try {
+            String sql = "SELECT * FROM dbo.rate \n"
+                    + "WHERE idMentor=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                sum += rs.getInt(5);
+                count++;
+            }
+            // Kiểm tra count trước khi tính toán rate
+            if (count == 0) {
+                return 0; // Trả về 0 nếu count bằng 0
+            } else {
+                return (float) (sum / count); // Trả về rate nếu count lớn hơn 0
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int countAcceptedRequests(int idMentor) {
+        int count = 0;
+        try {
+            String sql = "SELECT COUNT(*) FROM dbo.request WHERE idMentor = ? AND status IN ('Learning', 'Completed', 'Closed')";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return count;
+    }
+
+    public float calculateCompletedPercentage(int idMentor) {
+        int totalAccepted = countAcceptedRequests(idMentor);
+        if (totalAccepted == 0) {
+            return 0; // Avoid division by zero
+        }
+        int closedRequests = 0;
+        try {
+            String sql = "SELECT COUNT(*) FROM dbo.request WHERE idMentor = ? AND status = 'Closed'";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                closedRequests = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return (float) (closedRequests * 100.0 / totalAccepted);
+    }
+
+    public List<AListMentor> listAllMen() {
+        try {
+            String sql = "SELECT\n"
+                    + "    m.idMentor,\n"
+                    + "    m.fullname,\n"
+                    + "    a.username,\n"
+                    + "    m.profession ,\n"
+                    + "    NumAcceptedRequests,\n"
+                    + "    FORMAT(COALESCE(ClosedRequests, 0) * 100.0 / NumAcceptedRequests, '0.00'),\n"
+                    + "    FORMAT(COALESCE(AVG(CAST(r.star AS FLOAT)), 0), '0.00') as rate,\n"
+                    + "	a.active\n"
+                    + "FROM\n"
+                    + "    dbo.mentor m\n"
+                    + "JOIN\n"
+                    + "    dbo.account a ON m.idMentor = a.idAccount\n"
+                    + "LEFT JOIN\n"
+                    + "    (SELECT\n"
+                    + "         idMentor,\n"
+                    + "         COUNT(*) AS NumAcceptedRequests\n"
+                    + "     FROM\n"
+                    + "         dbo.request\n"
+                    + "     WHERE\n"
+                    + "         status IN ('Learning', 'Completed', 'Closed')\n"
+                    + "     GROUP BY\n"
+                    + "         idMentor) AS Accepted ON m.idMentor = Accepted.idMentor\n"
+                    + "LEFT JOIN\n"
+                    + "    (SELECT\n"
+                    + "         idMentor,\n"
+                    + "         COUNT(*) AS ClosedRequests\n"
+                    + "     FROM\n"
+                    + "         dbo.request\n"
+                    + "     WHERE\n"
+                    + "         status = 'Closed'\n"
+                    + "     GROUP BY\n"
+                    + "         idMentor) AS Closed ON m.idMentor = Closed.idMentor\n"
+                    + "LEFT JOIN\n"
+                    + "    dbo.rate r ON m.idMentor = r.idMentor\n"
+                    + "GROUP BY\n"
+                    + "    m.idMentor, m.fullname, a.username, m.profession, Accepted.NumAcceptedRequests, Closed.ClosedRequests,a.active;";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String FullName = rs.getString(2);
+                String accountname = rs.getString(3);
+                String Profession = rs.getString(4);
+                int acceptrequest;
+                acceptrequest = rs.getInt(5);
+                float percentcompleted;
+                percentcompleted = rs.getFloat(6);
+                float rate;
+                rate = rs.getFloat(7);
+                int active = rs.getInt(8);
+                AListMentor s = new AListMentor(id, FullName, accountname, Profession, acceptrequest, percentcompleted, rate, active);
+                lis.add(s);
+            }
+        } catch (Exception e) {;
+            System.out.println("ko lay dc list skill");
+        }
+        return lis;
+
+    }
 
     public List<SkillMentor> listAllSkill() {
         try {

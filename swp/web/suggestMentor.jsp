@@ -42,70 +42,7 @@
 
     <body>
 
-        <!-- ***** Preloader Start ***** -->
-        <div id="js-preloader" class="js-preloader">
-            <div class="preloader-inner">
-                <span class="dot"></span>
-                <div class="dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-        <!-- ***** Preloader End ***** -->
-
-        <!-- ***** Header Area Start ***** -->
-        <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <nav class="main-nav">
-                            <!-- ***** Logo Start ***** -->
-                            <a href="home" class="logo">
-                                <img src="assets/images/logo.png" alt="Chain App Dev">
-                            </a>
-                            <!-- ***** Logo End ***** -->
-                            <!-- ***** Menu Start ***** -->
-                            <ul class="nav">
-<!--                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>-->
-                                <li class="scroll-to-section"><a href="#services">Skill</a></li>
-                                <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
-                                <li class="scroll-to-section"><a href="rate" >Rate</a></li>
-                                <li class="scroll-to-section"><a href="view" >View Request</a></li>
-                                <li class="scroll-to-section"><a href="listrequest" >List all request</a></li>
-                                <!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                                                                <li class="scroll-to-section"><a href="#services">Services</a></li>
-                                                                <li class="scroll-to-section"><a href="#about">About</a></li>
-                                                                <li class="scroll-to-section"><a href="#pricing">Pricing</a></li>
-                                                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>-->
-                                <c:if test="${account eq null}">
-                                    <li>
-                                        <div class="gradient-button">
-                                            <a  href="signin"><i class="fa fa-sign-in-alt"></i> Sign In Now</a>
-                                            <a href="signup" >Sign up</a>
-                                        </div>
-                                    </li> 
-
-                                </c:if>
-                                <c:if test="${account ne null}">
-                                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logoutUser"><i class="fa-solid fa-right-from-bracket"></i></a>
-                                    <input type="text" value="${account.user}" name="user" style="display: none">
-                                    <a href="changePass">changePass</a>
-                                </c:if>
-                            </ul>        
-                            <a class='menu-trigger'>
-                                <span>Menu</span>
-                            </a>
-                            <!-- ***** Menu End ***** -->
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- ***** Header Area End ***** -->
-
-
+        <jsp:include page="header.jsp"></jsp:include>
 
         <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
             <div class="container">
@@ -248,11 +185,15 @@
 
         <!-- Scripts -->
         <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/owl-carousel.js"></script>
-        <script src="assets/js/animation.js"></script>
-        <script src="assets/js/imagesloaded.js"></script>
-        <script src="assets/js/popup.js"></script>
-        <script src="assets/js/custom.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="assets/js/owl-carousel.js"></script>
+            <script src="assets/js/animation.js"></script>
+            <script src="assets/js/imagesloaded.js"></script>
+            <script src="assets/js/popup.js"></script>
+            <script src="assets/js/custom.js"></script>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </body>
 </html>
