@@ -81,6 +81,7 @@
                                 <li class="scroll-to-section"><a href="reqmentor" >View Request</a></li>
                                 <li class="scroll-to-section"><a href="listrequest" >List Request</a></li>
                                 <li class="scroll-to-section"><a href="viewrequestmentee" >View invitingRequest</a></li>
+                                <li class="scroll-to-section"><a href="blog" >Blog</a></li>
                                 <!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                                                 <li class="scroll-to-section"><a href="#services">Services</a></li>
                                                                 <li class="scroll-to-section"><a href="#about">About</a></li>
