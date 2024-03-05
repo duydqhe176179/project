@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
 import model.Mentor;
+import model.News;
 import model.Rate;
 
 import model.Request;
@@ -225,29 +226,44 @@ public class DAO extends DBContext {
         }
     }
 
-    public List<Request> getAllRequesttbyID(int idMentor) {
-        List<Request> list = new ArrayList<>();  // Initialize a new list
+    public List<Request> getAllRequestsByID(int idMentor) {
+        List<Request> list = new ArrayList<>();  // Khởi tạo một danh sách mới
 
-        String sql = "select * from request\n"
-                + "         where idMentor = ?";
+        String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour\n"
+                + "FROM request r\n"
+                + "JOIN mentee m ON r.idMentee = m.idMentee\n"
+                + "WHERE r.idMentor = ?";
+
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, idMentor);
             rs = stm.executeQuery();
+
             while (rs.next()) {
                 Request objE = new Request(
                         rs.getInt(1), rs.getInt(2), rs.getInt(3),
                         rs.getString(4), rs.getString(5), rs.getString(6),
-                        rs.getString(7), rs.getString(8),
-                        rs.getString(9), rs.getFloat(10)
+                        rs.getString(7), rs.getString(8), rs.getString(9),
+                        rs.getString(10), rs.getFloat(11)
                 );
-                if (!objE.getStatus().equals("Cancel") && !objE.getStatus().equals("Close") && !objE.getStatus().equals("Processing")) {
-                    list.add(objE);
-                }
+                list.add(objE);
+
             }
         } catch (SQLException e) {
             System.out.println("Error when selecting");
-            // Handle the exception properly, logging or rethrowing if needed
+            // Xử lý ngoại lệ một cách đúng đắn, ghi log hoặc ném lại nếu cần thiết
+        } finally {
+            // Đảm bảo đóng các tài nguyên, ví dụ: PreparedStatement, ResultSet
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error when closing resources");
+            }
         }
         return list;
     }
@@ -268,6 +284,96 @@ public class DAO extends DBContext {
             return false;
         }
     }
+
+    // Update reject
+    public boolean updateReason(int idRequest, String status, String newReasonReject) {
+        try {
+            // Câu lệnh SQL để cập nhật lý do từ chối và trạng thái
+            String sql = "UPDATE request SET reasonReject = ?, status = ? WHERE idRequest = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, newReasonReject);
+            stm.setString(2, status);
+            stm.setInt(3, idRequest);
+
+            // Thực hiện câu lệnh SQL
+            int rowsAffected = stm.executeUpdate();
+
+            // Trả về true nếu có ít nhất một hàng được cập nhật
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ một cách phù hợp, ghi log hoặc ném một ngoại lệ tùy chỉnh
+            return false;
+        } finally {
+            // Đóng statement sau khi sử dụng
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+//
+    public List<News> get3news() {
+        List<News> listnews = new ArrayList<>();
+        try {
+            String strSelect = "SELECT TOP 1 * FROM news;";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                News i = new News(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+
+                listnews.add(i);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listnews;
+    }
+
+    public List<News> getlastnews() {
+        List<News> listnews = new ArrayList<>();
+        try {
+            String strSelect = "SELECT TOP 1 *\n"
+                    + "FROM news\n"
+                    + "ORDER BY newsid DESC;";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                News i = new News(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+
+                listnews.add(i);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listnews;
+    }
+
+    //
+    public List<News> getsecondnews() {
+        List<News> listnews = new ArrayList<>();
+        try {
+            String strSelect = "SELECT *\n"
+                    + "FROM news\n"
+                    + "ORDER BY newsID\n"
+                    + "OFFSET 1 ROW\n"
+                    + "FETCH NEXT 1 ROW ONLY;";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                News i = new News(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+
+                listnews.add(i);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listnews;
+    }
+//
     List<Mentor> listm = new ArrayList<>();
 
     public List<Mentor> getAllMentor() {
@@ -316,6 +422,50 @@ public class DAO extends DBContext {
             return false;
         }
     }
+// LIST NEWS
+    List<News> listnews = new ArrayList<>();
+
+    public List<News> getAllnews() {
+        try {
+            String strSelect = "select * from news";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                News i = new News(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+
+                listnews.add(i);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listnews;
+    }
+
+    // list news id
+    public News getNewsById(int id) {
+        try {
+            String sql = "SELECT * FROM news WHERE newsid = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                String title = rs.getString(2);
+                String content = rs.getString(3);
+                String ImageURL = rs.getString(4);
+                String PostDate = rs.getString(5);
+                int eventday = rs.getInt(6);
+                String Monthdate = rs.getString(7);
+                int Yeardate = rs.getInt(8);
+                String Summary = rs.getString(9);
+                News s = new News(id, title, content, ImageURL, PostDate, eventday, Monthdate, Yeardate, Summary);
+
+                return s;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     public List<Skill> ListAllSkill() {
         Connection conn = null;
@@ -355,6 +505,6 @@ public class DAO extends DBContext {
     public static void main(String[] args) {
         DAO dao = new DAO();
 
-        System.out.println(dao.getAllRequesttbyID(1));
+        System.out.println(dao.getsecondnews());
     }
 }

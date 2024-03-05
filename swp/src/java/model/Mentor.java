@@ -8,7 +8,7 @@ package model;
  *
  * @author admin
  */
- public class Mentor {
+public class Mentor {
 
     public int idMentor;
     String fullname;
@@ -27,35 +27,7 @@ package model;
     String education;
     String myservice;
     int age;
-   int cost;
 
-    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, int age, int cost) {
-        this.idMentor = idMentor;
-        this.fullname = fullname;
-        this.avatar = avatar;
-        this.phone = phone;
-        this.dob = dob;
-        this.sex = sex;
-        this.address = address;
-        this.registerDate = registerDate;
-        this.profession = profession;
-        this.pro_introduc = pro_introduc;
-        this.archivement_sescition = archivement_sescition;
-        this.framework = framework;
-        this.experience = experience;
-        this.education = education;
-        this.myservice = myservice;
-        this.age = age;
-        this.cost = cost;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
     //
     float rate;
     String user;
@@ -65,42 +37,8 @@ package model;
     String skillName;
     String imgSkill;
     //
-    String account;
 
     public Mentor() {
-    }
-
-    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice) {
-        this.idMentor = idMentor;
-        this.fullname = fullname;
-        this.avatar = avatar;
-        this.phone = phone;
-        this.dob = dob;
-        this.sex = sex;
-        this.address = address;
-        this.registerDate = registerDate;
-        this.profession = profession;
-        this.pro_introduc = pro_introduc;
-        this.archivement_sescition = archivement_sescition;
-        this.framework = framework;
-        this.experience = experience;
-        this.education = education;
-        this.myservice = myservice;
-    }
-
-    public Mentor(int idMentor, String fullname, String account, String profession) {
-        this.idMentor = idMentor;
-        this.fullname = fullname;
-        this.account = account;
-         this.profession = profession;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 
     public int getAge() {
@@ -131,15 +69,6 @@ package model;
         this.imgSkill = imgSkill;
     }
 
-    public Mentor(int idMentor, String fullname, String avatar, String dob, String sex, String address) {
-        this.idMentor = idMentor;
-        this.fullname = fullname;
-        this.avatar = avatar;
-        this.dob = dob;
-        this.sex = sex;
-        this.address = address;
-    }
-
     public Mentor(int idMentor, String fullname, String user, int idSkill, String skillName) {
         this.idMentor = idMentor;
         this.fullname = fullname;
@@ -150,10 +79,9 @@ package model;
 
     @Override
     public String toString() {
-        return "Mentor{" + "idMentor=" + idMentor + ", fullname=" + fullname + ", cost=" + cost +", age=" + age + ", rate=" + rate + ", user=" + user + ", totalRequest=" + totalRequest + ", invite=" + invite + ", idSkill=" + idSkill + ", skillName=" + skillName + '}';
+        return "Mentor{" + "idMentor=" + idMentor + ", fullname=" + fullname + ", age=" + age + ", rate=" + rate + ", user=" + user + ", totalRequest=" + totalRequest + ", invite=" + invite + ", idSkill=" + idSkill + ", skillName=" + skillName + '}';
     }
 
-    
     public Mentor(int idMentor, String fullname) {
         this.idMentor = idMentor;
         this.fullname = fullname;

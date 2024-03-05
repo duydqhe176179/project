@@ -11,12 +11,14 @@ package model;
 public class ReDetail {
 
     int idMentee, idRequest;
-    String username, fullname, dob, phone, sex, avatar, address, title, content, status, skill;
+    String username, fullname, dob, phone, sex, avatar, address, title, content, status, skill,startdate, deadline;
+    float hour;
+    String reasonreject;
 
     public ReDetail() {
     }
 
-    public ReDetail(int idMentee, int idRequest, String username, String fullname, String dob, String phone, String sex, String avatar, String address, String title, String content, String status, String skill) {
+    public ReDetail(int idMentee, int idRequest, String username, String fullname, String dob, String phone, String sex, String avatar, String address, String title, String content, String status, String skill, String startdate, String deadline, float hour, String reasonreject) {
         this.idMentee = idMentee;
         this.idRequest = idRequest;
         this.username = username;
@@ -30,7 +32,45 @@ public class ReDetail {
         this.content = content;
         this.status = status;
         this.skill = skill;
+        this.startdate = startdate;
+        this.deadline = deadline;
+        this.hour = hour;
+        this.reasonreject = reasonreject;
     }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public float getHour() {
+        return hour;
+    }
+
+    public void setHour(float hour) {
+        this.hour = hour;
+    }
+
+    public String getReasonreject() {
+        return reasonreject;
+    }
+
+    public void setReasonreject(String reasonreject) {
+        this.reasonreject = reasonreject;
+    }
+
+   
 
     public int getIdMentee() {
         return idMentee;
@@ -138,7 +178,9 @@ public class ReDetail {
 
     @Override
     public String toString() {
-        return "DetailRequest{" + "idMentee=" + idMentee + ", idRequest=" + idRequest + ", username=" + username + ", fullname=" + fullname + ", dob=" + dob + ", phone=" + phone + ", sex=" + sex + ", avatar=" + avatar + ", address=" + address + ", title=" + title + ", content=" + content + ", status=" + status + ", skill=" + skill + '}';
+        return "ReDetail{" + "idMentee=" + idMentee + ", idRequest=" + idRequest + ", username=" + username + ", fullname=" + fullname + ", dob=" + dob + ", phone=" + phone + ", sex=" + sex + ", avatar=" + avatar + ", address=" + address + ", title=" + title + ", content=" + content + ", status=" + status + ", skill=" + skill + ", startdate=" + startdate + ", deadline=" + deadline + ", hour=" + hour + ", reasonreject=" + reasonreject + '}';
     }
+
+   
 
 }

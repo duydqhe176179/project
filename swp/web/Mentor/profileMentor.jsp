@@ -20,7 +20,7 @@
         <!--        <link rel="stylesheet"  type="text/css" href="../css/style_2.css"/>-->
         <link rel="shortcut icon" href="./favicon.ico">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_2.css"/>
-        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
@@ -52,26 +52,6 @@
                 height: 200%;
 
             }
-            section {
-                position: relative;
-                width: 100%; /* hoặc bất kỳ chiều rộng nào bạn muốn */
-                height: 300px; /* hoặc bất kỳ chiều cao nào bạn muốn */
-            }
-
-            .gradient-button {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                margin: 10px; /* tạo khoảng cách giữa nút và cạnh phải, dưới cùng của section */
-            }
-
-            .gradient-button a {
-                display: inline-block;
-                padding: 10px 20px;
-                background: linear-gradient(to right, #00C4FE, #3145BA);
-                text-decoration: none;
-                border-radius: 5px;
-            }
         </style>
     </head>
     <body>
@@ -97,7 +77,7 @@
                         <span class="fa-solid fa-pen-nib"></span>
                         <span class="link">Update</span>
                     </a>
-
+                    
                     <a href="home.jsp">
                         <span class="fa-thin fa-house"></span>
                         <span class="link">Home</span>
@@ -118,14 +98,9 @@
                                                     <a href="www.instagram.com" class="fa-brands fa-instagram"></a>
                                                     <a href="www.twitter.com" class="fa-brands fa-twitter"></a>
                         
-                        </div>-->
+                                                </div>-->
                     </div>
 
-                    <c:if test="${action eq 'request'}">
-                        <div class="gradient-button">
-                            <a  href="Request?action=create&idMentor=${cv.getIdMentor()}">Create Request</a>
-                        </div>
-                    </c:if>
                 </section>
                 <section id="about" class="about view">
                     <article class="about-aboutMe">
@@ -145,9 +120,6 @@
 
                                 <div>
                                     <span>ADDRESS : </span>${cv.address}
-                                </div>
-                                <div>
-                                    <span>$/1h : </span>${cv.cost}VNĐ
                                 </div>
                             </div>
                         </div>

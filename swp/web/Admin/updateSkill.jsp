@@ -25,7 +25,7 @@
                         <div class="card" style="border-radius: 15px;">
                             <h1 class="mb-4" style="text-align: center; margin-top: 20px">UPDATE SKILL</h1>
                             <div class="card-body">
-                                <input type="text" name="id" value="${skill.getId()}" style="display: none">
+                                <input type="text" name="id" value="${skill.getId()}" style="display: none;">
                                 <div class="row align-items-center pt-4 pb-3">
                                     <div class="col-md-3 ps-5">             
                                     </div>

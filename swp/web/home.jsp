@@ -22,7 +22,7 @@
         <title>Chain App Dev - App Landing Page HTML5 Template</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
         <!--
         
@@ -38,47 +38,169 @@
         <link rel="stylesheet" href="assets/css/animated.css">
         <link rel="stylesheet" href="assets/css/owl.css">
         <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
+       
+
     </head>
 
     <body>
 
-        
-        
-        <jsp:include page="header.jsp"></jsp:include>
+        <!-- ***** Preloader Start ***** -->
+        <div id="js-preloader" class="js-preloader">
+            <div class="preloader-inner">
+                <span class="dot"></span>
+                <div class="dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <!-- ***** Preloader End ***** -->
 
-        <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+        <!-- ***** Header Area Start ***** -->
+        <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-6 align-self-center">
-                                <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h2>Get The Latest App From App Stores</h2>
-                                            <p>Chain App Dev is an app landing page HTML5 template based on Bootstrap v5.1.3 CSS layout provided by TemplateMo, a great website to download free CSS templates.</p>
+                    <div class="col-12">
+                        <nav class="main-nav">
+                            <!-- ***** Logo Start ***** -->
+                            <a href="home" class="logo">
+                                <img src="assets/images/logo.png" alt="Chain App Dev">
+                            </a>
+                            <!-- ***** Logo End ***** -->
+                            <!-- ***** Menu Start ***** -->
+                            <ul class="nav">
+                                <li class="scroll-to-section"><a href="profileMentee" >ProfileMentee</a></li>
+                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>
+                                <li class="scroll-to-section"><a href="statisticreq">Statistic Request</a></li>
+                                <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
+                                <li class="scroll-to-section"><a href="news" >NEWS</a></li>
+                                <li class="scroll-to-section"><a href="rate" >Rate</a></li>
+                                <li class="scroll-to-section"><a href="Request?action=create" >Create Request</a></li>
+                                <li class="scroll-to-section"><a href="#" data-toggle="modal" data-target="#statisticsModal">View Statistic</a></li>
+                                <li class="scroll-to-section"><a href="reqmentor" >View Request</a></li>
+                                <li class="scroll-to-section"><a href="listrequest" >List Request</a></li>
+                                <li class="scroll-to-section"><a href="viewrequestmentee" >View invitingRequest</a></li>
+                                <!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                                                                <li class="scroll-to-section"><a href="#services">Services</a></li>
+                                                                <li class="scroll-to-section"><a href="#about">About</a></li>
+                                                                <li class="scroll-to-section"><a href="#pricing">Pricing</a></li>
+                                                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>-->
+                                <c:if test="${account eq null}">
+                                    <li>
+                                        <div class="gradient-button">
+                                            <a  href="signin"><i class="fa fa-sign-in-alt"></i> Sign In Now</a>
+                                            <a href="signup" >Sign up</a>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <div class="white-button first-button scroll-to-section">
-                                                <a href="#contact">Free Quote <i class="fab fa-apple"></i></a>
+                                    </li> 
+
+                                </c:if>
+                                <c:if test="${account ne null}">
+                                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href="logoutUser"><i class="fa-solid fa-right-from-bracket"></i></a>
+                                    <input type="text" value="${account.user}" name="user" style="display: none">
+                                    <a href="changePass">changePass</a>
+                                </c:if>
+                            </ul>        
+                            <a class='menu-trigger'>
+                                <span>Menu</span>
+                            </a>
+                            <!-- ***** Menu End ***** -->
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- ***** Header Area End ***** -->
+
+        <div class="main-banner-container">
+            <div class="main-banner" id="slide-1">
+                <div class="container">
+                    <div class="row">
+                        <c:forEach var="n" items="${listnews}">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 align-self-center">
+                                        <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h2>${n.getTitle()}</h2>
+                                                    <h5>${n.getSummary()}</h5>
+                                                </div>
+
                                             </div>
-                                            <div class="white-button scroll-to-section">
-                                                <a href="#contact">Free Quote <i class="fab fa-google-play"></i></a>
-                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                                            <img style="width: 446px; height:268px; "  src="${n.getImageURL()}" alt="">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                                    <img src="assets/images/slider-dec.png" alt="">
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>>
                     </div>
                 </div>
             </div>
+            <div class="main-banner" id="slide-2" style="display: none;">
+                <div class="container">
+                    <div class="row">
+                        <c:forEach var="n" items="${listsecond}">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 align-self-center">
+                                        <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h2>${n.getTitle()}</h2>
+                                                    <h5>${n.getSummary()}</h5>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                                            <img style="width: 446px; height:268px;" src="${n.getImageURL()}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>>
+                    </div>
+                </div>
+            </div>
+            <div class="main-banner" id="slide-3" style="display: none;">
+                <div class="container">
+                    <div class="row">
+                        <c:forEach var="n" items="${listlast}">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 align-self-center">
+                                        <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h2>${n.getTitle()}</h2>
+                                                    <h5>${n.getSummary()}</h5>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                                            <img style="width: 446px; height:268px;" src="${n.getImageURL()}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+
 
         <%-- search mentor by skill name ------------------------------------------------------------------------- --%>
         <div class="container">    
@@ -537,8 +659,93 @@
                     </div>
                 </div>
             </div> 
-            <jsp:include page="footer.jsp"></jsp:include>
-            
+
+            <footer id="newsletter">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <div class="section-heading">
+                                <h4>Join our mailing list to receive the news &amp; latest trends</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 offset-lg-3">
+                            <form id="search" action="#" method="GET">
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-6">
+                                        <fieldset>
+                                            <input type="address" name="address" class="email" placeholder="Email Address..." autocomplete="on" required>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <fieldset>
+                                            <button type="submit" class="main-button">Subscribe Now <i class="fa fa-angle-right"></i></button>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="footer-widget">
+                                <h4>Contact Us</h4>
+                                <p>Rio de Janeiro - RJ, 22795-008, Brazil</p>
+                                <p><a href="#">010-020-0340</a></p>
+                                <p><a href="#">info@company.co</a></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="footer-widget">
+                                <h4>About Us</h4>
+                                <ul>
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Services</a></li>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#">Testimonials</a></li>
+                                    <li><a href="#">Pricing</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#">Testimonials</a></li>
+                                    <li><a href="#">Pricing</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="footer-widget">
+                                <h4>Useful Links</h4>
+                                <ul>
+                                    <li><a href="#">Free Apps</a></li>
+                                    <li><a href="#">App Engine</a></li>
+                                    <li><a href="#">Programming</a></li>
+                                    <li><a href="#">Development</a></li>
+                                    <li><a href="#">App News</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">App Dev Team</a></li>
+                                    <li><a href="#">Digital Web</a></li>
+                                    <li><a href="#">Normal Apps</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="footer-widget">
+                                <h4>About Our Company</h4>
+                                <div class="logo">
+                                    <img src="assets/images/white-logo.png" alt="">
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="copyright-text">
+                                <p>Copyright © 2022 Chain App Dev Company. All Rights Reserved. 
+                                    <br>Design: <a href="https://templatemo.com/" target="_blank" title="css templates">TemplateMo</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
             <div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-labelledby="statisticsModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document"> <!-- Added modal-lg class -->
                     <div class="modal-content">
@@ -601,5 +808,34 @@
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var slideIndex = 1;
+                    showSlide(slideIndex);
+
+                    function showSlide(n) {
+                        var i;
+                        var slides = document.getElementsByClassName("main-banner");
+                        if (n > slides.length) {
+                            slideIndex = 1
+                        }
+                        if (n < 1) {
+                            slideIndex = slides.length
+                        }
+                        for (i = 0; i < slides.length; i++) {
+                            slides[i].style.display = "none";
+                        }
+                        slides[slideIndex - 1].style.display = "block";
+                    }
+
+                    function nextSlide() {
+                        showSlide(slideIndex += 1);
+                    }
+
+                    setInterval(nextSlide, 5000); // Chuyển slide sau mỗi 5 giây (5000 milliseconds)
+                });
+
+            </script>
     </body>
 </html>

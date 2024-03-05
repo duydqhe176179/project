@@ -67,7 +67,7 @@ public class viewrequestmetor extends HttpServlet {
         if (account != null && "Mentor".equals(account.getRole())) {
             int mentorId = account.getId(); // Assuming getId() returns the mentor's ID
             DAO dao = new DAO();
-            List<Request> list = dao.getAllRequesttbyID(mentorId);
+            List<Request> list = dao.getAllRequestsByID(mentorId);
 
             if (!list.isEmpty()) {
                 request.setAttribute("listR", list);
