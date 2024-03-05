@@ -4,7 +4,6 @@
  */
 package admin;
 
-import dal.MenteeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
-import model.AListMentor;
 import model.Account;
-import model.Mentee;
-import model.Mentor;
+import model.News;
 import model.SkillMentor;
-import model.StaticMentee;
 
 /**
  *
@@ -79,82 +74,14 @@ public class admin extends HttpServlet {
             List<SkillMentor> listSkill = addao.listAllSkill();
             request.setAttribute("listSkill", listSkill);
             System.out.println(listSkill.size());
-            List<Mentor> men = addao.getlistallMentor();
-            List<AListMentor> alis = new ArrayList<>();
-            int page, numperpage = 5;
-
-            String xpage = request.getParameter("page");
-            if (xpage == null) {
-                page = 1;
-            } else {
-                page = Integer.parseInt(xpage);
-
-            }
-            int start;
-            int end;
-          
-           
-
-            String search = request.getParameter("search");
-            request.setAttribute("search", search);
-
-            if (search != null && !search.isEmpty()) {
-                men = addao.listMentorByadmin(search);
-                int acceptrequest;
-                float percentcompleted;
-                float rate;
-                boolean ac;
-                int action;
-                for (Mentor ali : men) {
-                    acceptrequest = addao.countAcceptedRequests(ali.getIdMentor());
-                    percentcompleted = Float.parseFloat(String.format("%.2f", addao.calculateCompletedPercentage(ali.getIdMentor())));
-                    rate = Float.parseFloat(String.format("%.2f", addao.getRate(ali.getIdMentor())));
-
-                    Account acc = addao.getAccountByid(ali.getIdMentor());
-//                    if (ac == true) {
-//                        action = 1;
-//                    } else {
-//                        action = 0;
-//                    
-                    action = acc.getActive();
-                    alis.add(new AListMentor(ali.getIdMentor(), ali.getFullname(), ali.getAccount(), ali.getProfession(), acceptrequest, percentcompleted, rate, action));
-                    
-                    System.out.println(alis);
-                }
-
-            } else {
-                alis = addao.listAllMen();
-               
-            }
-            int size = alis.size();
-            System.out.println(size);
-            System.out.println(page);
-              start = (page - 1) * numperpage;
-            end = Math.min(page * numperpage, size);
-            int num = (size % 5 == 0 ? (size / 5) : ((size / 5)) + 1);
-            List<AListMentor> list1 = addao.getListByPage(alis, start, end);
-            request.setAttribute("lis", list1);
-            request.setAttribute("page", page);
-            request.setAttribute("num", num);
-             MenteeDAO dao = new MenteeDAO();
-
-            List<StaticMentee> list = dao.getStaticMetee();
-            request.setAttribute("list", list);
-            List<Mentee> menn = dao.getlistallMentee();
-           int result = 0;
-            for (Mentee mentee : menn) {
-                result++;
-            }
-            System.out.println(result);
-            request.setAttribute("result", result);
-            
-             //request.setAttribute("lis", alis);
+            List<News> listnews = addao.getAllnews();
+            request.setAttribute("news", listnews);
+            System.out.println(listnews.size());
             request.getRequestDispatcher("Admin/admin.jsp").forward(request, response);
 
         } else {
             request.getRequestDispatcher("signinAdmin").forward(request, response);
         }
-
     }
 
     /**

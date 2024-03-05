@@ -280,9 +280,7 @@ body {
   background-color: #4b8ef1;
   color: #fff !important;
 }
-.dropdown-menu .dropdown-item {
-     white-space: nowrap;
-}
+
 
 /* 
 ---------------------------------------------
@@ -392,6 +390,11 @@ header
   padding-right: 20px;
 }
 
+.header-area .main-nav .nav li:nth-child(6) {
+  padding-right: 0px;
+  padding-left: 40px;
+}
+
 .header-area .main-nav .nav li:last-child a ,
 .background-header .main-nav .nav li:last-child a,
 .header-area .main-nav .nav li:nth-child(6) a ,
@@ -404,7 +407,7 @@ header
 .background-header .main-nav .nav li:last-child a:hover,
 .header-area .main-nav .nav li:nth-child(6) a:hover ,
 .background-header .main-nav .nav li:nth-child(6) a:hover {
-  color: #110ef1 !important;
+  color: #fff !important;
 }
 
 .header-area .main-nav .nav li a {
@@ -423,8 +426,14 @@ header
   letter-spacing: 1px;
 }
 
+.header-area .main-nav .nav li:hover a,
+.header-area .main-nav .nav li a.active {
+  color: #4b8ef1!important;
+}
 
-
+.header-area .main-nav .nav li:last-child a.active {
+  color: #fff !important;
+}
 
 .background-header .main-nav .nav li:hover a,
 .background-header .main-nav .nav li a.active {

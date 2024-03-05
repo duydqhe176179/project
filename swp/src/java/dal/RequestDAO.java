@@ -19,28 +19,31 @@ public class RequestDAO extends DBContext {
     PreparedStatement stm;
     ResultSet rs;
 
-    public boolean createRequest(Request request) {
-        String query = "INSERT INTO request (idMentee, idMentor, title, content, skill, status, deadline, hour) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+ public boolean createRequest(Request request) {
+    String query = "INSERT INTO request (idMentee, idMentor, title, content, skill, status, deadlineDate, deadlineHour) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
+    try (Connection connection = this.connection;
+         PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            pstmt.setInt(1, request.getIdMentee());
-            pstmt.setInt(2, request.getIdMentor());
-            pstmt.setString(3, request.getTitle());
-            pstmt.setString(4, request.getContent());
-            pstmt.setString(5, request.getSkill());
-            pstmt.setString(6, request.getStatus());
-            pstmt.setString(7, request.getDeadlineDate());
-            pstmt.setBigDecimal(8, request.getDeadlineHour());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            // Handle database access or SQL exception
-            e.printStackTrace(); // Log the exception details
-        }
-        return true;
+        pstmt.setInt(1, request.getIdMentee());
+        pstmt.setInt(2, request.getIdMentor());
+        pstmt.setString(3, request.getTitle());
+        pstmt.setString(4, request.getContent());
+        pstmt.setString(5, request.getSkill());
+        pstmt.setString(6, request.getStatus());
+        pstmt.setString(7, request.getDeadlineDate());
+        pstmt.setBigDecimal(8, request.getDeadlineHour());
+        
+        pstmt.executeUpdate();
+    } catch (SQLException e) {
+        // Handle database access or SQL exception
+        e.printStackTrace(); // Log the exception details
     }
+    return true;
+}
+
+
 
     public boolean updateRequest(Request request) {
         String query = "UPDATE request SET "
@@ -53,14 +56,15 @@ public class RequestDAO extends DBContext {
                 + "deadlineHour = ? "
                 + "WHERE idRequest = ?";
 
-        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try ( Connection connection = this.connection;  
+            PreparedStatement pstmt = connection.prepareStatement(query)) {
 
             pstmt.setInt(1, request.getIdMentee());
             pstmt.setString(2, request.getTitle());
             pstmt.setString(3, request.getContent());
             pstmt.setString(4, request.getSkill());
             pstmt.setString(5, request.getStatus());
-            pstmt.setString(6, request.getDeadlineDate());
+pstmt.setString(6, request.getDeadlineDate());
             pstmt.setBigDecimal(7, request.getDeadlineHour());;
             pstmt.setInt(8, request.getIdRequest());
 
@@ -77,7 +81,8 @@ public class RequestDAO extends DBContext {
         List<Request> requests = new ArrayList<>();
         String query = "SELECT * FROM request";
 
-        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query);  ResultSet resultSet = pstmt.executeQuery()) {
+        try ( Connection connection = this.connection;  
+            PreparedStatement pstmt = connection.prepareStatement(query);  ResultSet resultSet = pstmt.executeQuery()) {
 
             while (resultSet.next()) {
                 Request request = mapResultSetToRequest(resultSet);
@@ -93,7 +98,8 @@ public class RequestDAO extends DBContext {
     public Request getRequestById(int idRequest) {
         String query = "SELECT * FROM request WHERE idRequest = ?";
 
-        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try ( Connection connection = this.connection;  
+            PreparedStatement pstmt = connection.prepareStatement(query)) {
 
             pstmt.setInt(1, idRequest);
 
@@ -122,7 +128,7 @@ public class RequestDAO extends DBContext {
                 resultSet.getBigDecimal("deadlineHour")
         );
     }
-
+    
     public boolean UpdateRequest(String idr, String title, String des, String hour, String date, String skill, int idMentor, String status) {
         Connection conn = null;
         String query = "UPDATE [dbo].[request]\n"
@@ -153,7 +159,7 @@ public class RequestDAO extends DBContext {
         }
         return true;
     }
-
+    
     public static void main(String[] args) {
         // Assuming you have a Request object ready for testing
         Request testRequest = new Request();

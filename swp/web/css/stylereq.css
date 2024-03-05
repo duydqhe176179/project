@@ -96,7 +96,7 @@ body {
 .gender label {
   color: #707070;
 }
-.address :where(input, .select-box) {
+.address :where(input .select-box) {
   margin-top: 15px;
 }
 .select-box select {
