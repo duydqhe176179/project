@@ -530,61 +530,57 @@ public class AdminDAO extends DBContext {
         }
     }
     // trangdh
-    List<Adshowreq> listR = new ArrayList<>();
+     List<Adshowreq> listR = new ArrayList<>();
 
     public List<Adshowreq> getAllAdshowreq() {
-        String sql = "SELECT m.idMentee, a.username, r.title, r.content, r.skill, r.status,r.startDate, r.deadline, r.hour\n"
-                + "                         FROM mentee m\n"
-                + "                         JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "                         JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "                          ORDER BY m.idMentee ASC;";
-        try {
-            stm = connection.prepareStatement(sql);
-            rs = stm.executeQuery();
+        List<Adshowreq> listR = new ArrayList<>(); // Initialize the list
+
+        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill, r.status,r.startDate, r.deadline, r.hour,r.reasonReject\n"
+                + "                                     FROM mentee m\n"
+                + "                                     JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "                                     JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "                                     ORDER BY r.idRequest ASC";
+        try ( PreparedStatement stm = connection.prepareStatement(sql);  ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
                 Adshowreq objE = new Adshowreq(
-                        rs.getInt(1), rs.getString(2),
-                        rs.getString(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6),
-                        rs.getString(7), rs.getString(8)
+                        rs.getInt(1), rs.getInt(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6),
+                        rs.getString(7), rs.getString(8), rs.getString(9),
+                        rs.getFloat(10), rs.getString(11)
                 );
                 listR.add(objE);
             }
         } catch (SQLException e) {
-            System.out.println("Error when selecting");
-        } finally {
-            // Close PreparedStatement and ResultSet here (if not using try-with-resources)
+            System.out.println("Error when selecting: " + e.getMessage());
         }
         return listR;
     }
-// seach
 
+// seach
     public List<Adshowreq> searchAdshowreq(String searchTerm) {
         List<Adshowreq> listR = new ArrayList<>();
 
-        String sql = "SELECT m.idMentee, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline\n"
-                + "                 FROM mentee m\n"
-                + "                 JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "                 JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "                WHERE a.username LIKE ?";
+        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour,r.reasonReject\n"
+                + "FROM mentee m\n"
+                + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "WHERE a.username LIKE ? \n" // Filter by username
+                + "ORDER BY r.idRequest ASC";
 
-        try {
-            stm = connection.prepareStatement(sql);
+        try ( PreparedStatement stm = connection.prepareStatement(sql)) {
+            // Set the search term for username using LIKE clause
             stm.setString(1, "%" + searchTerm + "%");
-            rs = stm.executeQuery();
 
-            while (rs.next()) {
-                Adshowreq objE = new Adshowreq(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(8)
-                );
-                listR.add(objE);
+            try ( ResultSet rs = stm.executeQuery()) {
+                while (rs.next()) {
+                    Adshowreq objE = new Adshowreq(
+                            rs.getInt(1), rs.getInt(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), rs.getString(6),
+                            rs.getString(7), rs.getString(8), rs.getString(9),
+                            rs.getFloat(10), rs.getString(11)
+                    );
+                    listR.add(objE);
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error when selecting");
@@ -598,15 +594,12 @@ public class AdminDAO extends DBContext {
     // chi tiet request
     public List<ReDetail> getAllReDetails() {
         List<ReDetail> reDetailList = new ArrayList<>();
-
-        String sql = "SELECT m.idMentee, r.idRequest, a.username, m.fullname, m.dob, m.phone, m.sex, m.avatar, m.address, r.title, r.content, r.status, r.skill\n"
+        String sql = "SELECT m.idMentee, r.idRequest, a.username, m.fullname, m.dob, m.phone, m.sex, m.avatar, m.address, r.title, r.content, r.status, r.skill, r.startDate, r.deadline, r.hour, r.reasonReject\n"
                 + "FROM mentee AS m\n"
                 + "JOIN request AS r ON m.idMentee = r.idMentee\n"
-                + "JOIN account AS a ON m.idMentee = a.idAccount;";
+                + "JOIN account AS a ON m.idMentee = a.idAccount";
 
-        try {
-            stm = connection.prepareStatement(sql);
-            rs = stm.executeQuery();
+        try ( PreparedStatement stm = connection.prepareStatement(sql);  ResultSet rs = stm.executeQuery()) {
 
             while (rs.next()) {
                 ReDetail reDetail = new ReDetail(
@@ -622,44 +615,40 @@ public class AdminDAO extends DBContext {
                         rs.getString(10),
                         rs.getString(11),
                         rs.getString(12),
-                        rs.getString(13)
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getString(15),
+                        rs.getFloat(16),
+                        rs.getString(17)
                 );
                 reDetailList.add(reDetail);
             }
         } catch (SQLException e) {
-            System.out.println("Error when selecting");
+            System.out.println("Error when selecting: " + e.getMessage());
             e.printStackTrace(); // Log or handle the exception as needed
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Log or handle the exception as needed
-            }
         }
+
         return reDetailList;
     }
 
 //
-    public List<ReDetail> getAllRequestsByIdMentee(int idMentee) {
-        List<ReDetail> requestList = new ArrayList<>();
-        String sql = "SELECT m.idMentee, r.idRequest, a.username, m.fullname, m.dob, m.phone, m.sex, m.avatar, m.address, r.title, r.content, r.status, r.skill "
-                + "FROM mentee AS m "
-                + "JOIN request AS r ON m.idMentee = r.idMentee "
-                + "JOIN account AS a ON m.idMentee = a.idAccount "
-                + "WHERE m.idMentee = ?";
+    public ReDetail getRequestById(int idRequest) {
+        ReDetail requestDetail = null;
+        String sql = "SELECT m.idMentee, r.idRequest, a.username, m.fullname, m.dob, "
+                + "m.phone, m.sex, m.avatar, m.address, r.title, r.content, r.status, "
+                + "r.skill, r.startDate, r.deadline, r.hour, r.reasonReject\n"
+                + "FROM mentee AS m \n"
+                + "JOIN request AS r ON m.idMentee = r.idMentee\n"
+                + "JOIN account AS a ON m.idMentee = a.idAccount\n"
+                + "WHERE r.idRequest = ?";
 
         try {
             stm = connection.prepareStatement(sql);
-            stm.setInt(1, idMentee); // Use setInt for integer parameter
+            stm.setInt(1, idRequest); // Use setInt for integer parameter
             rs = stm.executeQuery();
 
-            while (rs.next()) {
-                ReDetail reDetail = new ReDetail(
+            if (rs.next()) {
+                requestDetail = new ReDetail(
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
@@ -672,9 +661,12 @@ public class AdminDAO extends DBContext {
                         rs.getString(10),
                         rs.getString(11),
                         rs.getString(12),
-                        rs.getString(13)
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getString(15),
+                        rs.getFloat(16),
+                        rs.getString(17)
                 );
-                requestList.add(reDetail);
             }
         } catch (SQLException e) {
             System.out.println("Error when selecting");
@@ -692,7 +684,7 @@ public class AdminDAO extends DBContext {
             }
         }
 
-        return requestList;
+        return requestDetail;
     }
 
 // check status 
@@ -717,86 +709,69 @@ public class AdminDAO extends DBContext {
 
 // check date 
     public List<Adshowreq> checkdate(String startDate, String endDate) {
-        String sql = "SELECT m.idMentee, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline\n"
-                + "                FROM mentee m\n"
-                + "                JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "                JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "                WHERE r.startDate >= ? AND r.deadline <= ?\n"
-                + "                ORDER BY m.idMentee ASC;";
+        List<Adshowreq> listR = new ArrayList<>();
 
-        try {
-            stm = connection.prepareStatement(sql);
+        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+                + "FROM mentee m\n"
+                + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "WHERE r.startDate >= ? AND r.deadline <= ?\n"
+                + "ORDER BY r.idRequest ASC";
+
+        try ( PreparedStatement stm = connection.prepareStatement(sql)) {
+            // Set the start date and end date parameters
             stm.setString(1, startDate);
             stm.setString(2, endDate);
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                Adshowreq objE = new Adshowreq(
-                        rs.getInt(1), // idMentee
-                        rs.getString(2), // username
-                        rs.getString(3), // title
-                        rs.getString(4), // content
-                        rs.getString(5), // skill
-                        rs.getString(6), // status
-                        rs.getString(7), // statdate
-                        rs.getString(8) // deadline
-                );
-                listR.add(objE);
+
+            try ( ResultSet rs = stm.executeQuery()) {
+                while (rs.next()) {
+                    Adshowreq objE = new Adshowreq(
+                            rs.getInt(1), rs.getInt(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), rs.getString(6),
+                            rs.getString(7), rs.getString(8), rs.getString(9),
+                            rs.getFloat(10), rs.getString(11)
+                    );
+                    listR.add(objE);
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error when checking date");
-        } finally {
-            // Close PreparedStatement and ResultSet here (if not using try-with-resources)
+            e.printStackTrace();
         }
 
         return listR;
     }
-// checkfitter date and 
 
+// checkfitter date and 
     public List<Adshowreq> getAdshowreqByStatusAndDate(String status, String startDate, String endDate) {
         List<Adshowreq> listR = new ArrayList<>();
 
-        String sql = "SELECT m.idMentee, a.username, r.title,   r.content, r.skill,r.status, r.startDate ,r.deadline\n"
-                + "                FROM mentee m\n"
-                + "                JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "                JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "                WHERE  r.status = ?\n"
-                + "                 AND r.startDate >= ?\n"
-                + "                 AND r.deadline <= ?";
+        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+                + "FROM mentee m\n"
+                + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "WHERE r.status = ? AND r.startDate >= ? AND r.deadline <= ?";
 
-        try {
-            stm = connection.prepareStatement(sql);
+        try ( PreparedStatement stm = connection.prepareStatement(sql)) {
+            // Set parameters
             stm.setString(1, status);
             stm.setString(2, startDate);
             stm.setString(3, endDate);
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                Adshowreq objE = new Adshowreq(
-                        rs.getInt(1), // idMentee
-                        rs.getString(2), // username
-                        rs.getString(3), // title
-                        rs.getString(4), // content
-                        rs.getString(5), // skill
-                        rs.getString(6), // status
-                        rs.getString(7), // statdate
-                        rs.getString(8) // deadline
-                );
-                listR.add(objE);
+
+            try ( ResultSet rs = stm.executeQuery()) {
+                while (rs.next()) {
+                    Adshowreq objE = new Adshowreq(
+                            rs.getInt(1), rs.getInt(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), rs.getString(6),
+                            rs.getString(7), rs.getString(8), rs.getString(9),
+                            rs.getFloat(10), rs.getString(11)
+                    );
+                    listR.add(objE);
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error when fetching Adshowreq by status and date");
             e.printStackTrace();
-        } finally {
-            // Close PreparedStatement and ResultSet here (if not using try-with-resources)
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Log or handle the exception as needed
-            }
         }
 
         return listR;
@@ -807,16 +782,16 @@ public class AdminDAO extends DBContext {
         List<Adshowreq> listR = new ArrayList<>();
 
         // SQL query
-        String sql = "SELECT m.idMentee, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline\n"
-                + "                FROM mentee m\n"
-                + "                JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "                JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "                WHERE r.status = ?";
+        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+                + "FROM mentee m\n"
+                + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "WHERE r.status = ?";
 
         try {
             // Dynamically add date conditions if provided
             if (startDate != null && !startDate.isEmpty()) {
-                sql += " AND r.statdate >= ?";
+                sql += " AND r.startDate >= ?";
             }
             if (endDate != null && !endDate.isEmpty()) {
                 sql += " AND r.deadline <= ?";
@@ -838,14 +813,10 @@ public class AdminDAO extends DBContext {
                 try ( ResultSet rs = stm.executeQuery()) {
                     while (rs.next()) {
                         Adshowreq objE = new Adshowreq(
-                                rs.getInt(1), // idMentee
-                                rs.getString(2), // username
-                                rs.getString(3), // title
-                                rs.getString(4), // content
-                                rs.getString(5), // skill
-                                rs.getString(6), // status
-                                rs.getString(7), // statdate
-                                rs.getString(8) // deadline
+                                rs.getInt(1), rs.getInt(2), rs.getString(3),
+                                rs.getString(4), rs.getString(5), rs.getString(6),
+                                rs.getString(7), rs.getString(8), rs.getString(9),
+                                rs.getFloat(10), rs.getString(11)
                         );
                         listR.add(objE);
                     }
@@ -864,7 +835,7 @@ public class AdminDAO extends DBContext {
 
         try {
             // Create a dynamic SQL query with the correct number of placeholders
-            StringBuilder sqlBuilder = new StringBuilder("SELECT m.idMentee, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline\n"
+            StringBuilder sqlBuilder = new StringBuilder("SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
                     + "FROM mentee m\n"
                     + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
                     + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
@@ -887,46 +858,38 @@ public class AdminDAO extends DBContext {
 
             // Use try-with-resources to ensure PreparedStatement and ResultSet are closed
             try ( PreparedStatement stm = connection.prepareStatement(sqlBuilder.toString())) {
-                // Set parameters
+                // Set parameters for statuses
                 for (int i = 0; i < statuses.size(); i++) {
                     stm.setString(i + 1, statuses.get(i));
                 }
 
                 // Set parameters for startDate and endDate if they are provided
+                int parameterIndex = statuses.size() + 1;
                 if (startDate != null && endDate != null) {
-                    stm.setString(statuses.size() + 1, startDate);
-                    stm.setString(statuses.size() + 2, endDate);
+                    stm.setString(parameterIndex++, startDate);
+                    stm.setString(parameterIndex, endDate);
                 }
 
                 // Execute the query
                 try ( ResultSet rs = stm.executeQuery()) {
                     while (rs.next()) {
                         Adshowreq objE = new Adshowreq(
-                                rs.getInt(1),
-                                rs.getString(2),
-                                rs.getString(3),
-                                rs.getString(4),
-                                rs.getString(5),
-                                rs.getString(6),
-                                rs.getString(7),
-                                rs.getString(8)
+                                rs.getInt(1), rs.getInt(2), rs.getString(3),
+                                rs.getString(4), rs.getString(5), rs.getString(6),
+                                rs.getString(7), rs.getString(8), rs.getString(9),
+                                rs.getFloat(10), rs.getString(11)
                         );
                         listR.add(objE);
                     }
                 }
-            } catch (SQLException e) {
-                System.out.println("Error when fetching Adshowreq by multiple statuses and date");
-                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            System.out.println("Some generic error message");
+        } catch (SQLException e) {
+            System.out.println("Error when fetching Adshowreq by multiple statuses and date");
             e.printStackTrace();
         }
 
         return listR;
     }
-
     public static void main(String[] args) {
         AdminDAO dao = new AdminDAO();
 

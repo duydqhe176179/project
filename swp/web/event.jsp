@@ -43,7 +43,7 @@
         <div class="navigation w-100">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-light p-0">
-                    <a class="navbar-brand" href="home"><img src="images/logo.png" alt="logo"></a>
+                    <a class="navbar-brand" href="home"><img src="assets/images/logo.png" alt="logo"></a>
                     <button class="navbar-toggler rounded-0" type="button" data-toggle="collapse" data-target="#navigation"
                             aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -55,21 +55,19 @@
                                 <a class="nav-link" href="home">Home</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">About</a>
+                                <a class="nav-link" href="home">About</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">COURSES</a>
+                                <a class="nav-link" href="home">COURSES</a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="news">NEWS</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">BLOG</a>
+                                <a class="nav-link" href="blog">BLOG</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">CONTACT</a>
-                            </li>
+                            
                         </ul>
                     </div>
                 </nav>
@@ -135,7 +133,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-sm-8 mb-5 mb-lg-0">
                         <!-- logo -->
-                        <a class="logo-footer" href="index.html"><img class="img-fluid mb-4" src="images/logo.png" alt="logo"></a>
+                        <a class="logo-footer" href="index.html"><img class="img-fluid mb-4" src="assets/images/logo.png" alt="logo"></a>
                         <ul class="list-unstyled">
                             <li class="mb-2">23621 15 Mile Rd #C104, Clinton MI, 48035, New York, USA</li>
                             <li class="mb-2">+1 (2) 345 6789</li>

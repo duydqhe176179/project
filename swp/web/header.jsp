@@ -57,6 +57,7 @@
                                             <c:if test="${account.getRole() eq 'Mentee'}">
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="profileMentee" >ProfileMentee</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="listrequest" >List Request</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="news" >News</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="blog" >BLOG</a></li>
                                                 </c:if>
                                             <!------------------------------- -->    
@@ -69,6 +70,7 @@
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="#" data-toggle="modal" data-target="#statisticsModal">View Statistic</a></li>
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="reqmentor" >View Request</a></li>
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="viewrequestmentee" >View invitingRequest</a></li>
+                                               <li class="scroll-to-section"><a class="dropdown-item"  href="news" >News</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="blog" >BLOG</a></li>
                                                 </c:if>
                                             <!------------------------------- -->    

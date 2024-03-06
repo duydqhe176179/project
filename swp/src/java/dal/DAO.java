@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
+import model.Mentee;
 import model.Mentor;
 import model.News;
 import model.Rate;
@@ -358,7 +359,79 @@ public class DAO extends DBContext {
         }
         return listnews;
     }
+    public List<Request> getAllRequestsByID(int idMentor) {
+        List<Request> list = new ArrayList<>();  // Khởi tạo một danh sách mới
+
+        String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour\n"
+                + "FROM request r\n"
+                + "JOIN mentee m ON r.idMentee = m.idMentee\n"
+                + "WHERE r.idMentor = ?";
+
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idMentor);
+            rs = stm.executeQuery();
+
+            while (rs.next()) {
+                Request objE = new Request(
+                        rs.getInt(1), rs.getInt(2), rs.getInt(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6),
+                        rs.getString(7), rs.getString(8), rs.getString(9),
+                        rs.getString(10), rs.getFloat(11)
+                );
+                list.add(objE);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error when selecting");
+            // Xử lý ngoại lệ một cách đúng đắn, ghi log hoặc ném lại nếu cần thiết
+        } finally {
+            // Đảm bảo đóng các tài nguyên, ví dụ: PreparedStatement, ResultSet
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error when closing resources");
+            }
+        }
+        return list;
+    }
 //
+    
+   public Mentee MenteeinfoById(int id) {
+        try {
+            String sql = "SELECT a.idAccount, m.fullname, m.avatar, m.dob, m.phone, m.sex, m.address,a.email \n"
+                    + "                    FROM mentee m \n"
+                    + "                    JOIN account a ON m.idMentee = a.idAccount \n"
+                    + "                    WHERE m.idMentee = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String dob = rs.getString(4);
+                String phone = rs.getString(5);
+                String sex = rs.getString(6);
+                String address = rs.getString(7);
+                String email = rs.getString(8);
+
+                Mentee s = new Mentee(id, fullname, avatar, dob, phone, sex, address, email);
+                return s;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+ 
+    
+    
+ //   
     List<Mentor> listm = new ArrayList<>();
 
     public List<Mentor> getAllMentor() {

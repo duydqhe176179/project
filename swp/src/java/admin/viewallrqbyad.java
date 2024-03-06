@@ -170,7 +170,7 @@ public class viewallrqbyad extends HttpServlet {
         List<Adshowreq> currentList = adshowreqList.subList(startIdx, endIdx);
 
         List<String> statusList = dao.getAllDistinctStatus();
-        
+       
         request.setAttribute("statusList", statusList);
         request.setAttribute("listRequest", currentList);
         request.setAttribute("s", selectedStatusArray);

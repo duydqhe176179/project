@@ -9,16 +9,18 @@ package model;
  * @author admin
  */
 public class Mentee {
+
     int idMentee;
-     String fullname;
-     String avatar;
-      String story;
-      String dob;
-      String phone;
-      String sex;
-      String experience;
-      String registerDate;
-      String address;
+    String fullname;
+    String avatar;
+    String story;
+    String dob;
+    String phone;
+    String sex;
+    String experience;
+    String registerDate;
+    String address;
+    String email;
 
     public Mentee() {
     }
@@ -34,6 +36,25 @@ public class Mentee {
         this.experience = experience;
         this.registerDate = registerDate;
         this.address = address;
+    }
+
+    public Mentee(int idMentee, String fullname, String avatar, String dob, String phone, String sex, String address, String email) {
+        this.idMentee = idMentee;
+        this.fullname = fullname;
+        this.avatar = avatar;
+        this.dob = dob;
+        this.phone = phone;
+        this.sex = sex;
+        this.address = address;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getIdMentee() {
@@ -56,10 +77,7 @@ public class Mentee {
         return avatar;
     }
 
-    @Override
-    public String toString() {
-        return "Mentee{" + "idMentee=" + idMentee + ", fullname=" + fullname + ", avatar=" + avatar + ", story=" + story + ", dob=" + dob + ", phone=" + phone + ", sex=" + sex + ", experience=" + experience + ", registerDate=" + registerDate + ", address=" + address + '}';
-    }
+ 
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
@@ -120,5 +138,10 @@ public class Mentee {
     public void setAddress(String address) {
         this.address = address;
     }
-      
+
+    @Override
+    public String toString() {
+        return "Mentee{" + "idMentee=" + idMentee + ", fullname=" + fullname + ", avatar=" + avatar + ", story=" + story + ", dob=" + dob + ", phone=" + phone + ", sex=" + sex + ", experience=" + experience + ", registerDate=" + registerDate + ", address=" + address + ", email=" + email + '}';
+    }
+
 }
