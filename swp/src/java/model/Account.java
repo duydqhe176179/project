@@ -13,6 +13,7 @@ public class Account {
     int id;
     String user, email, pass, role;
     int confirm;
+    int active;
 
     public Account() {
     }
@@ -24,6 +25,24 @@ public class Account {
         this.pass = pass;
         this.role = role;
         this.confirm = confirm;
+    }
+
+    public Account(int id, String user, String email, String pass, String role, int confirm, int active) {
+        this.id = id;
+        this.user = user;
+        this.email = email;
+        this.pass = pass;
+        this.role = role;
+        this.confirm = confirm;
+        this.active = active;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 
     public int getId() {

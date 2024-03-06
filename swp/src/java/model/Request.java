@@ -15,10 +15,8 @@ import java.util.Date;
 public class Request {
 
     private int idRequest, idMentee, idMentor;
-    private String fullname;
     private String title, content, skill, status, startDate, deadline;
     private float hour;
-    private String reasonReject;
     private String deadlineDate;
     private BigDecimal deadlineHour;
 
@@ -49,37 +47,6 @@ public class Request {
         this.hour = hour;
     }
 
-    public Request(int idRequest, int idMentee, int idMentor, String fullname, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
-        this.idRequest = idRequest;
-        this.idMentee = idMentee;
-        this.idMentor = idMentor;
-        this.fullname = fullname;
-        this.title = title;
-        this.content = content;
-        this.skill = skill;
-        this.status = status;
-        this.startDate = startDate;
-        this.deadline = deadline;
-        this.hour = hour;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getReasonReject() {
-        return reasonReject;
-    }
-
-    public void setReasonReject(String reasonReject) {
-        this.reasonReject = reasonReject;
-    }
-
-  
     public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
         this.idRequest = idRequest;
         this.idMentee = idMentee;

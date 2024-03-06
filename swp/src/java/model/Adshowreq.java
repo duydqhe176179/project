@@ -9,27 +9,12 @@ package model;
  * @author trang
  */
 public class Adshowreq {
-
-    int idMentee, idRequest;
-    String username, title, content, skill, status, startdate, deadline;
+    int idMentee,idRequest;
+    String username,title,content,skill,status, startdate,deadline;
     float hour;
-    private String reasonreject;
-    String fullname, dob, avatar, sex, address, phone;
-
-    public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String startdate, String deadline, float hour, String reasonreject) {
-        this.idMentee = idMentee;
-        this.idRequest = idRequest;
-        this.username = username;
-        this.title = title;
-        this.content = content;
-        this.skill = skill;
-        this.status = status;
-        this.startdate = startdate;
-        this.deadline = deadline;
-        this.hour = hour;
-        this.reasonreject = reasonreject;
-    }
-
+   String fullname, dob,avatar,sex,address,phone;
+   
+           
     public Adshowreq() {
     }
 
@@ -44,17 +29,7 @@ public class Adshowreq {
         this.deadline = deadline;
     }
 
-    public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String startdate, String deadline) {
-        this.idMentee = idMentee;
-        this.idRequest = idRequest;
-        this.username = username;
-        this.title = title;
-        this.content = content;
-        this.skill = skill;
-        this.status = status;
-        this.startdate = startdate;
-        this.deadline = deadline;
-    }
+    
 
     public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String fullname, String dob, String avatar, String sex, String address, String phone) {
         this.idMentee = idMentee;
@@ -71,6 +46,8 @@ public class Adshowreq {
         this.address = address;
         this.phone = phone;
     }
+
+   
 
     public Adshowreq(int idMentee, String username, String title, String content, String status, String deadline, float hour) {
         this.idMentee = idMentee;
@@ -108,6 +85,8 @@ public class Adshowreq {
     public void setStartdate(String startdate) {
         this.startdate = startdate;
     }
+
+   
 
     public int getIdMentee() {
         return idMentee;
@@ -221,19 +200,10 @@ public class Adshowreq {
         this.phone = phone;
     }
 
-   
-
-    public String getReasonreject() {
-        return reasonreject;
-    }
-
-    public void setReasonreject(String reasonreject) {
-        this.reasonreject = reasonreject;
-    }
-
     @Override
     public String toString() {
-        return "Adshowreq{" + "idMentee=" + idMentee + ", idRequest=" + idRequest + ", username=" + username + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", startdate=" + startdate + ", deadline=" + deadline + ", hour=" + hour + ", reasonreject=" + reasonreject + ", fullname=" + fullname + ", dob=" + dob + ", avatar=" + avatar + ", sex=" + sex + ", address=" + address + ", phone=" + phone + '}';
+        return "Adshowreq{" + "idMentee=" + idMentee + ", username=" + username + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", deadline=" + deadline + ", hour=" + hour + '}';
     }
 
+    
 }
