@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Guest;
+package controller;
 
-import dal.DAO;
-import dal.ViewStatisticRequestDAO;
+import dal.BlogDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,19 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.Account;
-import model.MentorStatistic;
-import model.News;
-import model.Skill;
+import model.Blog;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
-@WebServlet(name = "Home", urlPatterns = {"/home"})
-public class Home extends HttpServlet {
+@WebServlet(name = "BlogController", urlPatterns = {"/blog"})
+public class BlogController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +39,10 @@ public class Home extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Home</title>");
+            out.println("<title>Servlet BlogController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Home at sad" + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BlogController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,35 +60,38 @@ public class Home extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO dao = new DAO();
-        List<Skill> listAllSkill = dao.ListAllSkill();
-        request.setAttribute("listSkill", listAllSkill);
-        List<News> listnews = dao.get3news();
-        request.setAttribute("listnews", listnews);
-        List<News> listsecond = dao.getsecondnews();
-//        System.out.println(listsecond.get(0).getContent());
-        if (!listsecond.isEmpty()) {
-            System.out.println(listsecond.get(0).getContent());
-            request.setAttribute("listsecond", listsecond);
-        } else {
-            // Handle the case when the list is empty
-            System.out.println("The list of second news is empty.");
+        BlogDAO bd = new BlogDAO();
+//        List<Blog> BlogList = bd.getAllBlog();
+//        request.setAttribute("bloglist", BlogList);
+
+        //phan trang
+        int count = bd.count();
+
+        int pageSize = 3;
+        int endPage = 0;
+        endPage = count / pageSize;
+        if (count % pageSize != 0) {
+            endPage++;
         }
-        request.setAttribute("listsecond", listsecond);
-        List<News> listlast = dao.getlastnews();
-        request.setAttribute("listlast", listlast);
-        //System.out.println("Number of skills: " + listAllSkill.size());
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null || !"Mentor".equals(account.getRole())) {
-            request.setAttribute("errorMess", "You do not have permission to access this page.");
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+
+        // chia list vao tung trang
+//        String indexPage = request.getParameter("index");
+//        int index = Integer.parseInt(indexPage);
+        String indexPage = request.getParameter("index");
+        int index;
+
+        if (indexPage != null && !indexPage.isEmpty()) {
+            index = Integer.parseInt(indexPage);
         } else {
-            ViewStatisticRequestDAO viewStatisticDAO = new ViewStatisticRequestDAO();
-            MentorStatistic mentorStats = viewStatisticDAO.getMentorStatistics(account.getId());
-            request.setAttribute("mentorStats", mentorStats);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            
+            index = 1;  // Default index value or any other suitable value.
         }
+        List<Blog> BlogList2 = bd.pagingList(index);
+        request.setAttribute("bloglist", BlogList2);
+
+        request.setAttribute("endP", endPage);
+
+        request.getRequestDispatcher("blog.jsp").forward(request, response);
     }
 
     /**
@@ -107,7 +105,7 @@ public class Home extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
