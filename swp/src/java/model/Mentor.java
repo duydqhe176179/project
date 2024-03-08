@@ -27,9 +27,10 @@ package model;
     String education;
     String myservice;
     int age;
+    String STK;
    int cost;
 
-    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, int age, int cost) {
+    public Mentor(int idMentor, String fullname, String avatar, String phone, String dob, String sex, String address, String registerDate, String profession, String pro_introduc, String archivement_sescition, String framework, String experience, String education, String myservice, int age,String STK, int cost) {
         this.idMentor = idMentor;
         this.fullname = fullname;
         this.avatar = avatar;
@@ -46,7 +47,16 @@ package model;
         this.education = education;
         this.myservice = myservice;
         this.age = age;
+        this.STK = STK;
         this.cost = cost;
+    }
+
+    public String getSTK() {
+        return STK;
+    }
+
+    public void setSTK(String STK) {
+        this.STK = STK;
     }
 
     public int getCost() {

@@ -98,7 +98,7 @@
                 background-color: #4CAF50;
                 color: white;
             }
-
+            
             .pagination a:hover:not(.active){
                 background-color: chocolate;
             }
@@ -130,9 +130,6 @@
                         <a class="nav-link js-scroll-trigger" href="#mentor">Mentor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#cvmentor">CV Mentor</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#mentee">Mentee</a>
                     </li>
                     <li class="nav-item">
@@ -154,12 +151,12 @@
                         <span class="text-primary">News</span>
                     </h1>
                     <div class="table-responsive">
-                        <c:set var="page4" value="${requestScope.page4}"/>
-                        <div class="pagination">
-                            <c:forEach begin="1" end="${requestScope.num4}" var="i">
-                                <a class="${i==page4 ? 'active' : ''}" href="admin?page4=${i}">${i}</a>
-                            </c:forEach>
-                        </div>
+                         <c:set var="page4" value="${requestScope.page4}"/>
+                            <div class="pagination">
+                                <c:forEach begin="1" end="${requestScope.num4}" var="i">
+                                    <a class="${i==page4 ? 'active' : ''}" href="admin?page4=${i}">${i}</a>
+                                </c:forEach>
+                            </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -267,66 +264,6 @@
                         </div>
                     </section>
             </section>
-            <section class="resume-section p-3 p-lg-5 d-flex d-column" id="cvmentor">
-                <div class="my-auto">
-                    <h1 class="mb-0">
-                        <span class="text-primary">CV Mentor</span>
-                    </h1>
-                    <div class="table-responsive">
-                        <c:set var="page4" value="${requestScope.page4}"/>
-                        <div class="pagination">
-                            <c:forEach begin="1" end="${requestScope.num4}" var="i">
-                                <a class="${i==page4 ? 'active' : ''}" href="admin?page4=${i}">${i}</a>
-                            </c:forEach>
-                        </div>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>ID</th>
-                                    <th>Image</th>
-                                    <th>Full Name</th>
-                                    <th>Phone</th>
-                                    <th>DOB</th>
-                                    <th>Sex</th>
-                                    <th>Address</th>
-                                    <th>Profesion</th>
-                                    <th>Education</th>
-
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="s" items="${cvList}" varStatus="loop">
-                                    <tr>
-                                        <td>${loop.index + 1}</td>
-                                        <td>${s.getIdMentor()}</td>
-                                        <td><img src="${s.getAvatar()}" width="100rem"  alt="alt"/></td>
-                                        <td><a style="text-decoration: none;" href="cvdetail?id=${s.getIdMentor()}">${s.getFullname()}</a></td>
-                                        <td>${s.getPhone()}</td>
-                                        <td>${s.getDob()}</td>
-                                        <td>${s.getSex()}</td>
-                                        <td>${s.getAddress()}</td>
-                                        <td>${s.getProfession()}</td>
-                                        <td>${s.getEducation()}</td>
-
-                                        <td class="btn-container">
-                                            <a href="upcvmentor?idmentor=${s.getIdMentor()}"  style="background-color: #1BA345; border-radius: 5px; height: 30px; width: 70px; display: inline-block; text-align: center; line-height: 30px; color: white; text-decoration: none;cursor: pointer">
-                                                Accept
-                                            </a>
-                                            <a href="deletecv?idmentor=${s.getIdMentor()}" style="background-color: #DE3E44; border-radius: 5px; height: 30px; width: 70px; margin-left: 5px; display: inline-block; text-align: center; line-height: 30px; color: white; text-decoration: none; cursor: pointer">
-                                                Reject
-                                            </a> 
-                                        </td>
-
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>               
-
             <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="mentee">
                 <div class="my-auto">
                     <h2 class="mb-5">Mentee</h2>
@@ -334,11 +271,11 @@
                         <h5>Total of Mentee: ${result}</h5>            
                     </div>
                     <c:set var="page2" value="${requestScope.page2}"/>
-                    <div class="pagination">
-                        <c:forEach begin="1" end="${requestScope.num2}" var="i">
-                            <a class="${i==page2 ? 'active' : ''}" href="admin?page2=${i}">${i}</a>
-                        </c:forEach>
-                    </div>
+                            <div class="pagination">
+                                <c:forEach begin="1" end="${requestScope.num2}" var="i">
+                                    <a class="${i==page2 ? 'active' : ''}" href="admin?page2=${i}">${i}</a>
+                                </c:forEach>
+                            </div>
                     <table border="1px" class="container">
                         <tr style="background: whitesmoke;" >
                             <td >Full Name</td>
@@ -365,11 +302,11 @@
                 <div class="my-auto">
                     <h2 class="mb-5">Skills</h2>
                     <c:set var="page" value="${requestScope.page}"/>
-                    <div class="pagination">
-                        <c:forEach begin="1" end="${requestScope.num3}" var="i">
-                            <a class="${i==page ? 'active' : ''}" href="admin?page=${i}">${i}</a>
-                        </c:forEach>
-                    </div>
+                            <div class="pagination">
+                                <c:forEach begin="1" end="${requestScope.num3}" var="i">
+                                    <a class="${i==page ? 'active' : ''}" href="admin?page=${i}">${i}</a>
+                                </c:forEach>
+                            </div>
                     <table class="table table-bordered">
                         <thead>
                             <tr>

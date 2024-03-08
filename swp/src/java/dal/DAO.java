@@ -530,19 +530,21 @@ public class DAO extends DBContext {
     public boolean insertr(Rate r) {
         try {
             String sql = "INSERT INTO [dbo].[rate]\n"
-                    + "           ([idMentee]\n"
+                    + "           ([idRequest]\n"
+                    + "           ,[idMentee]\n"
                     + "           ,[idMentor]\n"
                     + "           ,[star]\n"
                     + "           ,[comment]\n"
-                    + "           ,[time])"
-                    + "VALUES (?, ?, ?, ?, ?)";
+                    + "           ,[time])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?,?,?,?)";
             stm = connection.prepareStatement(sql);
-
-            stm.setInt(1, r.getIdMentee());
-            stm.setInt(2, r.getIdMentor());
-            stm.setInt(3, r.getStar());
-            stm.setString(4, r.getComment());
-            stm.setString(5, r.getTime());
+            stm.setInt(1, r.getIdRequest());
+            stm.setInt(2, r.getIdMentee());
+            stm.setInt(3, r.getIdMentor());
+            stm.setInt(4, r.getStar());
+            stm.setString(5, r.getComment());
+            stm.setString(6, r.getTime());
 
             int rowsAffected = stm.executeUpdate();
 

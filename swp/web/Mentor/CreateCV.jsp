@@ -151,6 +151,12 @@
                 </div>
             </section>
             <section>
+                 <div class="form-group">
+                    <label class="fieldlabels">STK: </label> 
+                    <input type="text" name="STK" placeholder="BIDV: &&&" value="${mentor.STK}"/>
+                </div>
+                
+                <h3>Skills: </h3>
                 <c:forEach var="e" items="${skill}">
                     <div class="form-check" style = "padding-top: 30px;">
                         <input class="form-check-input skillCheckbox" type="checkbox" name="skills" value="${e.id}" id="skill1">

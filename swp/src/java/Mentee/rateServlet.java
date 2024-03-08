@@ -38,12 +38,12 @@ public class rateServlet extends HttpServlet {
             request.setAttribute("idreq", idRequest);
             int idMentee = Integer.parseInt(request.getParameter("idMentee"));
             request.setAttribute("idreqd", idMentee);
-            System.out.println(idRequest);
+           // System.out.println(idRequest);
             int idMentor = Integer.parseInt(request.getParameter("idMentor"));
-            Request req = dao.getIdMentorss(idMentor);
-            request.setAttribute("req", req);
+            
+            request.setAttribute("req", idMentor);
             Rate r = dao.getRateByIDRequest(idRequest);
-            System.out.println(r);
+          //  System.out.println(r);
             request.setAttribute("rate", r);
             // Set the mentors attribute for use in rate.jsp
             request.setAttribute("mentors", mentors);

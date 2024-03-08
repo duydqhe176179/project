@@ -51,7 +51,7 @@
             }
 
             th {
-                background-color: #333;
+              background-color: #48CEFA;
                 color: #fff;
             }
 
@@ -80,25 +80,25 @@
     </head>
     <body>
 
-        <header>
+        <header  style="background: #48CEFA;margin: 20px;">
             <!--            <h1>List of Requests</h1>-->
             <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
                 <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
                 Home
             </a>
-            <h1 style="margin-left: auto;">Statistic of Requests</h1>
+            <h1 style="margin-left: auto; padding-bottom: 20px;">Statistic of Requests</h1>
         </header>
 
         <section>
-            <table>
-                <thead>
+            <table  border="1" style="margin:auto">
+                <thead style="border: 1px solid black; background:#48CEFA;">
                     <tr>
-                        <th>Title</th>
-                        <th>Skills</th>
-                        <th>Description</th>
-                        <th>Deadline Date</th>
-                        <th>Deadline Hour</th>
-                        <th>Status</th>
+                        <th  style="width: 10%;text-align: center;">Title</th>
+                        <th  style="width: 10%;text-align: center;">Skills</th>
+                        <th  style="width: 10%;text-align: center;">Description</th>
+                        <th  style="width: 10%;text-align: center;">Deadline Date</th>
+                        <th  style="width: 10%;text-align: center;">Deadline Hour</th>
+                        <th  style="width: 10%;text-align: center;">Status</th>
 
                     </tr>
                 </thead>
@@ -106,19 +106,21 @@
 
                     <c:forEach var="request" items="${listReq}">
                         <tr>
-                            <td>${request.title}</td>
-                            <td>${request.skill}</td>
-                            <td>${request.content}</td>
-                            <td>${request.deadline}</td>
-                            <td>${request.hour}</td>
-                            <td>${request.status}</td>
+                            <td  style="width: 10%;text-align: center;">${request.title}</td>
+                            <td  style="width: 10%;text-align: center;">${request.skill}</td>
+                            <td  style="width: 10%;text-align: center;">${request.content}</td>
+                            <td  style="width: 10%;text-align: center;">${request.deadline}</td>
+                            <td  style="width: 10%;text-align: center;">${request.hour}</td>
+                            <td  style="width: 10%;text-align: center;">${request.status}</td>
 
                         </tr>
 
                     </c:forEach>
+                    
+                       
                     <tr>
-                        <td>Total Request</td>
-                        <td>${totalRequests}</td>
+                        <td style="width: 10%;text-align: center;">Total Request: </td>
+                        <td style="width: 10%;text-align: center;">${totalRequests}</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -130,8 +132,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Total Hour</td>
-                        <td>${totalHours}</td>
+                        <td style="width: 10%;text-align: center;">Total Hour: </td>
+                        <td style="width: 10%;text-align: center;">${totalHours}</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -140,9 +142,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Mentor Name</td>
+                        <td style="width: 10%;text-align: center;">Mentor Name: </td>
                         <c:forEach var="entry" items="${mentorNames}">
-                        <td>${entry.value}</td>
+                        <td style="width: 10%;text-align: center;">${entry.value}</td>
                         </c:forEach>
                         <td></td>
                         <td></td>
@@ -150,9 +152,9 @@
                         
                     </tr>
                     <tr>
-                        <td>Total Request send to Mentor</td>
+                        <td style="width: 10%;text-align: center;">Total Request send to Mentor: </td>
                         <c:forEach var="entry" items="${mentorCounts}">
-                        <td>${entry.value}</td>
+                        <td style="width: 10%;text-align: center;">${entry.value}</td>
                         </c:forEach>
                         <td></td>
                         <td></td>
