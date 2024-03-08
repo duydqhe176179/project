@@ -42,12 +42,14 @@ public class RequestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println("action" + action);
         int idMentor = Integer.parseInt(request.getParameter("idMentor"));
-        System.out.println("idmentor" + idMentor);
-        int idSkill = Integer.parseInt(request.getParameter("idSkill"));
-        System.out.println("idskill" + idSkill);
-        System.out.println(idMentor);
+        String skillId = request.getParameter("idSkill");
+        int idSkill;
+        if (skillId != null) {
+            idSkill = Integer.parseInt(skillId);
+        } else {
+            idSkill = -1;
+        }
         switch (action) {
             case "list":
                 listRequests(request, response);
@@ -101,9 +103,14 @@ public class RequestController extends HttpServlet {
 
         MentorDAO dao = new MentorDAO();
         AdminDAO adminDao = new AdminDAO();
-
+        SkillMentor skill = new SkillMentor();
         Mentor m = dao.getIDMentor(idMentor);
-        SkillMentor skill = adminDao.getSkillById(idSkill);
+        
+        if (idSkill > 0) {
+            skill = adminDao.getSkillById(idSkill);
+        } else {
+            skill=null;
+        }
 
         request.setAttribute("mentor", m);
         request.setAttribute("skillMentor", skill);
@@ -144,7 +151,7 @@ public class RequestController extends HttpServlet {
             BigDecimal deadlineHour = new BigDecimal(deadlineHourStr);
 
             // Create a new Request object
-            Request newRequest = new Request(0, idMentee, idMentor, title, content, nameSkill, "Open", deadlineDateStr, deadlineHour,totalCost);
+            Request newRequest = new Request(0, idMentee, idMentor, title, content, nameSkill, "Open", deadlineDateStr, deadlineHour, totalCost);
 
             // Save the new request to the database
             RequestDAO requestDAO1 = new RequestDAO();

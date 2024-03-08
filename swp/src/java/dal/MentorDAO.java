@@ -520,9 +520,8 @@ public class MentorDAO extends DBContext {
 
     public static void main(String[] args) {
         MentorDAO mentorDAO = new MentorDAO();
-        List<Mentor> vd = new ArrayList<>();
-        vd = mentorDAO.listMentorBySkill("C#");
-        System.out.println(vd.get(0).getTotalRequest());
-
+        List<Have_SKill> vd = new ArrayList<>();
+        vd = mentorDAO.getidhaveskill(1);
+        System.out.println(vd);
     }
 }
