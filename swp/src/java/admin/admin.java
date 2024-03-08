@@ -21,6 +21,7 @@ import java.util.List;
 import model.AListMentor;
 import model.Account;
 import model.Adshowreq;
+import model.CV;
 import model.Mentee;
 import model.Mentor;
 import model.News;
@@ -197,6 +198,20 @@ public class admin extends HttpServlet {
 
             }
 
+           // CV
+           List<CV> cvList = addao.getCV();
+           request.setAttribute("cvList", cvList);
+           
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
             List<News> listnews = addao.getAllnews();
             int size4 = listnews.size();
             start4 = (page4 - 1) * numperpage4;
