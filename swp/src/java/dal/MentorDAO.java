@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Account;
+import model.CV;
 import model.Have_SKill;
 import model.Mentor;
 import model.Request;
@@ -79,7 +80,7 @@ public class MentorDAO extends DBContext {
     }
 
     public boolean updateCV(int id_Mentor, String fullname, String avatar, String phone, String dob, String sex, String address, String profession, String pro_introduc,
-            String archivement_descition, String framework, String experience, String education, String myservice, int cost, String[] idSkill) {
+            String archivement_descition, String framework, String experience, String education, String myservice, int cost) {
         try {
 
             String strUPDATE = "UPDATE [dbo].[mentor]\n"
@@ -518,10 +519,100 @@ public class MentorDAO extends DBContext {
         return null;
     }
 
+    public List<CV> getCV() {
+        List<CV> cvList = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM CV";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String phone = rs.getString(4);
+                String dob = rs.getString(5);
+                String sex = rs.getString(6);
+                String address = rs.getString(7);
+                String registerDate = rs.getString(8);
+                String profession = rs.getString(9);
+                String pro_introduc = rs.getString(10);
+                String archivement_descition = rs.getString(11);
+                String framework = rs.getString(12);
+                String experience = rs.getString(13);
+                String education = rs.getString(14);
+                String myservice = rs.getString(15);
+                String stk = rs.getString(16);
+                int cost = rs.getInt(17);
+
+                CV cv = new CV(id, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, stk, cost);
+
+                cvList.add(cv);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return cvList;
+    }
+
+    public List<CV> getCVbyID(int mentorID) {
+        List<CV> cvList = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM cv WHERE idMentor = ?";
+
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, mentorID); // Set the mentor ID parameter
+            rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String phone = rs.getString(4);
+                String dob = rs.getString(5);
+                String sex = rs.getString(6);
+                String address = rs.getString(7);
+                String registerDate = rs.getString(8);
+                String profession = rs.getString(9);
+                String pro_introduc = rs.getString(10);
+                String archivement_descition = rs.getString(11);
+                String framework = rs.getString(12);
+                String experience = rs.getString(13);
+                String education = rs.getString(14);
+                String myservice = rs.getString(15);
+                String stk = rs.getString(16);
+                int cost = rs.getInt(17);
+
+                CV cv = new CV(id, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, stk, cost);
+
+                cvList.add(cv);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return cvList;
+    }
+
+    public boolean deleteCV(int idmentor) {
+        try {
+            String strDELETE = "delete  from cv\n"
+                    + "where idmentor=?";
+            PreparedStatement stm = connection.prepareStatement(strDELETE);
+            stm.setInt(1, idmentor);
+
+            int rowsAffected = stm.executeUpdate();
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra thông tin lỗi nếu có
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         MentorDAO mentorDAO = new MentorDAO();
-        List<Have_SKill> vd = new ArrayList<>();
-        vd = mentorDAO.getidhaveskill(1);
-        System.out.println(vd);
+        // List<Have_SKill> vd = new ArrayList<>();
+        //vd = mentorDAO.getidhaveskill(1);
+        System.out.println(mentorDAO.deleteCV(3));
     }
 }

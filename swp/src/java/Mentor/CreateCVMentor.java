@@ -150,7 +150,7 @@ public class CreateCVMentor extends HttpServlet {
         // Process the selected skills
         boolean result = false;
         try {
-            result = dao.updateCV(idMentor, fullname, fileName, phone, dob, sex, address, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, cost, idSkill);
+            result = dao.updateCV(idMentor, fullname, fileName, phone, dob, sex, address, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, cost);
             System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
