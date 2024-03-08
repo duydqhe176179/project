@@ -34,7 +34,7 @@
             <p style="text-align: center; color: red;"> ${errorM}</p> 
             <p style="text-align: center; color: red;"> ${errorMess}</p> 
             <h3>Rating form</h3>
-            <form action="rate?idrequest=${idreq}&idMentor=${req.idMentor}&idMentee=${idreqd}" method="post">
+            <form action="rate?idrequest=${idreq}&idMentor=${req}&idMentee=${idreqd}" method="post">
                 <div class="rating">                  
                     <input type="number" name="rating" hidden value="${rate.star}">
                     <i class='bx bx-star star' style="--i: 1;"></i>

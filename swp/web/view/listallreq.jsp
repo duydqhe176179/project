@@ -45,7 +45,7 @@
             }
 
             th {
-                background-color: #333;
+                background-color: #48CEFA;
                 color: #fff;
             }
 
@@ -70,7 +70,7 @@
                 color: #fff;
                 border: none;
             }
-             .rate-link {
+            .rate-link {
                 text-decoration: none;
                 font-size: 20px;
             }
@@ -78,57 +78,58 @@
     </head>
     <body>
 
-        <header>
+        <header style="background: #48CEFA;margin: 20px;">
             <!--            <h1>List of Requests</h1>-->
             <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
                 <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
                 Home
             </a>
-            <h1 style="margin-left: auto;">List of Requests</h1>
+            <h1 style="margin-left: auto; padding-bottom: 20px;">List of Requests</h1>
         </header>
 
         <section>
-            <table>
-                <thead>
+            <table border="1" style="margin:auto">
+                <thead style="border: 1px solid black; background:#48CEFA;">
                     <tr>
-                        <th>Title</th>
-                        <th>Skills</th>
-                        <th>Description</th>
-                        <th>Deadline Date</th>
-                        <th>Deadline Hour</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th style="width: 10%;text-align: center;">Title</th>
+                        <th style="width: 10%;text-align: center;">Skills</th>
+                        <th style="width: 10%;text-align: center;">Description</th>
+                        <th style="width: 10%;text-align: center;">Deadline Date</th>
+                        <th style="width: 10%;text-align: center;">Deadline Hour</th>
+                        <th style="width: 10%;text-align: center;">Status</th>
+                        <th style="width: 10%;text-align: center;">Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
 
                     <c:forEach var="request" items="${listReq}">
                         <tr>
-                            <td>${request.title}</td>
-                            <td>${request.skill}</td>
-                            <td>${request.content}</td>
-                            <td>${request.deadline}</td>
-                            <td>${request.hour}</td>
-                            <td>${request.status}</td>
-                            <c:if test="${request.status eq 'Open'}">
-                                <td class="btn-container">
+                            <td style="width: 10%;text-align: center;">${request.title}</td>
+                            <td style="width: 10%;text-align: center;">${request.skill}</td>
+                            <td style="width: 10%;text-align: center;">${request.content}</td>
+                            <td style="width: 10%;text-align: center;">${request.deadline}</td>
+                            <td style="width: 10%;text-align: center;">${request.hour}</td>
+                            <td style="width: 10%;text-align: center;">${request.status}</td>
+                            <c:if test="${request.status eq 'Open' || request.status eq 'Rejected'}">
+                                <td class="btn-container" style="width: 10%;text-align: center;">
                                     <button class="rate" > <a href="updatereq?idrequest=${request.idRequest} " class="rate-link">Update</a></button>
                                 </td>
                             </c:if>         
                             <c:if test="${request.status == 'Accepted'}">
-                                <td>
-                        <button class="rate"> <a class="rate-link" href="payment?idrequest=${request.idRequest}">Payment</a></button>   
-                        </td>
-                    </c:if>
-                    <c:if test="${request.status eq 'Completed'}">
-                        <td>
-                            <button class="rate" onclick="hideRateButton(this)"><a href="rate?idrequest=${request.idRequest}&idMentor=${request.idMentor}&idMentee=${request.idMentee}" class="rate-link">Rate</a></button>
-                        </td>
-                    </c:if>
-                    </tr>
-                </c:forEach>
+                                <td style="width: 10%;text-align: center;">
+                                    <button class="rate"> <a class="rate-link" href="payment?idrequest=${request.idRequest}">Payment</a></button>   
+                                </td>
+                            </c:if>
+                            <c:if test="${request.status eq 'Completed'}">
+                                <td style="width: 10%;text-align: center;">
+                                    <button class="rate" onclick="hideRateButton(this)"><a href="rate?idrequest=${request.idRequest}&idMentor=${request.idMentor}&idMentee=${request.idMentee}" class="rate-link">Rate</a></button>
+                                </td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
 
-                <!-- Add more rows as needed -->
+                    <!-- Add more rows as needed -->
                 </tbody>
             </table>
         </section>
