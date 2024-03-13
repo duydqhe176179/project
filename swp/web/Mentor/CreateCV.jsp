@@ -17,14 +17,18 @@
 <!--        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style4.css"/>-->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/js1.js"></script>
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-....." crossorigin="anonymous" />
         <style>
             .fieldlabels {
                 width: 100px;
                 text-align:justify;
                 margin-right: 10px;
             }
+            section {
 
+                max-width: 500px;
+
+            }
             .form-group {
                 margin-bottom: 1rem;
                 display: grid;
@@ -60,10 +64,15 @@
 
     </head>
     <body>
-
-        <div id="svg_wrap"></div>
-
+        <div>
+            <a href="home" style=" text-decoration: none; color: white; display: flex; align-items: center; margin-top: 30px;">
+                <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
+                Home
+            </a>
+        </div>
+        <div id="svg_wrap"></div>      
         <h1>Update CV</h1>
+
         <form id="msform" method="POST" action="createcv?idMentor=${cx.getId()}" enctype="multipart/form-data" style="margin-top: 30px" onsubmit="return submitForm();">
             <section>
                 <div class="form-group">
@@ -151,11 +160,11 @@
                 </div>
             </section>
             <section>
-                 <div class="form-group">
+                <div class="form-group">
                     <label class="fieldlabels">STK: </label> 
                     <input type="text" name="STK" placeholder="BIDV: &&&" value="${mentor.STK}"/>
                 </div>
-                
+
                 <h3>Skills: </h3>
                 <c:forEach var="e" items="${skill}">
                     <div class="form-check" style = "padding-top: 30px;">
@@ -169,10 +178,22 @@
 
             <div class="button" id="prev">&larr; Previous</div>
             <div class="button" id="next">Next &rarr;</div>
-            <button class="submit next action-button" type="submit" onclick="return confirm('Are you sure to update')">Update</button>
-            <button class="cancel action-button" onclick="return false;" style="display: none;"></button>
+            <button class="submit next action-button" type="submit" onclick="return confirm('Are you sure to update')">Send</button>
+            <button class="cancel action-button" onclick="return false;" style="display: none;"></button>          
+
             ${mess}
         </form>
+        <c:if test="${msg != null}">
+            <div class="alert alert-success" role="alert">
+                Create successful!
+            </div>
+        </c:if>
+        <c:if test="${param.fail != null}">
+            <div class="alert alert-danger" role="alert">
+                Create failed. Please try again.
+            </div>
+        </c:if>
+
         <script>
 
             function setMaxDate() {

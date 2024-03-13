@@ -27,7 +27,7 @@
     </head>
     <body>
         <div class="wrapper">
-            <div class="back"><a href="home"><i class="fa fa-home" style="font-size: 24px;color: black; margin-left: -95%;"></i></a></div>
+            <div class="back"><a href="listrequest"><i class="fa fa-home" style="font-size: 24px;color: black; margin-left: -95%;"></i></a></div>
 
             <p style="text-align: center; color: green;"> ${messsuccess}</p> 
             <p style="text-align: center; color: red;"> ${messerror}</p> 

@@ -32,14 +32,14 @@
                 <p style="text-align: center; color: green;"> ${messsucces}</p>
                 <h1>Sign in</h1>
                 <div class="input-box">
-                    <input type="text" id="uname" name="username" placeholder="Username" required>   
+                    <input type="text" id="username" name="username" placeholder="Username" required>   
                 </div>    
                 <div class="input-box">
-                    <input type="password" id="pass" name="password" placeholder="Password" required>   
+                    <input type="password" id="password" name="password" placeholder="Password" required>   
                 </div> 
                 <p style="margin-bottom: 10px;color: red;font-size: large">${mess}</p>
                 <div class="remember">
-                    <label style="text-align: left"><input type="checkbox"  name="remember pass" >Remember password</label> 
+                    <label style="text-align: left"><input type="checkbox" id="remember" name="remember pass" >Remember password</label> 
                     <a href="reset-password">Reset password</a> 
                 </div>
 
@@ -54,5 +54,71 @@
             </form>
 
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var usernameInput = document.getElementById('username');
+                var passwordInput = document.getElementById('password');
+                var rememberCheckbox = document.getElementById('remember');
+
+                // Kiểm tra xem có cookies đã lưu không
+                var savedUsername = getCookie('savedUsername');
+                var savedPassword = getCookie('savedPassword');
+
+                if (savedUsername && savedPassword) {
+                    usernameInput.value = savedUsername;
+                    passwordInput.value = savedPassword;
+                    rememberCheckbox.checked = true;
+                }
+            });
+
+            function login() {
+                var username = usernameInput.value;
+                var password = passwordInput.value;
+
+                if (rememberCheckbox.checked) {
+                    // Lưu thông tin đăng nhập vào cookies trong 30 ngày
+                    setCookie('savedUsername', username, 30);
+                    setCookie('savedPassword', password, 30);
+                } else {
+                    // Nếu không nhớ mật khẩu, xóa cookies
+                    eraseCookie('savedUsername');
+                    eraseCookie('savedPassword');
+                }
+
+                // Thực hiện xử lý đăng nhập
+            }
+
+// Hàm để lấy cookie
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ')
+                        c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0)
+                        return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+// Hàm để thiết lập cookie
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+// Hàm để xóa cookie
+            function eraseCookie(name) {
+                document.cookie = name + '=; Max-Age=-99999999;';
+            }
+
+
+        </script>
     </body>
 </html>

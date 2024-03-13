@@ -160,7 +160,7 @@
 
                                 <h2>${bl.title}</h2>
                                 <p>${bl.briefinfo}</p>
-                                <a href = "#">Read More</a>
+                                <a href = "blogdetail?bid=${bl.idblog}">Read More</a>
                             </div>
                         </div>
                     </c:forEach>  

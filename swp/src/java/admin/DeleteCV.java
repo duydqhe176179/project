@@ -72,7 +72,7 @@ public class DeleteCV extends HttpServlet {
             request.setAttribute("eror", "Failed to delete CV with ID: " + idmentor);
             // Nếu xóa không thành công, có thể xử lý thông báo lỗi ở đây
         }
-           request.getRequestDispatcher("admin").forward(request, response);
+           request.getRequestDispatcher("admin#cvmentor").forward(request, response);
     } 
 
     /** 

@@ -145,12 +145,12 @@ public class ListRequest extends DBContext {
     public List<Request> ListRequestById(int idAccount) {
         List<Request> listRequest1 = new ArrayList<>();
         Connection conn = null;
-        String query = "SELECT idRequest, idMentee,idMentor, title, content, skill, status, deadline, hour " +
-                   "FROM request r JOIN account a ON r.idMentee = a.idAccount " +
-                   "WHERE a.idAccount =  ? " ;
-        
-    PreparedStatement _stm;
-    ResultSet _rs;
+        String query = "SELECT idRequest, idMentee,idMentor, title, content, skill, status, startDate,endDate, hour ,r.totalCost\n"
+                + "               FROM request r JOIN account a ON r.idMentee = a.idAccount \n"
+                + "                WHERE a.idAccount = ? ";
+
+        PreparedStatement _stm;
+        ResultSet _rs;
         try {
             conn = new DBContext().connection;
             _stm = conn.prepareStatement(query);
@@ -165,8 +165,10 @@ public class ListRequest extends DBContext {
                 request.setContent(_rs.getString("content"));
                 request.setSkill(_rs.getString("skill"));
                 request.setStatus(_rs.getString("status"));
-                request.setDeadline(_rs.getString("deadline"));
+                request.setStartDate(_rs.getString("startDate"));
+                request.setEndDate(_rs.getString("endDate"));
                 request.setHour(_rs.getFloat("hour"));
+                request.setTotalCost(_rs.getInt("totalCost"));
                 listRequest1.add(request);
             }
         } catch (Exception e) {

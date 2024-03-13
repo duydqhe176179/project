@@ -10,6 +10,7 @@
         .qr-code {
             text-align: center;
             margin-top: 50px;
+            
         }
         
         /* CSS cho bảng thông tin người nhận */
@@ -53,11 +54,13 @@
     </style>
 </head>
 <body>
-    
+    <div>
+    <jsp:include page="../head_foot/header.jsp"></jsp:include>
+    <div>
     <!-- Hình ảnh mã QR -->
     <div class="qr-code">
         <!-- Đường dẫn đến hình ảnh mã QR -->
-        <img src="./img/qr.jpg" alt="QR Code">
+        <img src="./img/qr.jpg" alt="QR Code" style="width: 23%">
     </div>
     
     <!-- Bảng thông tin người nhận -->
@@ -76,10 +79,10 @@
         </tr>
         <tr>
             <th>Số tiền</th>
-            <td>${amount}</td>
+            <td>$ ${amount}</td>
         </tr>
     </table>
-
+    <jsp:include page="../footer.jsp"></jsp:include>
     <!-- Thêm mã JavaScript nếu cần -->
     <script>
         function confirmPayment() {

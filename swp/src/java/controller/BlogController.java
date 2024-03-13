@@ -86,7 +86,7 @@ public class BlogController extends HttpServlet {
             
             index = 1;  // Default index value or any other suitable value.
         }
-        List<Blog> BlogList2 = bd.pagingList(index);
+        List<Blog> BlogList2 = bd.pagingList(index, 1);
         request.setAttribute("bloglist", BlogList2);
 
         request.setAttribute("endP", endPage);

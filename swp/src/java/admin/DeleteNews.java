@@ -75,7 +75,7 @@ public class DeleteNews extends HttpServlet {
             request.setAttribute("eror", "Failed to delete news with ID: " + newsID);
             // Nếu xóa không thành công, có thể xử lý thông báo lỗi ở đây
         }
-           request.getRequestDispatcher("admin").forward(request, response);
+           request.getRequestDispatcher("maketer").forward(request, response);
     }
 
     /**

@@ -123,7 +123,7 @@ public class updatenews extends HttpServlet {
         Part filePart = request.getPart("coverimage");
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String uploadDir = getServletContext().getRealPath("/images");
+            String uploadDir = getServletContext().getRealPath("/img");
 
             // Kiểm tra xem file đã tồn tại chưa trước khi ghi đè
             Path imagePath = Paths.get(uploadDir, fileName);
@@ -136,7 +136,7 @@ public class updatenews extends HttpServlet {
                 
             }
 
-            imageURL = "images/" + fileName;
+            imageURL = "img/" + fileName;
         }
 
 // Cập nhật tin tức trong cơ sở dữ liệu

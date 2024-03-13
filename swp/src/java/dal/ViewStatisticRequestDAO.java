@@ -27,7 +27,7 @@ public class ViewStatisticRequestDAO extends DBContext {
     private ResultSet rs;
 
     public List<Request> getAllRequest() {
-        String query = "SELECT idRequest, idMentee, idMentor, title, content, skill, status, deadlineDate, deadlineHour FROM request";
+        String query = "SELECT idRequest, idMentee, idMentor, title, content, skill, status, startDate, deadlineHour FROM request";
         try {
             conn = new DBContext().connection;
             stm = conn.prepareStatement(query);
@@ -41,11 +41,12 @@ public class ViewStatisticRequestDAO extends DBContext {
                 String content = rs.getString("content");
                 String skill = rs.getString("skill");
                 String status = rs.getString("status");
-                String deadlineDate = rs.getString("deadlineDate");
+                String startDate = rs.getString("startDate");
+                String endDate=rs.getString("endDate");
                 BigDecimal deadlineHour = rs.getBigDecimal("deadlineHour");
                 int totalCost=rs.getInt("totalCost");
 
-                listRequest.add(new Request(idRequest, idMentee, idMentor, title, content, skill, status, deadlineDate, deadlineHour, totalCost));
+                listRequest.add(new Request(idRequest, idMentee, idMentor, title, content, skill, status, startDate,endDate, deadlineHour, totalCost));
             }
         } catch (Exception e) {
             System.out.println(e);

@@ -68,6 +68,7 @@
                                                         <th>Requests</th>
                                                         <th>Invites</th>
                                                         <th></th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -80,6 +81,8 @@
                                                         <td>${o.getTotalRequest()}</td>
                                                         <td>${o.getInvite()}</td>
                                                         <td><button><a href="Request?action=create&idMentor=${o.getIdMentor()}&idSkill=${o.getIdSkill()}">Invite</a></button></td>
+<!--                                                        <td><button><a href="fav?idSkill=${o.getIdSkill()}">Favourite</a></button></td>-->
+                                                        <td><button><a href="fav?idSkill=${o.getIdSkill()}"><i class="fas fa-heart"></i> </a></button></td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>

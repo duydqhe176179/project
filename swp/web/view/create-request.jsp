@@ -133,7 +133,7 @@
         </style>
     </head>
     <body style="background-image: url(../assets/images/client-bg.png)">
-        <jsp:include page="../header.jsp"></jsp:include>
+        <jsp:include page="../head_foot/header.jsp"></jsp:include>
             <div class="main-banner-container">
                 <h2>Create Request</h2>
                 <form action="Request?action=create" method="post">
@@ -143,8 +143,20 @@
                 <br><br>
                 <div class="form-group">
                     <label  style="font-size: 18px">Course: </label>
-                    <span style="font-size: 18px">${skillMentor.getSkillName()}</span>
-                    <input type="text" name="idSkill" value="${skillMentor.getId()}" style="display: none">
+                    <c:if test="${skillMentor ne null}">
+                        <span style="font-size: 18px">${skillMentor.getSkillName()}</span>
+                        <input type="text" name="idSkill" value="${skillMentor.getId()}" style="display: none">
+                    </c:if>
+
+                    <c:if test="${skillMentor eq null}">
+                        <span>
+                            <select name="idSkill">
+                                <c:forEach var="s" items="${listHaveSkill}">
+                                    <option value="${s.getIdSkill()}">${s.getSkillname()}</option>
+                                </c:forEach>
+                            </select>
+                        </span>
+                    </c:if>
                 </div>
                 <br>
                 <label for="title">Title:</label>
@@ -154,9 +166,13 @@
                 <textarea id="content" name="content" required></textarea>
 
                 <div class="row">
-                    <div class="col-5">
-                        <label for="deadlineDate">Deadline Date:</label>
-                        <input type="date" id="deadlineDate" name="deadlineDate" required>
+                    <div class="col-6">
+                        <label for="startDate">Start learn in:</label>
+                        <input type="date" id="startDate" name="startDate" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="endate">Complete in:</label>
+                        <input type="date" id="endDate" name="endDate" required>
                     </div>
                     <div class="col-5">
                         <label for="deadlineHour">Total learn hour:</label>
@@ -175,7 +191,18 @@
                     <label for="totalValue" >Total: </label>
                     <span id="totalValue"></span>
                 </div>
-                <br><br><br>
+                <br>
+                <c:if test="${msg != null}">
+                    <div class="alert alert-success" role="alert">
+                        Create successful!
+                    </div>
+                </c:if>
+                <c:if test="${param.fail != null}">
+                    <div class="alert alert-danger" role="alert">
+                        Create failed. Please try again.
+                    </div>
+                </c:if>
+                <br>
                 <div style="display: flex; justify-content: center;">
                     <button type="submit" style="width: 48%; margin-right: 4%;">Create Request</button>
                     <!--                    <a href="home.jsp" class="btn" style="text-align: center;">Back to Homepage</a>-->
@@ -183,16 +210,7 @@
 
 
             </form>
-            <c:if test="${msg != null}">
-                <div class="alert alert-success" role="alert">
-                    Create successful!
-                </div>
-            </c:if>
-            <c:if test="${param.fail != null}">
-                <div class="alert alert-danger" role="alert">
-                    Create failed. Please try again.
-                </div>
-            </c:if>
+
         </div>
         <script>
             // Lấy thẻ input và button
@@ -200,7 +218,16 @@
             var totalButton = document.getElementById("totalButton");
             var totalValueInput = document.getElementById("total");
             var totalValueSpan = document.getElementById("totalValue");
-            
+
+            learnHourInput.addEventListener("blur", function (event) {
+                var inputValue = event.target.value;
+
+                if (!Number.isInteger(Number(inputValue))) {
+                    alert("Please enter an integer.");
+                    inputElement.value = "";
+                    inputElement.focus(); // Focus lại vào trường input sau khi hiển thị cảnh báo
+                }
+            });
             // Thêm sự kiện click vào button "Total"
             totalButton.addEventListener("click", function () {
                 // Lấy giá trị nhập vào từ input
@@ -209,8 +236,8 @@
                 // Kiểm tra nếu giá trị nhập vào là một số hợp lệ
                 if (!isNaN(learnHourValue)) {
                     // Cập nhật giá trị trong input totalValue
-                    totalValueInput.value = learnHourValue*${mentor.getCost()};
-                    totalValueSpan.textContent = (learnHourValue*${mentor.getCost()})+"$";
+                    totalValueInput.value = learnHourValue *${mentor.getCost()};
+                    totalValueSpan.textContent = (learnHourValue *${mentor.getCost()}) + "$";
                 } else {
                     // Nếu giá trị không hợp lệ, thông báo cho người dùng
                     alert("Please enter a valid number for Total learn hour.");

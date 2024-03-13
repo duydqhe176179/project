@@ -14,9 +14,11 @@ import java.util.List;
 import model.AListMentor;
 import model.Account;
 import model.Adshowreq;
+import model.CV;
 import model.Mentor;
 import model.News;
 import model.ReDetail;
+import model.Skill;
 
 import model.SkillMentor;
 
@@ -40,14 +42,16 @@ public class AdminDAO extends DBContext {
         }
         return arr;
     }
-     public List<SkillMentor> getListSkillByPage(List<SkillMentor> list, int start, int end) {
+
+    public List<SkillMentor> getListSkillByPage(List<SkillMentor> list, int start, int end) {
         ArrayList<SkillMentor> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
             arr.add(list.get(i));
         }
         return arr;
     }
-      public List<News> getListNewByPage(List<News> list, int start, int end) {
+
+    public List<News> getListNewByPage(List<News> list, int start, int end) {
         ArrayList<News> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
             arr.add(list.get(i));
@@ -433,7 +437,183 @@ public class AdminDAO extends DBContext {
             return false;
         }
     }
+//
+    // CV
 
+    public List<CV> getCV() {
+        List<CV> cvList = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM CV";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String phone = rs.getString(4);
+                String dob = rs.getString(5);
+                String sex = rs.getString(6);
+                String address = rs.getString(7);
+                String registerDate = rs.getString(8);
+                String profession = rs.getString(9);
+                String pro_introduc = rs.getString(10);
+                String archivement_descition = rs.getString(11);
+                String framework = rs.getString(12);
+                String experience = rs.getString(13);
+                String education = rs.getString(14);
+                String myservice = rs.getString(15);
+                String stk = rs.getString(16);
+                int cost = rs.getInt(17);
+                String skill = rs.getString(18);
+
+                CV cv = new CV(id, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, stk, cost, skill);
+
+                cvList.add(cv);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return cvList;
+    }
+
+    //insert
+    public boolean insertr(CV r) {
+        try {
+            String sql = "INSERT INTO [dbo].[cv]\n"
+                    + "           ([idMentor]\n"
+                    + "           ,[fullname]\n"
+                    + "           ,[avatar]\n"
+                    + "           ,[phone]\n"
+                    + "           ,[dob]\n"
+                    + "           ,[sex]\n"
+                    + "           ,[address]         \n"
+                    + "           ,[profession]\n"
+                    + "           ,[pro_introduc]\n"
+                    + "           ,[archivement_descition]\n"
+                    + "           ,[framework]\n"
+                    + "           ,[experience]\n"
+                    + "           ,[education]\n"
+                    + "           ,[myservice]\n"
+                    + "           ,[stk]\n"
+                    + "           ,[cost]\n"
+                    + "           ,[skill])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, r.getIdMentor());
+            stm.setString(2, r.getFullname());
+            stm.setString(3, r.getAvatar());
+            stm.setString(4, r.getPhone());
+            stm.setString(5, r.getDob());
+            stm.setString(6, r.getSex());
+            stm.setString(7, r.getAddress());
+            stm.setString(8, r.getProfession());
+            stm.setString(9, r.getPro_introduc());
+            stm.setString(10, r.getArchivement_descition());
+            stm.setString(11, r.getFramework());
+            stm.setString(12, r.getExperience());
+            stm.setString(13, r.getEducation());
+            stm.setString(14, r.getMyservice());
+            stm.setString(15, r.getStk());
+            stm.setInt(16, r.getCost());
+            stm.setString(17, r.getSkill());
+
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+//
+    // lay cvdetail
+
+    public CV getCVbyID(int mentorID) {
+        try {
+            String strSelect = "SELECT * FROM cv WHERE idMentor = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, mentorID); // Set the mentor ID parameter
+            rs = stm.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                String fullname = rs.getString(2);
+                String avatar = rs.getString(3);
+                String phone = rs.getString(4);
+                String dob = rs.getString(5);
+                String sex = rs.getString(6);
+                String address = rs.getString(7);
+                String registerDate = rs.getString(8);
+                String profession = rs.getString(9);
+                String pro_introduc = rs.getString(10);
+                String archivement_descition = rs.getString(11);
+                String framework = rs.getString(12);
+                String experience = rs.getString(13);
+                String education = rs.getString(14);
+                String myservice = rs.getString(15);
+                String stk = rs.getString(16);
+                int cost = rs.getInt(17);
+                String skill = rs.getString(18);
+
+                CV cv = new CV(id, fullname, avatar, phone, dob, sex, address, registerDate, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, stk, cost, skill);
+
+                return cv;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null; // Return null if no CV is found or if there's an SQL exception
+    }
+
+//
+    public Skill getskillnamebyID(int id) {
+
+        try {
+            String strSelect = "select id,skillName\n"
+                    + "  from skill\n"
+                    + "  where id = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, id); // Set the mentor ID parameter
+            rs = stm.executeQuery();
+
+            if (rs.next()) {
+                int ids = rs.getInt(1);
+                String skillName = rs.getString(2);
+                Skill a = new Skill(ids, skillName);
+                return a;
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null; // Return null if no CV is found or if there's an SQL exception
+    }
+
+//
+    // delete cv
+    public boolean deleteCV(int idmentor) {
+        try {
+            String strDELETE = "delete  from cv\n"
+                    + "where idmentor=?";
+            PreparedStatement stm = connection.prepareStatement(strDELETE);
+            stm.setInt(1, idmentor);
+
+            int rowsAffected = stm.executeUpdate();
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra thông tin lỗi nếu có
+            return false;
+        }
+    }
+    //  
+
+//    
     public List<News> getAllnews() {
         try {
             String strSelect = "select * from news";
@@ -544,23 +724,23 @@ public class AdminDAO extends DBContext {
         }
     }
     // trangdh
-     List<Adshowreq> listR = new ArrayList<>();
+    List<Adshowreq> listR = new ArrayList<>();
 
     public List<Adshowreq> getAllAdshowreq() {
         List<Adshowreq> listR = new ArrayList<>(); // Initialize the list
 
-        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill, r.status,r.startDate, r.deadline, r.hour,r.reasonReject\n"
-                + "                                     FROM mentee m\n"
-                + "                                     JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "                                     JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "                                     ORDER BY r.idRequest ASC";
+        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill,r.startDate,r.endDate,r.status , r.hour,r.reasonReject,r.totalCost\n"
+                + "                                               FROM mentee m\n"
+                + "                                           JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "                                              JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "                                             ORDER BY r.idRequest ASC";
         try ( PreparedStatement stm = connection.prepareStatement(sql);  ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
                 Adshowreq objE = new Adshowreq(
                         rs.getInt(1), rs.getInt(2), rs.getString(3),
                         rs.getString(4), rs.getString(5), rs.getString(6),
                         rs.getString(7), rs.getString(8), rs.getString(9),
-                        rs.getFloat(10), rs.getString(11)
+                        rs.getFloat(10), rs.getString(11), rs.getInt(12)
                 );
                 listR.add(objE);
             }
@@ -574,12 +754,11 @@ public class AdminDAO extends DBContext {
     public List<Adshowreq> searchAdshowreq(String searchTerm) {
         List<Adshowreq> listR = new ArrayList<>();
 
-        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour,r.reasonReject\n"
-                + "FROM mentee m\n"
-                + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
-                + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
-                + "WHERE a.username LIKE ? \n" // Filter by username
-                + "ORDER BY r.idRequest ASC";
+        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill,r.startDate,r.endDate,r.status , r.hour,r.reasonReject,r.totalCost\n"
+                + "                FROM mentee m JOIN dbo.account a ON m.idMentee = a.idAccount\n"
+                + "                JOIN dbo.request r ON m.idMentee = r.idMentee\n"
+                + "                WHERE a.username LIKE ?\n"
+                + "                ORDER BY r.idRequest ASC";
 
         try ( PreparedStatement stm = connection.prepareStatement(sql)) {
             // Set the search term for username using LIKE clause
@@ -591,7 +770,7 @@ public class AdminDAO extends DBContext {
                             rs.getInt(1), rs.getInt(2), rs.getString(3),
                             rs.getString(4), rs.getString(5), rs.getString(6),
                             rs.getString(7), rs.getString(8), rs.getString(9),
-                            rs.getFloat(10), rs.getString(11)
+                            rs.getFloat(10), rs.getString(11), rs.getInt(12)
                     );
                     listR.add(objE);
                 }
@@ -725,7 +904,7 @@ public class AdminDAO extends DBContext {
     public List<Adshowreq> checkdate(String startDate, String endDate) {
         List<Adshowreq> listR = new ArrayList<>();
 
-        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill,r.startDate,r.endDate,r.status , r.hour,r.reasonReject,r.totalCost\n"
                 + "FROM mentee m\n"
                 + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
                 + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
@@ -743,7 +922,7 @@ public class AdminDAO extends DBContext {
                             rs.getInt(1), rs.getInt(2), rs.getString(3),
                             rs.getString(4), rs.getString(5), rs.getString(6),
                             rs.getString(7), rs.getString(8), rs.getString(9),
-                            rs.getFloat(10), rs.getString(11)
+                            rs.getFloat(10), rs.getString(11), rs.getInt(12)
                     );
                     listR.add(objE);
                 }
@@ -760,7 +939,7 @@ public class AdminDAO extends DBContext {
     public List<Adshowreq> getAdshowreqByStatusAndDate(String status, String startDate, String endDate) {
         List<Adshowreq> listR = new ArrayList<>();
 
-        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill,r.startDate,r.endDate,r.status , r.hour,r.reasonReject,r.totalCost\n"
                 + "FROM mentee m\n"
                 + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
                 + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
@@ -778,7 +957,7 @@ public class AdminDAO extends DBContext {
                             rs.getInt(1), rs.getInt(2), rs.getString(3),
                             rs.getString(4), rs.getString(5), rs.getString(6),
                             rs.getString(7), rs.getString(8), rs.getString(9),
-                            rs.getFloat(10), rs.getString(11)
+                            rs.getFloat(10), rs.getString(11), rs.getInt(12)
                     );
                     listR.add(objE);
                 }
@@ -796,7 +975,7 @@ public class AdminDAO extends DBContext {
         List<Adshowreq> listR = new ArrayList<>();
 
         // SQL query
-        String sql = "SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+        String sql = "SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill,r.startDate,r.endDate,r.status , r.hour,r.reasonReject,r.totalCost\n"
                 + "FROM mentee m\n"
                 + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
                 + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
@@ -830,7 +1009,7 @@ public class AdminDAO extends DBContext {
                                 rs.getInt(1), rs.getInt(2), rs.getString(3),
                                 rs.getString(4), rs.getString(5), rs.getString(6),
                                 rs.getString(7), rs.getString(8), rs.getString(9),
-                                rs.getFloat(10), rs.getString(11)
+                                rs.getFloat(10), rs.getString(11), rs.getInt(12)
                         );
                         listR.add(objE);
                     }
@@ -849,7 +1028,7 @@ public class AdminDAO extends DBContext {
 
         try {
             // Create a dynamic SQL query with the correct number of placeholders
-            StringBuilder sqlBuilder = new StringBuilder("SELECT m.idMentee, r.idRequest, a.username, r.title, r.content, r.skill, r.status, r.startDate, r.deadline,r.hour,r.reasonReject\n"
+            StringBuilder sqlBuilder = new StringBuilder("SELECT m.idMentee,r.idRequest, a.username, r.title, r.content, r.skill,r.startDate,r.endDate,r.status , r.hour,r.reasonReject,r.totalCost\n"
                     + "FROM mentee m\n"
                     + "JOIN dbo.account a ON m.idMentee = a.idAccount\n"
                     + "JOIN dbo.request r ON m.idMentee = r.idMentee\n"
@@ -891,7 +1070,7 @@ public class AdminDAO extends DBContext {
                                 rs.getInt(1), rs.getInt(2), rs.getString(3),
                                 rs.getString(4), rs.getString(5), rs.getString(6),
                                 rs.getString(7), rs.getString(8), rs.getString(9),
-                                rs.getFloat(10), rs.getString(11)
+                                rs.getFloat(10), rs.getString(11), rs.getInt(12)
                         );
                         listR.add(objE);
                     }
@@ -904,21 +1083,22 @@ public class AdminDAO extends DBContext {
 
         return listR;
     }
+
     public static void main(String[] args) {
         AdminDAO dao = new AdminDAO();
-
+        System.out.println(dao.searchAdshowreq("user1"));
         // Sample data for testing
-        List<String> statuses = new ArrayList<>(Arrays.asList("Open", "", ""));
-        String startDate = "2024-01-01"; // Adjust the date based on your data
-        String endDate = "2024-12-31";   // Adjust the date based on your data
-
-        // Call the getMulStatus method
-        List<Adshowreq> result = dao.getMulStatus(statuses, startDate, endDate);
-
-        // Print the result
-        for (Adshowreq adshowreq : result) {
-            System.out.println(adshowreq);
-        }
+//        List<String> statuses = new ArrayList<>(Arrays.asList("Open", "", ""));
+//        String startDate = "2024-01-01"; // Adjust the date based on your data
+//        String endDate = "2024-12-31";   // Adjust the date based on your data
+//
+//        // Call the getMulStatus method
+//        List<Adshowreq> result = dao.getMulStatus(statuses, startDate, endDate);
+//
+//        // Print the result
+//        for (Adshowreq adshowreq : result) {
+//            System.out.println(adshowreq);
+//        }
 
     }
 

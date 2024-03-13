@@ -27,7 +27,9 @@ public class Payment extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String requestIdStr = request.getParameter("idrequest");
-        
+        RequestDAO requestDAO = new RequestDAO();
+        Request r = requestDAO.getRequestById(Integer.parseInt(requestIdStr));
+        request.setAttribute("amount", r.getTotalCost());
 //        request.setAttribute("amount",amount);
          request.getRequestDispatcher("view/payment.jsp").forward(request, response);
          

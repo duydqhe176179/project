@@ -134,73 +134,34 @@
         </div>
 
         <%-- search mentor by skill name ------------------------------------------------------------------------- --%>
-        <div class="container">    
-            <form action="searchMentor" method="post">
-                <div class="input-group mb-3">
-                    <input name="searchBySkill" type="text" class="form-control" placeholder="Search skill">
-                    <button class="btn btn-success" type="submit">Go</button>
-                </div>
-            </form>
-        </div>
+        <!--        <div class="container">    
+                    <form action="searchMentor" method="post">
+                        <div class="input-group mb-3">
+                            <input name="searchBySkill" type="text" class="form-control" placeholder="Search skill">
+                            <button class="btn btn-success" type="submit">Go</button>
+                        </div>
+                    </form>
+                </div>-->
         <%-- ---------------------------------------------------------------------------------------------------- --%>
 
-        <div id="services" class="services section">
+        <div id="services" class="services section" style="padding-top: 0">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
-                            <h4>Amazing <em>Skill</em> for you</h4>
+                        <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s" style="margin-bottom: 20px">
+                            <h4>The <em>Skill</em> we are teaching</h4>
                             <img src="assets/images/heading-line-dec.png" alt="">
-                            <p>If you need the greatest collection of HTML templates for your business, please visit <a rel="nofollow" href="https://www.toocss.com/" target="_blank">TooCSS</a> Blog. If you need to have a contact form PHP script, go to <a href="https://templatemo.com/contact" target="_parent">our contact page</a> for more information.</p>
                         </div>
                     </div>
                 </div>
+                <form action="searchMentor" method="post">
+                    <div class="input-group mb-3">
+                        <input name="searchBySkill" type="text" class="form-control" placeholder="Search skill">
+                        <button class="btn btn-success" type="submit">Go</button>
+                    </div>
+                </form>
             </div>
-            <!--            <div class="container">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="service-item first-service">
-                                        <div class="icon"></div>
-                                        <h4>App Maintenance</h4>
-                                        <p>You are not allowed to redistribute this template ZIP file on any other website.</p>
-                                        <div class="text-button">
-                                            <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="service-item second-service">
-                                        <div class="icon"></div>
-                                        <h4>Rocket Speed of App</h4>
-                                        <p>You are allowed to use the Chain App Dev HTML template. Feel free to modify or edit this layout.</p>
-                                        <div class="text-button">
-                                            <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="service-item third-service">
-                                        <div class="icon"></div>
-                                        <h4>Multi Workflow Idea</h4>
-                                        <p>If this template is beneficial for your work, please support us <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">a little via PayPal</a>. Thank you.</p>
-                                        <div class="text-button">
-                                            <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="service-item fourth-service">
-                                        <div class="icon"></div>
-                                        <h4>24/7 Help &amp; Support</h4>
-                                        <p>Lorem ipsum dolor consectetur adipiscing elit sedder williamsburg photo booth quinoa and fashion axe.</p>
-                                        <div class="text-button">
-                                            <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
+
             <div class="container">  
                 <div class="row">
                     <c:forEach   items="${listSkill}" var = "item">
@@ -227,40 +188,35 @@
                             <div class="section-heading">
                                 <h4>About <em>What We Do</em> &amp; Who We Are</h4>
                                 <img src="assets/images/heading-line-dec.png" alt="">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eismod tempor incididunt ut labore et dolore magna.</p>
+                                <p>You are looking for a mentor but finding the right one is too difficult. 
+                                    Here we have reputable instructors who vouch for their knowledge and teaching style</p>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="box-item">
-                                        <h4><a href="#">Maintance Problems</a></h4>
-                                        <p>Lorem Ipsum Text</p>
+                                        <h4><a href="#">Professional</a></h4>
+                                        <p>Mentors with many experiences</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="box-item">
                                         <h4><a href="#">24/7 Support &amp; Help</a></h4>
-                                        <p>Lorem Ipsum Text</p>
+                                        <p>Hotline: 0923457189</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="box-item">
-                                        <h4><a href="#">Fixing Issues About</a></h4>
-                                        <p>Lorem Ipsum Text</p>
+                                        <h4><a href="#">Quality</a></h4>
+                                        <p>Many mentee work in big company</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="box-item">
                                         <h4><a href="#">Co. Development</a></h4>
-                                        <p>Lorem Ipsum Text</p>
+                                        <p>developed by FPT student</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eismod tempor idunte ut labore et dolore adipiscing  magna.</p>
-                                    <div class="gradient-button">
-                                        <a href="#">Start 14-Day Free Trial</a>
-                                    </div>
-                                    <span>*No Credit Card Required</span>
-                                </div>
+                               
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -272,14 +228,13 @@
                 </div>
             </div>
 
-            <div id="clients" class="the-clients">
+            <div id="rate" class="the-clients">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
                             <div class="section-heading">
-                                <h4>Check What <em>The Clients Say</em> About Our App Dev</h4>
+                                <h4>Check What <em>The Mentees Say</em> About Our App Dev</h4>
                                 <img src="assets/images/heading-line-dec.png" alt="">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eismod tempor incididunt ut labore et dolore magna.</p>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -296,7 +251,7 @@
                                                                 <span class="date">30 November 2021</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                                                                <span class="category">Financial Apps</span>
+                                                                <span class="category">Software Engineering</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 col-12">
                                                                 <i class="fa fa-star"></i>
@@ -304,7 +259,7 @@
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
-                                                                <span class="rating">4.8</span>
+                                                                <span class="rating">4</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -317,7 +272,7 @@
                                                                 <span class="date">29 November 2021</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                                                                <span class="category">Digital Business</span>
+                                                                <span class="category">Data Analyst</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 col-12">
                                                                 <i class="fa fa-star"></i>
@@ -334,11 +289,11 @@
                                                     <div class="thumb">
                                                         <div class="row">
                                                             <div class="col-lg-4 col-sm-4 col-12">
-                                                                <h4>May Catherina</h4>
+                                                                <h4>ดีมาก</h4>
                                                                 <span class="date">27 November 2021</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                                                                <span class="category">Business &amp; Economics</span>
+                                                                <span class="category">Software Engineering</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 col-12">
                                                                 <i class="fa fa-star"></i>
@@ -355,11 +310,11 @@
                                                     <div class="thumb">
                                                         <div class="row">
                                                             <div class="col-lg-4 col-sm-4 col-12">
-                                                                <h4>Random User</h4>
+                                                                <h4>とても良い</h4>
                                                                 <span class="date">24 November 2021</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                                                                <span class="category">New App Ecosystem</span>
+                                                                <span class="category">Tester</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 col-12">
                                                                 <i class="fa fa-star"></i>
@@ -376,7 +331,7 @@
                                                     <div class="thumb">
                                                         <div class="row">
                                                             <div class="col-lg-4 col-sm-4 col-12">
-                                                                <h4>Mark Amber Do</h4>
+                                                                <h4>बहुत अच्छा</h4>
                                                                 <span class="date">21 November 2021</span>
                                                             </div>
                                                             <div class="col-lg-4 col-sm-4 d-none d-sm-block">
@@ -517,79 +472,7 @@
                 </div>
             </div>
 
-            <div id="pricing" class="pricing-tables">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 offset-lg-2">
-                            <div class="section-heading">
-                                <h4>We Have The Best Pre-Order <em>Prices</em> You Can Get</h4>
-                                <img src="assets/images/heading-line-dec.png" alt="">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eismod tempor incididunt ut labore et dolore magna.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="pricing-item-regular">
-                                <span class="price">$12</span>
-                                <h4>Standard Plan App</h4>
-                                <div class="icon">
-                                    <img src="assets/images/pricing-table-01.png" alt="">
-                                </div>
-                                <ul>
-                                    <li>Lorem Ipsum Dolores</li>
-                                    <li>20 TB of Storage</li>
-                                    <li class="non-function">Life-time Support</li>
-                                    <li class="non-function">Premium Add-Ons</li>
-                                    <li class="non-function">Fastest Network</li>
-                                    <li class="non-function">More Options</li>
-                                </ul>
-                                <div class="border-button">
-                                    <a href="#">Purchase This Plan Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="pricing-item-pro">
-                                <span class="price">$25</span>
-                                <h4>Business Plan App</h4>
-                                <div class="icon">
-                                    <img src="assets/images/pricing-table-01.png" alt="">
-                                </div>
-                                <ul>
-                                    <li>Lorem Ipsum Dolores</li>
-                                    <li>50 TB of Storage</li>
-                                    <li>Life-time Support</li>
-                                    <li>Premium Add-Ons</li>
-                                    <li class="non-function">Fastest Network</li>
-                                    <li class="non-function">More Options</li>
-                                </ul>
-                                <div class="border-button">
-                                    <a href="#">Purchase This Plan Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="pricing-item-regular">
-                                <span class="price">$66</span>
-                                <h4>Premium Plan App</h4>
-                                <div class="icon">
-                                    <img src="assets/images/pricing-table-01.png" alt="">
-                                </div>
-                                <ul>
-                                    <li>Lorem Ipsum Dolores</li>
-                                    <li>120 TB of Storage</li>
-                                    <li>Life-time Support</li>
-                                    <li>Premium Add-Ons</li>
-                                    <li>Fastest Network</li>
-                                    <li>More Options</li>
-                                </ul>
-                                <div class="border-button">
-                                    <a href="#">Purchase This Plan Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
+            
             <jsp:include page="footer.jsp"></jsp:include>
 
                 <div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-labelledby="statisticsModalLabel" aria-hidden="true">

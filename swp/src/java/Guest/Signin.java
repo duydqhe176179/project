@@ -81,7 +81,7 @@ public class Signin extends HttpServlet {
         Account a = d.login(username, password);
         HttpSession session = request.getSession();
         // For simplicity, let's assume valid credentials are "admin" and "password"
-        if (a != null) {
+        if (a != null && a.getActive() == 1) {
             if (a.getConfirm() == 1) {
                 // Authentication successful
                 session.setAttribute("account", a);
@@ -89,7 +89,7 @@ public class Signin extends HttpServlet {
                 response.sendRedirect("home");
             } else {
                 session.setAttribute("account", a);
-                request.getRequestDispatcher("confirmAccount.jsp").forward(request, response);
+                request.getRequestDispatcher("sendEmailVerify").forward(request, response);
             }
         } else {
             // Authentication failed

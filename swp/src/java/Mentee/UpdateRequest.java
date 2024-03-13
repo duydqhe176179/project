@@ -18,7 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import model.Have_SKill;
 import model.Mentor;
+import model.Request;
 import model.Skill;
 
 /**
@@ -63,19 +65,19 @@ public class UpdateRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        MentorDAO dao = new MentorDAO();
-        List<Skill> list1 = dao.getSkill();
-        request.setAttribute("Skill", list1);
-        List<Mentor> listMentor1 = dao.getMentor();
+        MentorDAO mentorDao = new MentorDAO();
+        RequestDAO requestDao = new RequestDAO();
+
+        int idrequest = Integer.parseInt(request.getParameter("idrequest"));
+        Request req = requestDao.getRequestById(idrequest);
+        Mentor mentor = mentorDao.getIDMentor(req.getIdMentor());
+        List<Have_SKill> listHaveSkill = mentorDao.getidhaveskill(req.getIdMentor());
         
-        String idRequest=request.getParameter("idrequest");
-        System.out.println(idRequest);
-        request.setAttribute("idRequest", idRequest);
-        
-        request.setAttribute("MentorName", listMentor1);
+        request.setAttribute("mentor", mentor);
+        request.setAttribute("listHaveSkill", listHaveSkill);
+        request.setAttribute("request", req);
         
         request.getRequestDispatcher("view/updatereq.jsp").forward(request, response);
-        System.out.println(list1.size());
         
     } 
 
@@ -89,19 +91,19 @@ public class UpdateRequest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String idr = request.getParameter("idRequest");
-        String title = request.getParameter("title");
-        System.out.println(idr);
-        String des = request.getParameter("sdep");
-        String dhour = request.getParameter("hour");
-        String ddate = request.getParameter("date");
-        String skill = request.getParameter("skills");
-        String mentorName = request.getParameter("mentorname");
-        int idMentor = Integer.parseInt(mentorName);
-        String status = request.getParameter("status");
-        RequestDAO rq = new RequestDAO();
-        rq.UpdateRequest(idr, title, des, dhour, ddate, skill, idMentor, status);
-        response.sendRedirect("listrequest");
+//        String idr = request.getParameter("idRequest");
+//        String title = request.getParameter("title");
+//        System.out.println(idr);
+//        String des = request.getParameter("sdep");
+//        String dhour = request.getParameter("hour");
+//        String ddate = request.getParameter("date");
+//        String skill = request.getParameter("skills");
+//        String mentorName = request.getParameter("mentorname");
+//        int idMentor = Integer.parseInt(mentorName);
+//        String status = request.getParameter("status");
+//        RequestDAO rq = new RequestDAO();
+//        rq.UpdateRequest(idr, title, des, dhour, ddate, skill, idMentor, status);
+//        response.sendRedirect("listrequest");
         
     }
 

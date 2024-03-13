@@ -4,6 +4,7 @@
  */
 package controller;
 
+import CheckDb.Checkdb;
 import dal.DAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -16,10 +17,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Timer;
+import java.util.TimerTask;
 import model.Account;
 
 @WebServlet(name = "ResetPasswordController", urlPatterns = {"/reset-password"})
 public class ResetPasswordController extends HttpServlet {
+
+    private static String newPassword;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,32 +38,41 @@ public class ResetPasswordController extends HttpServlet {
 
         String accountname = request.getParameter("accountname");
         String emailaddress = request.getParameter("emailaddress");
-
+        Checkdb check = new Checkdb();
         try {
-
+            Account account = check.isExistResetPassword(accountname, emailaddress);
             // check in db
-            Account account = new DAO().getAccountByUsername(accountname);
             if (account == null) {
-                request.setAttribute("message", "Account not found");
-                throw new Exception();
+                request.setAttribute("message", "not found");
+            } else {
+                String oldPassword = account.getPass();
+                // generate password
+                newPassword = generatePassword(8);
+
+                // send mail
+                request.setAttribute("response", sendEmail(emailaddress, "Reset password", "The password is available in 5 minutes. Your new password: " + newPassword));
+
+                // update db
+                new DAO().updatePassword(account.getId(), newPassword);
+
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        new DAO().updatePassword(account.getId(), oldPassword); // dat lai mk sau 5 phút
+                        System.out.println("password expired.");
+                        timer.cancel(); // Hủy Timer sau khi hủy OTP
+                    }
+                }, 10000); // 5 phút (5 * 60 * 1000 mili giây)
+
+                request.setAttribute("message", "ok");
             }
-
-            // generate password
-            String newPassword = generatePassword(8);
-
-            // send mail
-            request.setAttribute("response", sendEmail(emailaddress, "Reset password", "Your new password: " + newPassword));
-
-            // update db
-            new DAO().updatePassword(account.getId(), newPassword);
-
-            request.setAttribute("message", "An email was sent!");
             request.getRequestDispatcher("Account/resetpassword.jsp").forward(request, response);
 
         } catch (Exception e) {
             request.setAttribute("message", "Error");
             request.getRequestDispatcher("Account/resetpassword.jsp").forward(request, response);
-
+            System.out.println(e.getMessage());
         }
 
     }

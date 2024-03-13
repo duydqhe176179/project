@@ -46,10 +46,6 @@
             th{
                 text-align: center
             }
-
-
-
-
             .logout-container {
                 text-align: center;
                 margin-top: 100px;

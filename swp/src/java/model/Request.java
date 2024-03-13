@@ -16,14 +16,22 @@ public class Request {
 
     private int idRequest, idMentee, idMentor;
     private String fullname;
-    private String title, content, skill, status, startDate, deadline;
+    private String title, content, skill, status, startDate,endDate;
     private float hour;
     private String reasonReject;
-    private String deadlineDate;
+    
     private BigDecimal deadlineHour;
     int totalCost;
 
     public Request() {
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public int getTotalCost() {
@@ -43,11 +51,11 @@ public class Request {
     }
 
     public String getDeadline() {
-        return deadline;
+        return endDate;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setDeadline(String endDate) {
+        this.endDate = endDate;
     }
 
     public float getHour() {
@@ -58,7 +66,7 @@ public class Request {
         this.hour = hour;
     }
 
-    public Request(int idRequest, int idMentee, int idMentor, String fullname, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
+    public Request(int idRequest, int idMentee, int idMentor, String fullname, String title, String content, String skill, String status, String startDate, String endDate, float hour) {
         this.idRequest = idRequest;
         this.idMentee = idMentee;
         this.idMentor = idMentor;
@@ -68,8 +76,22 @@ public class Request {
         this.skill = skill;
         this.status = status;
         this.startDate = startDate;
-        this.deadline = deadline;
+        this.endDate = endDate;
         this.hour = hour;
+    }
+
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String endDate, float hour, int totalCost) {
+        this.idRequest = idRequest;
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.hour = hour;
+        this.totalCost = totalCost;
     }
 
     public String getFullname() {
@@ -89,7 +111,7 @@ public class Request {
     }
 
   
-    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String endDate, float hour) {
         this.idRequest = idRequest;
         this.idMentee = idMentee;
         this.idMentor = idMentor;
@@ -97,35 +119,11 @@ public class Request {
         this.content = content;
         this.skill = skill;
         this.status = status;
-        this.deadline = deadline;
+        this.endDate = endDate;
         this.hour = hour;
     }
 
-    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String deadlineDate, BigDecimal deadlineHour,int totalCost) {
-        this.idRequest = idRequest;
-        this.idMentee = idMentee;
-        this.idMentor = idMentor;
-        this.title = title;
-        this.content = content;
-        this.skill = skill;
-        this.status = status;
-        this.deadlineDate = deadlineDate;
-        this.deadlineHour = deadlineHour;
-        this.totalCost=totalCost;
-    }
-
-    public Request(int idMentee, int idMentor, String title, String content, String skill, String status, String deadline, float hour) {
-        this.idMentee = idMentee;
-        this.idMentor = idMentor;
-        this.title = title;
-        this.content = content;
-        this.skill = skill;
-        this.status = status;
-        this.deadline = deadline;
-        this.hour = hour;
-    }
-
-    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String deadline, float hour) {
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate,String endDate, BigDecimal deadlineHour,int totalCost) {
         this.idRequest = idRequest;
         this.idMentee = idMentee;
         this.idMentor = idMentor;
@@ -134,7 +132,32 @@ public class Request {
         this.skill = skill;
         this.status = status;
         this.startDate = startDate;
-        this.deadline = deadline;
+        this.endDate=endDate;
+        this.deadlineHour = deadlineHour;
+        this.totalCost=totalCost;
+    }
+
+    public Request(int idMentee, int idMentor, String title, String content, String skill, String status, String endDate, float hour) {
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.endDate = endDate;
+        this.hour = hour;
+    }
+
+    public Request(int idRequest, int idMentee, int idMentor, String title, String content, String skill, String status, String startDate, String endDate, float hour) {
+        this.idRequest = idRequest;
+        this.idMentee = idMentee;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.content = content;
+        this.skill = skill;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.hour = hour;
     }
 
@@ -194,25 +217,23 @@ public class Request {
         this.status = status;
     }
 
-    public String getDeadlineDate() {
-        return deadlineDate;
-    }
-
-    public void setDeadlineDate(String deadlineDate) {
-        this.deadlineDate = deadlineDate;
-    }
+   
 
     public BigDecimal getDeadlineHour() {
         return deadlineHour;
     }
 
-    public void setDeadlineHour(BigDecimal deadlineHour) {
+    public void setDeadlineHour(BigDecimal endDateHour) {
         this.deadlineHour = deadlineHour;
     }
 
     @Override
     public String toString() {
-        return "Request{" + "idRequest=" + idRequest + ", idMentee=" + idMentee + ", idMentor=" + idMentor + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", startDate=" + startDate + ", deadline=" + deadline + ", hour=" + hour + ", deadlineDate=" + deadlineDate + ", deadlineHour=" + deadlineHour + '}';
+        return "Request{" + "idRequest=" + idRequest + ", idMentee=" + idMentee + ", idMentor=" + idMentor + ", fullname=" + fullname + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", startDate=" + startDate + ", endDate=" + endDate + ", hour=" + hour + ", reasonReject=" + reasonReject + ", deadlineHour=" + deadlineHour + ", totalCost=" + totalCost + '}';
     }
+
+    
+
+    
 
 }

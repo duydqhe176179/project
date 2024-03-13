@@ -3,7 +3,7 @@
     Created on : Jan 30, 2024, 11:01:36 PM
     Author     : admin
 --%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,9 +13,24 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_profile.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-      
-          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
               crossorigin="anonymous" />
+        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+        <!--
+        
+        TemplateMo 570 Chain App Dev
+        
+        
+        -->
+
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet" href="assets/css/animated.css">
+        <link rel="stylesheet" href="assets/css/owl.css">
+        <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
         <style>
             .image-container {
                 position: relative;
@@ -29,38 +44,37 @@
             .image-container label {
                 position: absolute;
                 bottom: 5px;
-                left: 5px; 
-                background: rgba(255, 255, 255, 0.7); 
-                padding: 5px; 
+                left: 5px;
+                background: rgba(255, 255, 255, 0.7);
+                padding: 5px;
                 margin-left: 100px;
             }
             .check a{
-               text-decoration: none;
-               
+                text-decoration: none;
+
             }
-            
+
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="main-body">
+        <jsp:include page="../head_foot/header.jsp"></jsp:include>
+            <div class="container">
+                <div class="main-body">
 
-                <!-- Breadcrumb -->
+                    <!-- Breadcrumb -->
 
-                <!-- /Breadcrumb -->
+                    <!-- /Breadcrumb -->
 
-                <div class="row gutters-sm">
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action ="profileMentee" enctype="multipart/form-data" method ="post" >
-                                    <div class="d-flex flex-column align-items-center text-center">
-                                        <div class="display">
-                                            <div class="image-container">
-                                                <img src="${mentee.avatar}" class="rounded-circle" width="150">
+                    <div class="row gutters-sm">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action ="profileMentee" enctype="multipart/form-data" method ="post" >
+                                        <div class="d-flex flex-column align-items-center text-center">
+                                            <div class="display">
+                                                <div class="image-container">
+                                                    <img src="${mentee.avatar}" class="rounded-circle" width="150">
                                                 <label for="input-file" class="fas fa-file" ></label>
-                                                
-                                               
                                             </div>
                                         </div>
 
@@ -138,9 +152,9 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                         <div class="check"> <a href="home.jsp" style=" color: white; background: red">Back</a></div>
-                                        <div class="check"> <a href="update" style=" color: white; background: green">Edit</a></div>
-                                       
+                                        <div class="check"> <a href="home.jsp" style=" color: white; background: red;padding: 2px 10px">Back</a></div>
+                                        <div class="check"> <a href="update" style=" color: white; background: green;padding: 2px 10px">Edit</a></div>
+
                                     </div>
                                 </div>
                             </div>
@@ -164,5 +178,6 @@
 
             </div>
         </div>
+                                        <jsp:include page="../footer.jsp"></jsp:include>
     </body>
 </html>

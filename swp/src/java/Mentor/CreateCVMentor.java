@@ -4,6 +4,7 @@
  */
 package User;
 
+import admin.AdminDAO;
 import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,10 +21,14 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import model.Account;
+import model.CV;
 import model.Have_SKill;
 import model.Mentor;
+import model.Skill;
 import model.SkillMentor;
 
 /**
@@ -110,6 +115,7 @@ public class CreateCVMentor extends HttpServlet {
         String idMen = request.getParameter("idMentor");
         int idMentor = Integer.parseInt(idMen);
         MentorDAO dao = new MentorDAO();
+        AdminDAO addao = new AdminDAO();
         Mentor mentor = dao.getIDMentor(idMentor);
 
         String fileName = mentor.getAvatar(); // Default to existing avatar
@@ -139,33 +145,61 @@ public class CreateCVMentor extends HttpServlet {
 //        for (String selectedSkill : idSkill) {
 //            dao.addHave_Skill(new Have_SKill(a.getId(), Integer.parseInt(selectedSkill)));
 //        }
-
-
-
-        if (idSkill != null && idSkill.length > 0) {
-            dao.deleteMentorbyhaveskill(idMentor);
-            for (String selectedSkill : idSkill) {
-                dao.addHave_Skill(new Have_SKill(idMentor, Integer.parseInt(selectedSkill)));
+        List<Skill> kkk = new ArrayList<>();
+        for (String id : idSkill) {
+            Skill skill = addao.getskillnamebyID(Integer.parseInt(id));
+            if (skill != null) {
+                kkk.add(new Skill(skill.getSkillName()));
+            } else {
+                System.out.println("None");
             }
-        } else {
+        }
+        String kkkString = kkk.toString();
+        System.out.println(kkkString);
 
+        CV r = new CV(idMentor, fullname, fileName, phone, dob, sex, address, myservice, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, STK, cost, kkkString);
+        CV aa = addao.getCVbyID(idMentor);
+        if (aa != null) {
+            addao.deleteCV(idMentor);
             dao.deleteMentorbyhaveskill(idMentor);
+            addao.insertr(r);
+            System.out.println("ok");
+            String msg = "success";
+            request.setAttribute("msg", msg);
+            request.getRequestDispatcher("Mentor/CreateCV.jsp").forward(request, response);
+        } else {
+           dao.deleteMentorbyhaveskill(idMentor);
+            addao.insertr(r);
+            System.out.println("ok");
+            String msg = "success";
+            request.setAttribute("msg", msg);
+            request.getRequestDispatcher("Mentor/CreateCV.jsp").forward(request, response);
         }
-        System.out.println("experiwence" + experience);
-        // Process the selected skills
-        boolean result = false;
-        try {
-            result = dao.updateCV(idMentor, fullname, fileName, phone, dob, sex, address, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, cost, STK);
-            System.out.println(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = false;// Log the exception
-        }
 
-        request.setAttribute("mess", "Update successfully!");
-
-        response.sendRedirect("profilecv?idMentor=" + idMentor);
-
+//
+//        if (idSkill != null && idSkill.length > 0) {
+//            dao.deleteMentorbyhaveskill(idMentor);
+//            for (String selectedSkill : idSkill) {
+//                dao.addHave_Skill(new Have_SKill(idMentor, Integer.parseInt(selectedSkill)));
+//            }
+//        } else {
+//
+//            dao.deleteMentorbyhaveskill(idMentor);
+//        }
+//        System.out.println("experiwence" + experience);
+//        // Process the selected skills
+//        boolean result = false;
+//        try {
+//            result = dao.updateCV(idMentor, fullname, fileName, phone, dob, sex, address, profession, pro_introduc, archivement_descition, framework, experience, education, myservice, cost, STK);
+//            System.out.println(result);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result = false;// Log the exception
+//        }
+//
+//        request.setAttribute("mess", "Update successfully!");
+//
+//        response.sendRedirect("profilecv?idMentor=" + idMentor);
     }
 
     /**

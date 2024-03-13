@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import model.Account;
+import model.Have_SKill;
 import model.Mentor;
 import model.Request;
 import model.Skill;
@@ -33,6 +34,7 @@ import model.SkillMentor;
 @WebServlet(name = "RequestController", urlPatterns = {"/Request"})
 public class RequestController extends HttpServlet {
 
+    AdminDAO adminDao = new AdminDAO();
     private RequestDAO requestDAO;
 
     public void init() {
@@ -105,15 +107,17 @@ public class RequestController extends HttpServlet {
         AdminDAO adminDao = new AdminDAO();
         SkillMentor skill = new SkillMentor();
         Mentor m = dao.getIDMentor(idMentor);
-        
+
         if (idSkill > 0) {
             skill = adminDao.getSkillById(idSkill);
+            request.setAttribute("skillMentor", skill);
         } else {
-            skill=null;
+            skill = null;
+            List<Have_SKill> listHaveS = dao.getidhaveskill(idMentor);
+            request.setAttribute("listHaveSkill", listHaveS);
         }
 
         request.setAttribute("mentor", m);
-        request.setAttribute("skillMentor", skill);
 
         request.getRequestDispatcher("view/create-request.jsp").forward(request, response);
     }
@@ -133,8 +137,10 @@ public class RequestController extends HttpServlet {
             // Retrieve form data
             int idMentor = Integer.parseInt(request.getParameter("idMentor"));
             String title = request.getParameter("title");
-            String deadlineDateStr = request.getParameter("deadlineDate");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
             String deadlineHourStr = request.getParameter("deadlineHour");
+            System.out.println(deadlineHourStr);
             String content = request.getParameter("content");
             int idSkill = Integer.parseInt(request.getParameter("idSkill"));
             AdminDAO adminDao = new AdminDAO();
@@ -151,7 +157,7 @@ public class RequestController extends HttpServlet {
             BigDecimal deadlineHour = new BigDecimal(deadlineHourStr);
 
             // Create a new Request object
-            Request newRequest = new Request(0, idMentee, idMentor, title, content, nameSkill, "Open", deadlineDateStr, deadlineHour, totalCost);
+            Request newRequest = new Request(0, idMentee, idMentor, title, content, nameSkill, "Open", startDate, endDate, deadlineHour, totalCost);
 
             // Save the new request to the database
             RequestDAO requestDAO1 = new RequestDAO();
@@ -178,33 +184,30 @@ public class RequestController extends HttpServlet {
         try {
             // Retrieve form data
             int idRequest = Integer.parseInt(request.getParameter("idRequest"));
-            int idMentor = Integer.parseInt(request.getParameter("idMentor"));
             String title = request.getParameter("title");
-            String deadlineDateStr = request.getParameter("deadlineDate");
-            String deadlineHourStr = request.getParameter("deadlineHour");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            String hour = request.getParameter("deadlineHour");
             String content = request.getParameter("content");
-            String[] skills = request.getParameterValues("skills");
-            String status = request.getParameter("status");
+            int totalCost = Integer.parseInt(request.getParameter("totalCost"));
 
-            // Convert deadline date and hour to java.util.Date
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date deadlineDate = dateFormat.parse(deadlineDateStr);
-            BigDecimal deadlineHour = new BigDecimal(deadlineHourStr);
-            // Assuming you have a method to get the current Mentee ID
-            Account account = (Account) request.getSession().getAttribute("account");
-//            int idMentee = new MenteeDAO().getMenteeByAccountId(account.getId()).getIdMentee();
+            int idSkill = Integer.parseInt(request.getParameter("idSkill"));
+            SkillMentor skill = adminDao.getSkillById(idSkill);
 
-            // Create an updated Request object
-//            Request updatedRequest = new Request(idRequest, idMentee, idMentor, title, content, String.join(", ", skills), "Open", deadlineDate, deadlineHour);            // Update the request in the database
-//            if (requestDAO.updateRequest(updatedRequest)) {
-//                response.sendRedirect("success.jsp"); // Redirect to a success page
-//            } else {
-//                // Handle error case
-//                response.getWriter().println("Error updating request");
-//            }
-        } catch (ParseException e) {
+            RequestDAO requestDao=new RequestDAO();
+            String msg;
+            boolean a=requestDao.UpdateRequest(idRequest, title, content, skill.getSkillName(), startDate, endDate, Float.parseFloat(hour), totalCost);
+            if(a){
+                msg="ok";
+            } else{
+                msg="fail";
+            }
+            request.setAttribute("msg", msg);
+            request.getRequestDispatcher("view/updatereq.jsp").forward(request, response);
+//            response.sendRedirect("updatereq?idrequest="+idRequest);
+        } catch (Exception e) {
             // Handle parsing error
-            response.getWriter().println("Error parsing date");
+            response.getWriter().println(e.toString());
         }
     }
 

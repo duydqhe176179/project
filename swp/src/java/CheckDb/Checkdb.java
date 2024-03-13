@@ -64,8 +64,32 @@ public class Checkdb extends DBContext {
         return listAccount;
     }
 
+    public Account isExistResetPassword(String username, String email) {
+        try {
+            String sql = "SELECT * FROM dbo.account\n"
+                    + "WHERE username=? AND email=?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, email);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int idAccount = rs.getInt(1);
+                String user = rs.getString(2);
+                String mail = rs.getString(3);
+                String pass = rs.getString(4);
+                String role = rs.getString(5);
+                int confirm = rs.getInt(6);
+
+                Account a = new Account(idAccount, user, mail, pass, role, confirm);
+                return a;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         Checkdb check = new Checkdb();
-        System.out.println(check.isEmailUsed("d@gmail.com"));
+        System.out.println(check.isExistResetPassword("user16", "dduy2357@gmail.comf"));
     }
 }

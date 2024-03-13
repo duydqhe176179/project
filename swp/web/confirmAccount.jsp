@@ -22,7 +22,7 @@
             }
         </style>
     </head>
-    <body>
+    <body onload="resetVariable()">
         <div class="wapper">
             <form action="confirm" method="post">
                 <h1>Confirm your account</h1>
@@ -35,9 +35,9 @@
                     OK
                 </button>
             </form>
-                <c:if test="${mess ne null}">
-                    <span style="margin: 7px 0;color: #30d82a">${mess}, return <a href="home">home</a></span>
-                </c:if>
+            <c:if test="${mess ne null}">
+                <span style="margin: 7px 0;color: #30d82a">${mess}, return <a href="home">home</a></span>
+            </c:if>
             ${err}
             <form action="sendEmailVerify" method="post" style="margin-top: 10px">
                 <span style="margin-right: 5px">If you don't have any email, click to send again  </span>
@@ -46,5 +46,18 @@
                 </button>
             </form>
         </div>
+        <script >
+            // Hàm để đặt biến về null sau 1 phút
+            function resetVariable() {
+                // Lấy phần tử input có name là "verify"
+                var verifyInput = document.getElementsByName("verify")[0];
+
+                // Thiết lập biến về null sau 1 phút
+                setTimeout(function () {
+                    verifyInput.value = null;
+                    console.log("Variable 'verify' has been set to null.");
+                }, 5*60*1000); // 1 phút = 60.000 mili giây
+            }
+        </script>
     </body>
 </html>

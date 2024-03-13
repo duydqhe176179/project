@@ -94,6 +94,9 @@ public class signup extends HttpServlet {
         String birth = request.getParameter("birth");
         String address = request.getParameter("address");
         String gender = request.getParameter("gender");
+        if(gender==null){
+            gender="Male";
+        }
         Signup signup = new Signup(role, user, pass, repass, email, fullname, phone, birth, address, gender);
 
         String err = "";

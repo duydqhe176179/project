@@ -78,6 +78,27 @@ public class MentorDAO extends DBContext {
         return skill;
     }
 
+    public Skill getSkillNameWithId(String skillName) {
+        try {
+            String sql = "SELECT id FROM skill WHERE skillName = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, skillName);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                // Assuming you have a Skill class with constructor taking id and name
+                return new Skill(id, skillName);
+            }
+        } catch (SQLException e) {
+            // Handle exception appropriately
+            e.printStackTrace();
+        } finally {
+            // Close resources if necessary
+        }
+        return null; // Return null if no skill found with the given name
+    }
+
     public boolean updateCV(int id_Mentor, String fullname, String avatar, String phone, String dob, String sex, String address, String profession, String pro_introduc,
             String archivement_descition, String framework, String experience, String education, String myservice, int cost, String STK) {
         try {
@@ -301,7 +322,6 @@ public class MentorDAO extends DBContext {
                 return a;
             }
         } catch (SQLException e) {
-            System.out.println(e);
         }
         return null;
     }
@@ -329,14 +349,14 @@ public class MentorDAO extends DBContext {
         return null;
     }
 
-    public boolean addHave_Skill(Have_SKill r) {
+    public boolean addHave_Skill(int idmentor, int idskill) {
         try {
             String strSelect = "  INSERT INTO [dbo].[have_skill] ([idMentor], [idSkill])\n"
                     + "VALUES (?, ?);\n"
                     + "                           ";
             stm = connection.prepareStatement(strSelect);
-            stm.setInt(1, r.getIdMentor());
-            stm.setInt(2, r.getIdSkill());
+            stm.setInt(1, idmentor);
+            stm.setInt(2, idskill);
 
             int rowsAffected = stm.executeUpdate();
 
@@ -524,7 +544,7 @@ public class MentorDAO extends DBContext {
     public static void main(String[] args) {
         MentorDAO mentorDAO = new MentorDAO();
         List<Have_SKill> vd = new ArrayList<>();
-        vd = mentorDAO.getidhaveskill(1);
-        System.out.println(vd);
+       
+        System.out.println(mentorDAO.getSkillNameWithId("C++"));
     }
 }

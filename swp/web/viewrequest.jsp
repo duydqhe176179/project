@@ -173,8 +173,8 @@
                             <th style="width: 10%;text-align: center;">Title</th>
                             <th style="width: 15%;text-align: center;">Content of request</th>
                             <th style="width: 10%;text-align: center;">Start Date</th>
-                            <th style="width: 10%;text-align: center;">Deadline Date</th>
-                            <th style="width: 10%;text-align: center;">Deadline Hour (h)</th>
+                            <th style="width: 10%;text-align: center;">End Date</th>
+                            <th style="width: 10%;text-align: center;">Total learn hour (h)</th>
                             <th style="width: 10%;text-align: center;">Skills</th>
                             <th style="width: 10%;text-align: center;">Status</th>
                             <th style="width: 15%;text-align: center;">Actions</th>
@@ -187,7 +187,7 @@
                                 <td style="text-align: center;">${a.title}</td>
                                 <td style="text-align: center;">${a.content}</td>
                                 <td style="text-align: center;">${a.startDate}</td>
-                                <td style="text-align: center;">${a.deadline}</td>
+                                <td style="text-align: center;">${a.endDate}</td>
                                 <td style="text-align: center;">${a.hour}</td>
                                 <td style="text-align: center;">${a.skill}</td>
                                 <td style="text-align: center;">${a.status}</td>

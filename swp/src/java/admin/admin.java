@@ -21,12 +21,14 @@ import java.util.List;
 import model.AListMentor;
 import model.Account;
 import model.Adshowreq;
+import model.CV;
 import model.Mentee;
 import model.Mentor;
 import model.News;
 import model.Request;
 import model.SkillMentor;
 import model.StaticMentee;
+import model.reportReq;
 
 /**
  *
@@ -196,8 +198,36 @@ public class admin extends HttpServlet {
                 page4 = Integer.parseInt(xpage4);
 
             }
+      List<CV> cvList = addao.getCV();
+           request.setAttribute("cvList", cvList);
+           
+            int page8, numperpage8 = 5;
+            int start8;
+            int end8;
+            String xpage8 = request.getParameter("page8");
+            if (xpage8 == null) {
+                page8 = 1;
+            } else {
+                page8 = Integer.parseInt(xpage8);
 
-            List<News> listnews = addao.getAllnews();
+            }
+            
+           DAO dal  =new DAO();
+           List<reportReq> ame  =dal.getreportReq();
+           int size8 = ame.size();
+           start8 = (page8 - 1) * numperpage8;
+            end8 = Math.min(page8 * numperpage8, size8);
+             int num8 = (size8 % 5 == 0 ? (size8 / 5) : ((size8 / 5)) + 1);
+           List<reportReq> amme = dal.getListSkillByPage(ame, start8, end8);
+            request.setAttribute("amme", amme);
+            request.setAttribute("num8", num8);
+            request.setAttribute("page8", page8);
+                   
+           
+           
+           
+           
+   List<News> listnews = addao.getAllnews();
             int size4 = listnews.size();
             start4 = (page4 - 1) * numperpage4;
             end4 = Math.min(page4 * numperpage4, size4);

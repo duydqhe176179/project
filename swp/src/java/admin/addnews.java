@@ -82,7 +82,7 @@ public class addnews extends HttpServlet {
             request.setAttribute("message", "Add news successfully!");
 
 // Chuyển hướng sau khi thêm tin tức
-            response.sendRedirect("admin");
+            response.sendRedirect("maketer");
         } else {
             // Nếu có bất kỳ tham số nào là null, in ra thông báo lỗi
             System.out.println("Error: One or more parameters are null");

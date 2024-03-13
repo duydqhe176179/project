@@ -20,8 +20,8 @@ public class RequestDAO extends DBContext {
     ResultSet rs;
 
     public boolean createRequest(Request request) {
-        String query = "INSERT INTO request (idMentee, idMentor, title, content, skill, status, deadline, hour,totalCost) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
+        String query = "INSERT INTO dbo.request(idMentee,idMentor,title,content,skill,status,startDate,endDate,hour,totalCost)\n"
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
 
@@ -31,9 +31,10 @@ public class RequestDAO extends DBContext {
             pstmt.setString(4, request.getContent());
             pstmt.setString(5, request.getSkill());
             pstmt.setString(6, request.getStatus());
-            pstmt.setString(7, request.getDeadlineDate());
-            pstmt.setBigDecimal(8, request.getDeadlineHour());
-            pstmt.setInt(9, request.getTotalCost());
+            pstmt.setString(7, request.getStartDate());
+            pstmt.setString(8, request.getEndDate());
+            pstmt.setBigDecimal(9, request.getDeadlineHour());
+            pstmt.setInt(10, request.getTotalCost());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             // Handle database access or SQL exception
@@ -42,36 +43,36 @@ public class RequestDAO extends DBContext {
         return true;
     }
 
-    public boolean updateRequest(Request request) {
-        String query = "UPDATE request SET "
-                + "idMentee = ?, "
-                + "title = ?, "
-                + "content = ?, "
-                + "skill = ?, "
-                + "status = ?, "
-                + "deadlineDate = ?, "
-                + "deadlineHour = ? "
-                + "WHERE idRequest = ?";
-
-        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
-
-            pstmt.setInt(1, request.getIdMentee());
-            pstmt.setString(2, request.getTitle());
-            pstmt.setString(3, request.getContent());
-            pstmt.setString(4, request.getSkill());
-            pstmt.setString(5, request.getStatus());
-            pstmt.setString(6, request.getDeadlineDate());
-            pstmt.setBigDecimal(7, request.getDeadlineHour());;
-            pstmt.setInt(8, request.getIdRequest());
-
-            int rowsAffected = pstmt.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            // Handle database access or SQL exception
-            e.printStackTrace();
-        }
-        return false;
-    }
+//    public boolean updateRequest(Request request) {
+//        String query = "UPDATE request SET "
+//                + "idMentee = ?, "
+//                + "title = ?, "
+//                + "content = ?, "
+//                + "skill = ?, "
+//                + "status = ?, "
+//                + "deadlineDate = ?, "
+//                + "deadlineHour = ? "
+//                + "WHERE idRequest = ?";
+//
+//        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
+//
+//            pstmt.setInt(1, request.getIdMentee());
+//            pstmt.setString(2, request.getTitle());
+//            pstmt.setString(3, request.getContent());
+//            pstmt.setString(4, request.getSkill());
+//            pstmt.setString(5, request.getStatus());
+//            pstmt.setString(6, request.getDeadlineDate());
+//            pstmt.setBigDecimal(7, request.getDeadlineHour());;
+//            pstmt.setInt(8, request.getIdRequest());
+//
+//            int rowsAffected = pstmt.executeUpdate();
+//            return rowsAffected > 0;
+//        } catch (SQLException e) {
+//            // Handle database access or SQL exception
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 
     public List<Request> getAllRequests() {
         List<Request> requests = new ArrayList<>();
@@ -112,7 +113,7 @@ public class RequestDAO extends DBContext {
     public List<Request> getAllRequestsManager() {
         List<Request> list = new ArrayList<>();  // Khởi tạo một danh sách mới
 
-        String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour\n"
+        String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate,r r.deadline, r.hour\n"
                 + "FROM request r\n"
                 + "JOIN mentee m ON r.idMentee = m.idMentee\n";
 
@@ -158,35 +159,37 @@ public class RequestDAO extends DBContext {
                 resultSet.getString("content"),
                 resultSet.getString("skill"),
                 resultSet.getString("status"),
-                resultSet.getString("deadlineDate"),
-                resultSet.getBigDecimal("deadlineHour"),
+                resultSet.getString("startDate"),
+                resultSet.getString("endDate"),
+                resultSet.getBigDecimal("hour"),
                 resultSet.getInt("totalCost")
         );
     }
 
-    public boolean UpdateRequest(String idr, String title, String des, String hour, String date, String skill, int idMentor, String status) {
+    public boolean UpdateRequest(int idRequest, String title, String content, String nameSkill, String startDate, String endDate,Float hour, int totalCost) {
         Connection conn = null;
         String query = "UPDATE [dbo].[request]\n"
-                + "   SET \n"
-                + "      [idMentor] = ?\n"
-                + "      ,[title] = ?\n"
+                + "   SET [title] = ?\n"
                 + "      ,[content] = ?\n"
-                + "      ,[skill] = ?\n"
+                + "      ,[skill] =?\n"
                 + "      ,[status] = ?\n"
-                + "      ,[deadline] = ?\n"
+                + "      ,[startDate] = ?\n"
+                + "      ,[endDate] = ?\n"
                 + "      ,[hour] = ?\n"
-                + " WHERE idRequest = ?";
+                + "      ,[totalCost] = ?\n"
+                + " WHERE  idRequest=?";
         try {
             conn = new DBContext().connection;
             stm = conn.prepareStatement(query);
-            stm.setInt(1, idMentor);
-            stm.setString(2, title);
-            stm.setString(3, des);
-            stm.setString(4, skill);
-            stm.setString(5, status);
-            stm.setString(6, date);
-            stm.setString(7, hour);
-            stm.setString(8, idr);
+            stm.setString(1, title);
+            stm.setString(2, content);
+            stm.setString(3, nameSkill);
+            stm.setString(4, "Open");
+            stm.setString(5, startDate);
+            stm.setString(6, endDate);
+            stm.setFloat(7, hour);
+            stm.setInt(8, totalCost);
+            stm.setInt(9, idRequest);
             stm.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
@@ -228,26 +231,9 @@ public class RequestDAO extends DBContext {
 
     public static void main(String[] args) {
         // Assuming you have a Request object ready for testing
-        Request testRequest = new Request();
-        testRequest.setIdMentee(5);
-        testRequest.setIdMentor(1);
-        testRequest.setTitle("Test Request");
-        testRequest.setContent("This is a test request.");
-        testRequest.setSkill("Java");
-        testRequest.setStatus("Open");
-        testRequest.setDeadlineDate("2022-02-28");
-        testRequest.setDeadlineHour(BigDecimal.valueOf(15.2));
-
-        // Assuming you have an instance of RequestDAO
-        RequestDAO dao = new RequestDAO();
-
+        
         // Call the createRequest method and handle the result
-        try {
-            dao.createRequest(testRequest);
-            System.out.println("Request created successfully!");
-        } catch (Exception e) {
-            System.out.println("Error creating request: " + e.getMessage());
-        }
+       
     }
 
 }

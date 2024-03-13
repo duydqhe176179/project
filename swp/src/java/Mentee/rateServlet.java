@@ -38,12 +38,12 @@ public class rateServlet extends HttpServlet {
             request.setAttribute("idreq", idRequest);
             int idMentee = Integer.parseInt(request.getParameter("idMentee"));
             request.setAttribute("idreqd", idMentee);
-           // System.out.println(idRequest);
+            // System.out.println(idRequest);
             int idMentor = Integer.parseInt(request.getParameter("idMentor"));
-            
+
             request.setAttribute("req", idMentor);
             Rate r = dao.getRateByIDRequest(idRequest);
-          //  System.out.println(r);
+            //  System.out.println(r);
             request.setAttribute("rate", r);
             // Set the mentors attribute for use in rate.jsp
             request.setAttribute("mentors", mentors);
@@ -93,7 +93,9 @@ public class rateServlet extends HttpServlet {
                     System.out.println("Successfully updated rating in the database");
                     request.setAttribute("messsuccess", "Thank you for updating your rating!");
 
-                    response.sendRedirect("listrequest");
+                    String msg = "success";
+                    request.setAttribute("msg", msg);
+                    request.getRequestDispatcher("rate.jsp").forward(request, response);
                 } else {
                     System.out.println("Error: Could not update rating in the database");
                     request.setAttribute("messerror", "Cannot update rating. Please try again later.");
@@ -103,7 +105,9 @@ public class rateServlet extends HttpServlet {
                     System.out.println("Successfully inserted rating into the database");
                     request.setAttribute("messsuccess", "Thank you for rating!");
 
-                    response.sendRedirect("listrequest");
+                    String msg = "success";
+                    request.setAttribute("msg", msg);
+                    request.getRequestDispatcher("rate.jsp").forward(request, response);
                 } else {
                     System.out.println("Error: Could not insert rating into the database");
                     request.setAttribute("messerror", "Cannot rate. Please try again later.");

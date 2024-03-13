@@ -93,11 +93,12 @@
                         <span class="fas fa-at"></span>
                         <span class="link">Contact</span>
                     </a>
+                    <c:if test="${update eq 'accept'}">
                     <a href="createcv?idMentor=${cx.getId()}">
                         <span class="fa-solid fa-pen-nib"></span>
                         <span class="link">Update</span>
                     </a>
-
+                    </c:if>
                     <a href="home.jsp">
                         <span class="fa-thin fa-house"></span>
                         <span class="link">Home</span>

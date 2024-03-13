@@ -51,7 +51,7 @@
             }
 
             th {
-              background-color: #48CEFA;
+                background-color: #48CEFA;
                 color: #fff;
             }
 
@@ -96,8 +96,9 @@
                         <th  style="width: 10%;text-align: center;">Title</th>
                         <th  style="width: 10%;text-align: center;">Skills</th>
                         <th  style="width: 10%;text-align: center;">Description</th>
-                        <th  style="width: 10%;text-align: center;">Deadline Date</th>
-                        <th  style="width: 10%;text-align: center;">Deadline Hour</th>
+                        <th  style="width: 10%;text-align: center;">Start learn</th>
+                        <th  style="width: 10%;text-align: center;">Day complete</th>
+                        <th  style="width: 10%;text-align: center;">Total learn hour</th>
                         <th  style="width: 10%;text-align: center;">Status</th>
 
                     </tr>
@@ -109,15 +110,16 @@
                             <td  style="width: 10%;text-align: center;">${request.title}</td>
                             <td  style="width: 10%;text-align: center;">${request.skill}</td>
                             <td  style="width: 10%;text-align: center;">${request.content}</td>
-                            <td  style="width: 10%;text-align: center;">${request.deadline}</td>
+                            <td  style="width: 10%;text-align: center;">${request.startDate}</td>
+                            <td  style="width: 10%;text-align: center;">${request.endDate}</td>
                             <td  style="width: 10%;text-align: center;">${request.hour}</td>
                             <td  style="width: 10%;text-align: center;">${request.status}</td>
 
                         </tr>
 
                     </c:forEach>
-                    
-                       
+
+
                     <tr>
                         <td style="width: 10%;text-align: center;">Total Request: </td>
                         <td style="width: 10%;text-align: center;">${totalRequests}</td>
@@ -144,21 +146,21 @@
                     <tr>
                         <td style="width: 10%;text-align: center;">Mentor Name: </td>
                         <c:forEach var="entry" items="${mentorNames}">
-                        <td style="width: 10%;text-align: center;">${entry.value}</td>
+                            <td style="width: 10%;text-align: center;">${entry.value}</td>
                         </c:forEach>
                         <td></td>
                         <td></td>
-                        
-                        
+
+
                     </tr>
                     <tr>
                         <td style="width: 10%;text-align: center;">Total Request send to Mentor: </td>
                         <c:forEach var="entry" items="${mentorCounts}">
-                        <td style="width: 10%;text-align: center;">${entry.value}</td>
+                            <td style="width: 10%;text-align: center;">${entry.value}</td>
                         </c:forEach>
                         <td></td>
                         <td></td>
-                        
+
                     </tr>
                     <!-- Add more rows as needed -->
                 </tbody>

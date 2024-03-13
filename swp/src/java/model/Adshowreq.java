@@ -11,29 +11,31 @@ package model;
 public class Adshowreq {
 
     int idMentee, idRequest;
-    String username, title, content, skill, status, startdate, deadline;
+    String username, title, content, skill, status, startdate, endDate;
     float hour;
+    int totalCost;
     private String reasonreject;
     String fullname, dob, avatar, sex, address, phone;
 
-    public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String startdate, String deadline, float hour, String reasonreject) {
+    public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String startdate, String endDate, String status, float hour, String reasonreject,int totalCost) {
         this.idMentee = idMentee;
         this.idRequest = idRequest;
         this.username = username;
         this.title = title;
         this.content = content;
         this.skill = skill;
-        this.status = status;
         this.startdate = startdate;
-        this.deadline = deadline;
+        this.endDate = endDate;
+        this.status = status;
         this.hour = hour;
         this.reasonreject = reasonreject;
+        this.totalCost=totalCost;
     }
 
     public Adshowreq() {
     }
 
-    public Adshowreq(int idMentee, String username, String title, String content, String skill, String status, String startdate, String deadline) {
+    public Adshowreq(int idMentee, String username, String title, String content, String skill, String status, String startdate, String endDate) {
         this.idMentee = idMentee;
         this.username = username;
         this.title = title;
@@ -41,10 +43,10 @@ public class Adshowreq {
         this.skill = skill;
         this.status = status;
         this.startdate = startdate;
-        this.deadline = deadline;
+        this.endDate = endDate;
     }
 
-    public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String startdate, String deadline) {
+    public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String startdate, String endDate) {
         this.idMentee = idMentee;
         this.idRequest = idRequest;
         this.username = username;
@@ -53,7 +55,7 @@ public class Adshowreq {
         this.skill = skill;
         this.status = status;
         this.startdate = startdate;
-        this.deadline = deadline;
+        this.endDate = endDate;
     }
 
     public Adshowreq(int idMentee, int idRequest, String username, String title, String content, String skill, String status, String fullname, String dob, String avatar, String sex, String address, String phone) {
@@ -72,24 +74,24 @@ public class Adshowreq {
         this.phone = phone;
     }
 
-    public Adshowreq(int idMentee, String username, String title, String content, String status, String deadline, float hour) {
+    public Adshowreq(int idMentee, String username, String title, String content, String status, String endDate, float hour) {
         this.idMentee = idMentee;
         this.username = username;
         this.title = title;
         this.content = content;
         this.status = status;
-        this.deadline = deadline;
+        this.endDate = endDate;
         this.hour = hour;
     }
 
-    public Adshowreq(int idMentee, String username, String title, String content, String skill, String status, String deadline, float hour) {
+    public Adshowreq(int idMentee, String username, String title, String content, String skill, String status, String endDate, float hour) {
         this.idMentee = idMentee;
         this.username = username;
         this.title = title;
         this.content = content;
         this.skill = skill;
         this.status = status;
-        this.deadline = deadline;
+        this.endDate = endDate;
         this.hour = hour;
     }
 
@@ -99,6 +101,22 @@ public class Adshowreq {
 
     public void setIdRequest(int idRequest) {
         this.idRequest = idRequest;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
     }
 
     public String getStartdate() {
@@ -158,11 +176,11 @@ public class Adshowreq {
     }
 
     public String getDeadline() {
-        return deadline;
+        return endDate;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setDeadline(String endDate) {
+        this.endDate = endDate;
     }
 
     public float getHour() {
@@ -221,8 +239,6 @@ public class Adshowreq {
         this.phone = phone;
     }
 
-   
-
     public String getReasonreject() {
         return reasonreject;
     }
@@ -233,7 +249,7 @@ public class Adshowreq {
 
     @Override
     public String toString() {
-        return "Adshowreq{" + "idMentee=" + idMentee + ", idRequest=" + idRequest + ", username=" + username + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", startdate=" + startdate + ", deadline=" + deadline + ", hour=" + hour + ", reasonreject=" + reasonreject + ", fullname=" + fullname + ", dob=" + dob + ", avatar=" + avatar + ", sex=" + sex + ", address=" + address + ", phone=" + phone + '}';
+        return "Adshowreq{" + "idMentee=" + idMentee + ", idRequest=" + idRequest + ", username=" + username + ", title=" + title + ", content=" + content + ", skill=" + skill + ", status=" + status + ", startdate=" + startdate + ", endDate=" + endDate + ", hour=" + hour + ", reasonreject=" + reasonreject + ", fullname=" + fullname + ", dob=" + dob + ", avatar=" + avatar + ", sex=" + sex + ", address=" + address + ", phone=" + phone + '}';
     }
 
 }

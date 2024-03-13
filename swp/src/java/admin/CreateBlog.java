@@ -2,28 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Mentor;
+package admin;
 
+import Mentor.*;
+import dal.BlogDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import model.Account;
-import model.Request;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "StatisticRequest", urlPatterns = {"/statisticreq"})
-public class StatisticRequest extends HttpServlet {
+@WebServlet(name = "CreateBlog", urlPatterns = {"/createblog"})
+@MultipartConfig
+public class CreateBlog extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +48,10 @@ public class StatisticRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StatisticRequest</title>");
+            out.println("<title>Servlet CreateBlog</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StatisticRequest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateBlog at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,49 +69,8 @@ public class StatisticRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        dal.ListRequest req = new dal.ListRequest();
-        HttpSession session = request.getSession();
-//        String rquest_id = request.getParameter("idRequest");
-//        String update_id = request.getParameter("idU");
-        //  String username = request.getParameter("username");
-//        session.getAttribute("username");
 
-//        String userName = (String) session.getAttribute("username");
-//        request.setAttribute("msg", userName);
-        //cach 2:
-        Account account = (Account) session.getAttribute("account");
-        String userName = account.getUser();
-        dal.StatisticRequest sr = new dal.StatisticRequest();
-
-        int idAccount = req.getIdAccountByUsername(userName);
-//        request.setAttribute("msg", userName);
-        List<Request> listRequest1 = req.ListRequestById(idAccount);
-        request.setAttribute("listReq", listRequest1);
-        
-
-        // Calculate totals
-        int totalRequests = sr.getTotalRequests(listRequest1);
-        float totalHours = sr.getTotalHours(listRequest1);
-        Map<Integer, Integer> mentorCounts = sr.getTotalMentors(listRequest1);
-
-        // Get mentor names
-        
-        Map<Integer, String> mentorNames = new HashMap<>();
-        for (Map.Entry<Integer, Integer> entry : mentorCounts.entrySet()) {
-            int idMentor = entry.getKey();
-            String mentorName = sr.getMentorNameById(idMentor);
-            mentorNames.put(idMentor, mentorName);
-        }
-
-        // Set attributes for JSP page
-        request.setAttribute("listReq", listRequest1);
-        request.setAttribute("totalRequests", totalRequests);
-        request.setAttribute("totalHours", totalHours);
-        request.setAttribute("mentorCounts", mentorCounts);
-        request.setAttribute("mentorNames", mentorNames);
-
-        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
-        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/CreatBlog.jsp").forward(request, response);
     }
 
     /**
@@ -119,7 +84,44 @@ public class StatisticRequest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        BlogDAO bd = new BlogDAO();
+        //get idMentor qua idAccount 
+        dal.ListRequest req = new dal.ListRequest();
+        HttpSession session = request.getSession();
+
+        Account account = (Account) session.getAttribute("account");
+        String userName = account.getUser();
+
+        int idAccount = req.getIdAccountByUsername(userName); // idAccount = idMentor
+
+        String title = request.getParameter("title");
+        String brief = request.getParameter("brief");
+        String detail = request.getParameter("detail");
+        String date = request.getParameter("date");
+       Part filePart = request.getPart("image");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+        // Define the folder where you want to save the file
+        String uploadPath = getServletContext().getRealPath("/img");
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+        File existingFile = new File(uploadDir, fileName);
+        if (existingFile.exists()) {
+            existingFile.delete();
+        }
+        // Save the file to the folder
+        try ( InputStream fileInput = filePart.getInputStream()) {
+            Path imagePath = Paths.get(uploadDir.getAbsolutePath(), fileName);
+            Files.copy(fileInput, imagePath);
+        }
+
+        // Add the file URL to your database
+        String fileUrl = "img/" + fileName;
+        
+        bd.insertBlog(idAccount, date, fileUrl, title, brief, detail,0);
+        response.sendRedirect("admin");
     }
 
     /**

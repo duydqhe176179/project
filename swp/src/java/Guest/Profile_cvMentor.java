@@ -65,6 +65,7 @@ public class Profile_cvMentor extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
         MentorDAO mentorDao = new MentorDAO();
         String action = request.getParameter("action");
         String idMentorParam = request.getParameter("idMentor");
@@ -72,6 +73,14 @@ public class Profile_cvMentor extends HttpServlet {
             try {
                 int idMentor = Integer.parseInt(idMentorParam);
                 System.out.println(idMentor);
+
+                String update = "reject";
+                if (a != null) {
+                    if (idMentor == a.getId()) {
+                        update = "accept";
+                    }
+                }
+                request.setAttribute("update", update);
 
                 // Retrieve full CV information of the mentor
                 Mentor mentor = mentorDao.getIDMentor(idMentor);

@@ -11,27 +11,33 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+
         <style>
             .header-area{
                 height: 45px;
                 display: flex; /* Sử dụng flexbox */
                 align-items: center; /* Canh các phần tử theo chiều dọc */
             }
+            .nav-link:hover {
+                /* Đặt các thuộc tính CSS bạn muốn thay đổi khi di chuột qua vào đây */
+                color: #469AF2 !important; /* Ví dụ: thay đổi màu chữ thành màu đỏ */
+                /* Thêm các thuộc tính CSS khác nếu cần */
+            }
         </style>
     </head>
     <body>
-<!--         ***** Preloader Start ***** 
--->                <div id="js-preloader" class="js-preloader">
-                    <div class="preloader-inner">
-                        <span class="dot"></span>
-                        <div class="dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                </div><!--
-         ***** Preloader End ***** -->
+        <!--         ***** Preloader Start ***** 
+        -->                <div id="js-preloader" class="js-preloader">
+            <div class="preloader-inner">
+                <span class="dot"></span>
+                <div class="dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div><!--
+ ***** Preloader End ***** -->
 
         <!-- ***** Header Area Start ***** -->
         <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
@@ -65,8 +71,7 @@
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="profileMentee" >ProfileMentee</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="listrequest" >List Request</a></li>
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="statisticreq">Statistic Request</a></li>
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="news" >News</a></li>
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="blog" >BLOG</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="mycourse" >MY COURSE</a></li>
                                                 </c:if>
                                             <!------------------------------- -->    
 
@@ -74,16 +79,13 @@
                                             <c:if test="${account.getRole() eq 'Mentor'}">
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="profilecv?idMentor=${account.getId()}" >Profile</a></li>
 
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="createcv" >Create CV</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="#" data-toggle="modal" data-target="#statisticsModal">View Statistic</a></li>
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="reqmentor" >View Request</a></li>
-                                                <li class="scroll-to-section"><a  class="dropdown-item" href="viewrequestmentee" >View invitingRequest</a></li>
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="news" >News</a></li>
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="blog" >BLOG</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="createblog" >CREATE BLOG</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="bloglist" >VIEW BLOG</a></li>
                                                 </c:if>
                                             <!------------------------------- -->    
 
-                                            <li class="scroll-to-section"><a  class="dropdown-item" href="rate" >Rate</a></li>
                                             <!--<li class="scroll-to-section"><a  class="dropdown-item" href="Request?action=create" >Create Request</a></li>-->
 
                                             <li class="scroll-to-section"><a href="changePass">changePass</a></li>
@@ -97,22 +99,12 @@
                             </c:if>
                             <!-- ***** Menu Start ***** -->
                             <ul class="nav">
-                                <!--                                <li class="scroll-to-section"><a href="profileMentee" >ProfileMentee</a></li>
-                                                                <li class="scroll-to-section"><a href="profilecv" >Profile</a></li>
-                                                                <li class="scroll-to-section"><a href="statisticreq">Statistic Request</a></li>
-                                                                <li class="scroll-to-section"><a href="createcv" >Create CV</a></li>
-                                                                <li class="scroll-to-section"><a href="rate" >Rate</a></li>
-                                                                <li class="scroll-to-section"><a href="Request?action=create" >Create Request</a></li>
-                                                                <li class="scroll-to-section"><a href="#" data-toggle="modal" data-target="#statisticsModal">View Statistic</a></li>
-                                                                <li class="scroll-to-section"><a href="reqmentor" >View Request</a></li>
-                                                                <li class="scroll-to-section"><a href="listrequest" >List Request</a></li>
-                                                                <li class="scroll-to-section"><a href="viewrequestmentee" >View invitingRequest</a></li>-->
-                                <!--                                <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                                                                <li class="scroll-to-section"><a href="#services">Services</a></li>
-                                                                <li class="scroll-to-section"><a href="#about">About</a></li>
-                                                                <li class="scroll-to-section"><a href="#pricing">Pricing</a></li>
-                                                                <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li>-->
-
+                                <li class="scroll-to-section"><a  class="nav-link js-scroll-trigger" href="home" >Home</a></li>
+                                <li class="scroll-to-section"><a  class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                                <li class="scroll-to-section"><a  class="nav-link js-scroll-trigger" href="news" >News</a></li>
+                                <li class="scroll-to-section"><a  class="nav-link js-scroll-trigger" href="#rate">Feedback</a></li>
+                                <li class="scroll-to-section"><a  class="nav-link js-scroll-trigger" href="blog">Blog</a></li>
+                                <li></li>
                             </ul>        
                             <a class='menu-trigger'>
                                 <span>Menu</span>
@@ -124,5 +116,6 @@
             </div>
         </header>
         <!-- ***** Header Area End ***** -->
+        
     </body>
 </html>

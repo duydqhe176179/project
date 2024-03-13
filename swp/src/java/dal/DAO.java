@@ -20,6 +20,7 @@ import model.Rate;
 
 import model.Request;
 import model.Skill;
+import model.reportReq;
 
 /**
  *
@@ -31,6 +32,58 @@ public class DAO extends DBContext {
     ResultSet rs;
     List<Account> listAccount = new ArrayList<>();
     List<Skill> listAllSkill = new ArrayList<>();
+
+    public boolean insertreport(reportReq r) {
+        try {
+            String sql = "INSERT INTO [dbo].[reportReq]\n"
+                    + "           ([idRequest]\n"
+                    + "           ,[title]\n"
+                    + "           ,[content])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?)";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, r.getIdRequest());
+            stm.setString(2, r.getTitle());
+            stm.setString(3, r.getContent());
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            stm.close();
+
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+
+    public List<reportReq> getListSkillByPage(List<reportReq> list, int start, int end) {
+        ArrayList<reportReq> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
+    public List<reportReq> getreportReq() {
+        List<reportReq> listreport = new ArrayList<>();
+        try {
+            String strSelect = "SELECT TOP (1000) [idRequest]\n"
+                    + "      ,[title]\n"
+                    + "      ,[content]\n"
+                    + "  FROM [swp].[dbo].[reportReq]";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                reportReq a = new reportReq(rs.getInt(1), rs.getString(2), rs.getString(3));
+
+                listreport.add(a);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listreport;
+    }
 
     public Account login(String username, String password) {
         String query = "SELECT *"
@@ -49,8 +102,9 @@ public class DAO extends DBContext {
                 String pass = resultSet.getString(4);
                 String role = resultSet.getString(5);
                 int confirm = resultSet.getInt(6);
+                int active = resultSet.getInt(7);
 
-                return new Account(idAccount, user, email, pass, role, confirm);
+                return new Account(idAccount, user, email, pass, role, confirm,active);
             }
         } catch (Exception e) {
             System.out.println("Login: " + e.getMessage());
@@ -439,7 +493,7 @@ public class DAO extends DBContext {
     public List<Request> getAllRequestsByID(int idMentor) {
         List<Request> list = new ArrayList<>();  // Khởi tạo một danh sách mới
 
-        String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour\n"
+        String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.endDate, r.hour\n"
                 + "FROM request r\n"
                 + "JOIN mentee m ON r.idMentee = m.idMentee\n"
                 + "WHERE r.idMentor = ?";
@@ -637,9 +691,56 @@ public class DAO extends DBContext {
         return user;
     }
 
+    public boolean updateFav(int fav, int id) {
+        Connection conn = null;
+        String query = "UPDATE [dbo].[skill]\n"
+                + "   SET \n"
+                + "      [fav] = ?\n"
+                + " WHERE id = ?";
+        try {
+            conn = new DBContext().connection;
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, fav);
+            stm.setInt(2, id);
+            stm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
+
+    public List<Skill> getSkillByFav(int fav) {
+        List<Skill> listsfav = new ArrayList<>();
+        Connection conn = null;
+        String query = "select id, title, image, skillName,m.idMentor, m.fullname from skill s \n"
+                + "join have_skill hv on s.id = hv.idSkill\n"
+                + "join mentor m on m.idMentor = hv.idMentor\n"
+                + "where fav = ?";
+        try {
+            conn = new DBContext().connection;
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, fav);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String title = rs.getString(2);
+                String image = rs.getString(3);
+                String skillname = rs.getString(4);
+                int idMentor = rs.getInt(5);
+                String name = rs.getString(6);
+
+                Skill s = new Skill(id, idMentor, title, image, skillname, name);
+                listsfav.add(s);
+            }
+        } catch (Exception e) {
+        }
+        return listsfav;
+    }
+
     public static void main(String[] args) {
         DAO dao = new DAO();
 
-        System.out.println(dao.getlastnews());
+        System.out.println(dao.getreportReq());
     }
 }

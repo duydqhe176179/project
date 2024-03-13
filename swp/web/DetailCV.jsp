@@ -74,6 +74,11 @@
             .shadow-none {
                 box-shadow: none!important;
             }
+            .rounded-circle {
+                border-radius: 50%;
+                width: 150px;
+                height: 150px; 
+            }
         </style>
     </head>
 
@@ -104,13 +109,20 @@
                                         <div class="mt-3">
 
                                             <h4 class="text-muted font-weight-bold"> Full Name: ${requestScope.cvdetail.getFullname()}</h4>
-                                            <p class="text-muted font-size-sm">DOB:  ${requestScope.cvdetail.getDob()} </p>
+                                            <p class="text-muted font-size-sm">Date of birth:  ${requestScope.cvdetail.getDob()} </p>
                                             <p class="text-muted font-size-sm">Phone: ${requestScope.cvdetail.getPhone()} </p>
                                             <p class="text-muted font-size-sm">Sex: ${requestScope.cvdetail.getSex()} </p>
                                             <p class="text-muted font-size-sm">Address: ${requestScope.cvdetail.getAddress()} </p>
 
 
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-info" onclick="goBack()" style="margin-bottom: 10px;
+                                                float: right;
+                                                margin-right: 10px;">Return</button>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +134,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Full Name</h6>
+                                            <h6 class="mb-0">Full Name: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getFullname()}
@@ -131,7 +143,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">STK</h6>
+                                            <h6 class="mb-0">STK: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getStk()}
@@ -140,7 +152,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Profession</h6>
+                                            <h6 class="mb-0">Profession: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getProfession()}
@@ -149,7 +161,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Framework</h6>
+                                            <h6 class="mb-0">Framework: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getFramework()}
@@ -158,7 +170,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Experience</h6>
+                                            <h6 class="mb-0">Experience: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getExperience()}
@@ -167,7 +179,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">My Service</h6>
+                                            <h6 class="mb-0">My Service: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getMyservice()} 
@@ -176,7 +188,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Archivement Descrition</h6>
+                                            <h6 class="mb-0">Archivement Descrition: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getArchivement_descition()} 
@@ -185,7 +197,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Pro introduction</h6>
+                                            <h6 class="mb-0">Pro introduction: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getPro_introduc()} 
@@ -194,18 +206,22 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Cost</h6>
+                                            <h6 class="mb-0">Cost: </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             ${requestScope.cvdetail.getCost()} 
                                         </div>
                                     </div>
-                                    <hr>
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-info" onclick="goBack()">Back</button>
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Skills: </h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            ${requestScope.cvdetail.getSkill()} 
                                         </div>
                                     </div>
+                                    <hr>
+
                                 </div>
                             </div>
 
@@ -231,9 +247,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script>
-                                                function goBack() {
-                                                    window.history.back();
-                                                }
+                                            function goBack() {
+                                                window.history.back();
+                                            }
         </script>
     </body>
 </html>

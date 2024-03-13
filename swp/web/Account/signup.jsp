@@ -38,6 +38,7 @@
                     <input type="tel"  name="phone" id="phoneInput" placeholder="Phone" value="${signup.getPhone()}" required pattern="[0-9]{10}">   
                     <span id="phoneWarning" style="color: red;"></span>
                 </div> 
+                <span>Birthday:</span>
                 <div class="input-box">
                     <input type="date"  name="birth" placeholder="Birthday" value="${signup.getBirth()}" required>   
                 </div> 
@@ -65,7 +66,7 @@
                 </button>
                 <div class="resiter-link">
                     <p>You had account ? </p>
-                    <a ><a href="#" >Sign in</a>
+                    <a ><a href="signin" >Sign in</a>
                 </div>
 
             </form>

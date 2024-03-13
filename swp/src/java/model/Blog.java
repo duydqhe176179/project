@@ -11,6 +11,7 @@ package model;
 public class Blog {
     int idblog, idMentor;
     String nameMentor,updatedate, thumbnail, title, briefinfo, detailinfo;
+    int isAgree;
 
     public Blog() {
     }
@@ -24,6 +25,27 @@ public class Blog {
         this.title = title;
         this.briefinfo = briefinfo;
         this.detailinfo = detailinfo;
+    }
+
+    public Blog(int idblog, int idMentor, String nameMentor, String updatedate, String thumbnail, String title, String briefinfo, String detailinfo, int isAgree) {
+        this.idblog = idblog;
+        this.idMentor = idMentor;
+        this.nameMentor = nameMentor;
+        this.updatedate = updatedate;
+        this.thumbnail = thumbnail;
+        this.title = title;
+        this.briefinfo = briefinfo;
+        this.detailinfo = detailinfo;
+        this.isAgree = isAgree;
+    }
+
+    
+    public int getIsAgree() {
+        return isAgree;
+    }
+
+    public void setIsAgree(int isAgree) {
+        this.isAgree = isAgree;
     }
 
 
@@ -94,8 +116,10 @@ public class Blog {
 
     @Override
     public String toString() {
-        return "Blog{" + "idblog=" + idblog + ", idMentor=" + idMentor + ", nameMentor=" + nameMentor + ", updatedate=" + updatedate + ", thumbnail=" + thumbnail + ", title=" + title + ", briefinfo=" + briefinfo + ", detailinfo=" + detailinfo + '}';
+        return "Blog{" + "idblog=" + idblog + ", idMentor=" + idMentor + ", nameMentor=" + nameMentor + ", updatedate=" + updatedate + ", thumbnail=" + thumbnail + ", title=" + title + ", briefinfo=" + briefinfo + ", detailinfo=" + detailinfo + ", isAgree=" + isAgree + '}';
     }
+
+    
 
 
     

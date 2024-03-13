@@ -98,7 +98,7 @@
                 background-color: #4CAF50;
                 color: white;
             }
-            
+
             .pagination a:hover:not(.active){
                 background-color: chocolate;
             }
@@ -106,6 +106,35 @@
                 border: 1px solid black;
                 padding: 8px;
             }
+            .accept-btn {
+                background-color: #1BA345;
+                border-radius: 5px;
+                height: 30px;
+                width: 70px;
+                display: inline-block;
+                text-align: center;
+                line-height: 30px;
+                color: white;
+                text-decoration: none;
+                cursor: pointer;
+                margin-right: 5px; /* Add margin between buttons */
+            }
+
+            .delete-btn {
+                background-color: #DE3E44;
+                border-radius: 5px;
+                height: 30px;
+                width: 70px;
+                display: inline-block;
+                text-align: center;
+                line-height: 30px;
+                color: white;
+                text-decoration: none;
+                cursor: pointer;
+                margin-top: 5px; /* Add margin between buttons */
+            }
+
+
         </style>
     </head>
 
@@ -130,15 +159,25 @@
                         <a class="nav-link js-scroll-trigger" href="#mentor">Mentor</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#cvmentor">CV Mentor</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#mentee">Mentee</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+                        
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#report">Report</a>
+                        
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#request">Requests</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#blog">Blog</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -149,14 +188,15 @@
                 <div class="my-auto">
                     <h1 class="mb-0">
                         <span class="text-primary">News</span>
+                        <a href="addnews"><i class="fa-solid fa-plus"></i></a>
                     </h1>
                     <div class="table-responsive">
-                         <c:set var="page4" value="${requestScope.page4}"/>
-                            <div class="pagination">
-                                <c:forEach begin="1" end="${requestScope.num4}" var="i">
-                                    <a class="${i==page4 ? 'active' : ''}" href="admin?page4=${i}">${i}</a>
-                                </c:forEach>
-                            </div>
+                        <c:set var="page4" value="${requestScope.page4}"/>
+                        <div class="pagination">
+                            <c:forEach begin="1" end="${requestScope.num4}" var="i">
+                                <a class="${i==page4 ? 'active' : ''}" href="admin?page4=${i}">${i}</a>
+                            </c:forEach>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -244,7 +284,7 @@
                                                 <c:if test="${a.getActive() eq 1}">
                                                     <td style="color: #01df1f">
                                                         <p style="font-size: large">Active</p>
-                                                        <a class="btn btn-danger" href="activementor?id=${a.getID()}"  style="width: 70%">Inactive</a>
+                                                        <a class="btn btn-danger" href="activementor?id=${a.getID()}"  style="width: 70%;padding-right: 30px;">Inactive</a>
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${a.getActive() eq 0}">
@@ -264,6 +304,60 @@
                         </div>
                     </section>
             </section>
+            <section class="resume-section p-3 p-lg-5 d-flex d-column" id="cvmentor">
+                <div class="my-auto">
+                    <h1 class="mb-0">
+                        <span class="text-primary">CV Mentor</span>
+                    </h1>
+                    <div class="table-responsive">                       
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>ID</th>
+                                    <th>Image</th>
+                                    <th>Full Name</th>
+                                    <th>Phone</th>
+                                    <th>DOB</th>
+                                    <th>Sex</th>
+                                    <th>Address</th>
+                                    <th>Profesion</th>
+                                    <th>Education</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="s" items="${cvList}" varStatus="loop">
+                                    <tr>
+                                        <td>${loop.index + 1}</td>
+                                        <td>${s.getIdMentor()}</td>
+                                        <td><img src="${s.getAvatar()}" width="100rem"  alt="alt"/></td>
+                                        <td><a style="text-decoration: none;" href="cvdetail?id=${s.getIdMentor()}">${s.getFullname()}</a></td>
+                                        <td>${s.getPhone()}</td>
+                                        <td>${s.getDob()}</td>
+                                        <td>${s.getSex()}</td>
+                                        <td>${s.getAddress()}</td>
+                                        <td>${s.getProfession()}</td>
+                                        <td>${s.getEducation()}</td>
+
+                                        <td class="btn-container">
+                                            <a href="upcvmentor?idmentor=${s.getIdMentor()}" class="accept-btn">
+                                                Accept
+                                            </a>
+                                            <a href="deletecv?idmentor=${s.getIdMentor()}" class="delete-btn">
+                                                Delete
+                                            </a> 
+                                        </td>
+
+
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>               
+
             <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="mentee">
                 <div class="my-auto">
                     <h2 class="mb-5">Mentee</h2>
@@ -271,11 +365,11 @@
                         <h5>Total of Mentee: ${result}</h5>            
                     </div>
                     <c:set var="page2" value="${requestScope.page2}"/>
-                            <div class="pagination">
-                                <c:forEach begin="1" end="${requestScope.num2}" var="i">
-                                    <a class="${i==page2 ? 'active' : ''}" href="admin?page2=${i}">${i}</a>
-                                </c:forEach>
-                            </div>
+                    <div class="pagination">
+                        <c:forEach begin="1" end="${requestScope.num2}" var="i">
+                            <a class="${i==page2 ? 'active' : ''}" href="admin?page2=${i}">${i}</a>
+                        </c:forEach>
+                    </div>
                     <table border="1px" class="container">
                         <tr style="background: whitesmoke;" >
                             <td >Full Name</td>
@@ -300,13 +394,13 @@
 
             <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
                 <div class="my-auto">
-                    <h2 class="mb-5">Skills</h2>
+                    <h2 class="mb-5">Skills <a href="addSkill"><i class="fa-solid fa-plus"></i></a></h2>
                     <c:set var="page" value="${requestScope.page}"/>
-                            <div class="pagination">
-                                <c:forEach begin="1" end="${requestScope.num3}" var="i">
-                                    <a class="${i==page ? 'active' : ''}" href="admin?page=${i}">${i}</a>
-                                </c:forEach>
-                            </div>
+                    <div class="pagination">
+                        <c:forEach begin="1" end="${requestScope.num3}" var="i">
+                            <a class="${i==page ? 'active' : ''}" href="admin?page=${i}">${i}</a>
+                        </c:forEach>
+                    </div>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -342,6 +436,40 @@
                                         </td>
                                     </c:if>
                                     <td><a href="updateSkill?idSkill=${s.getId()}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+                    
+                    
+                    <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="report">
+                <div class="my-auto">
+                    <h2 class="mb-5">Report</h2>
+                    <c:set var="page8" value="${requestScope.page8}"/>
+                    <div class="pagination">
+                        <c:forEach begin="1" end="${requestScope.num8}" var="i">
+                            <a class="${i==page8 ? 'active' : ''}" href="admin?page8=${i}">${i}</a>
+                        </c:forEach>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="l" items="${amme}" varStatus="loop">
+                                <tr>
+                                    <td>${loop.index + 1}</td>
+                                    <td>${l.getIdRequest()}</td>
+                                    <td>${l.getTitle()}</td>                                  
+                                    <td>${l.getContent()}</td>                                   
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -419,8 +547,9 @@
                                                 <th>Start date</th>
                                                 <th>End date</th>
                                                 <th>Status</th>
-                                                <th>dealine hour</th>
+                                                <th>Total learn hour</th>
                                                 <th>Reason Reject</th>
+                                                <th>Money</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -458,6 +587,7 @@
 
                                                     <td>${r.hour}</td>
                                                     <td>${r.reasonreject}</td>
+                                                    <td>${r.getTotalCost()}</td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -466,39 +596,94 @@
                             </div>
                         </div>
                 </div>
-
-                <script>
-                    function submitCombinedForm() {
-                        document.getElementById('combinedFilterForm').submit();
-                    }
-                    function changeStatus(selectElement) {
-                        var requestId = selectElement.id.split('-')[1]; // Extracting the request ID
-                        var selectedValue = selectElement.value; // Getting the selected value
-
-                        // Call the controller using AJAX
-                        // Example using jQuery AJAX
-                        $.get("changestatus", {requestId: requestId, status: selectedValue}, function (response) {
-                            // Handle response if needed
-                        });
-                    }
-                </script>
-                </body>
-
             </section>
+            <section class="resume-section p-3 p-lg-5 d-flex d-column" id="blog">
+                <div class="my-auto">
+                    <h1 class="mb-0">
+                        <span class="text-primary">Blog</span>
+                    </h1>
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Thumbnail</th>
+                                    <th>Title</th>
+                                    <th>Brief Info</th>
+                                    <th>Detail Info</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                    <th>Accept</th>
+                                    <th>Reject</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${bloglist4}" var="bl">
+                                    <tr>
+                                        <td>${bl.idblog}</td>
+                                        <td>${bl.updatedate}</td>
+                                        <td><img src="${bl.thumbnail}" width="100rem"  alt="alt"/></td>
+                                        <td>${bl.title}</td>
+                                        <td>${bl.briefinfo}</td>
+                                        <td>${bl.detailinfo}</td>
+                                        <td><a href="updateblog?blogID=${bl.idblog}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                        <td><a href="deleteblog?blogID=${bl.idblog}" onclick="return confirmDelete()"><i class="fa-solid fa-trash"></i></a></td>
+                                        <td class="btn-container">
+                                            <button class="update-btn" > <a href="acceptblog?idblog=${bl.idblog}">Accept</a></button>
+                                        </td>
+                                        <td class="btn-container">
+                                            <button class="delete-btn" > <a href="rejectblog?idblog=${bl.idblog}" onclick="return confirmReject()">Reject</a></button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <script>
+                function submitCombinedForm() {
+                    document.getElementById('combinedFilterForm').submit();
+                }
+                function changeStatus(selectElement) {
+                    var requestId = selectElement.id.split('-')[1]; // Extracting the request ID
+                    var selectedValue = selectElement.value; // Getting the selected value
+
+                    // Call the controller using AJAX
+                    // Example using jQuery AJAX
+                    $.get("changestatus", {requestId: requestId, status: selectedValue}, function (response) {
+                        // Handle response if needed
+                    });
+                }
+                function confirmReject() {
+                    var result = confirm("Do you want to reject?");
+                    if (result) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            </script>
 
 
-        </div>
 
-        <!-- Bootstrap core JavaScript -->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Plugin JavaScript -->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Custom scripts for this template -->
-        <script src="js/resume.min.js"></script>
 
-    </body>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="js/resume.min.js"></script>
+
+</body>
 
 </html>

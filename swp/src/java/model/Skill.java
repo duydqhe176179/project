@@ -9,10 +9,35 @@ package model;
  * @author ADMIN
  */
 public class Skill {
-    int idSkill;
-    String title, image, skillName, skill_description, status;
+    int idSkill, idMentor;
+    String title, image, skillName, skill_description, status, nameMentor;
 
     public Skill() {
+    }
+
+    public int getIdMentor() {
+        return idMentor;
+    }
+
+    public void setIdMentor(int idMentor) {
+        this.idMentor = idMentor;
+    }
+
+    public String getNameMentor() {
+        return nameMentor;
+    }
+
+    public void setNameMentor(String nameMentor) {
+        this.nameMentor = nameMentor;
+    }
+
+    public Skill(int idSkill, int idMentor, String title, String image, String skillName, String nameMentor) {
+        this.idSkill = idSkill;
+        this.idMentor = idMentor;
+        this.title = title;
+        this.image = image;
+        this.skillName = skillName;
+        this.nameMentor = nameMentor;
     }
 
     public Skill(String title, String image, String skillName, String skill_description, String status) {
@@ -23,6 +48,10 @@ public class Skill {
         this.status = status;
     }
 
+    public Skill(String skillName) {
+        this.skillName = skillName;
+    }
+
     public Skill(int idSkill, String title, String image, String skillName, String skill_description, String status) {
         this.idSkill = idSkill;
         this.title = title;
@@ -31,6 +60,12 @@ public class Skill {
         this.skill_description = skill_description;
         this.status = status;
     }
+
+    public Skill(int idSkill, String skillName) {
+        this.idSkill = idSkill;
+        this.skillName = skillName;
+    }
+    
 
     public int getIdSkill() {
         return idSkill;
@@ -82,8 +117,10 @@ public class Skill {
 
     @Override
     public String toString() {
-        return "Skill{" + "title=" + title + ", image=" + image + ", skillName=" + skillName + ", skill_description=" + skill_description + ", status=" + status + '}';
+        return "Skill{" + "idSkill=" + idSkill + ", idMentor=" + idMentor + ", title=" + title + ", image=" + image + ", skillName=" + skillName + ", skill_description=" + skill_description + ", status=" + status + ", nameMentor=" + nameMentor + '}';
     }
+
+    
     
     
 }
