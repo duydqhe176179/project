@@ -117,7 +117,7 @@ public class Skill {
 
     @Override
     public String toString() {
-        return "Skill{" + "idSkill=" + idSkill + ", idMentor=" + idMentor + ", title=" + title + ", image=" + image + ", skillName=" + skillName + ", skill_description=" + skill_description + ", status=" + status + ", nameMentor=" + nameMentor + '}';
+        return skillName ;
     }
 
     

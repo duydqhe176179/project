@@ -108,16 +108,16 @@
                 </thead>
                 <tbody>
 
-                    <c:forEach items="${bloglist5}" var="blog">
+                    <c:forEach items="${bloglist55}" var="bl">
                     <tr>
-                        <td>${blog.idblog}</td>
-                        <td>${blog.updatedate}</td>
-                        <td><img src="${blog.thumbnail}" width="100rem"  alt="alt"/></td>
-                        <td>${blog.title}</td>
-                        <td>${blog.briefinfo}</td>
-                        <td>${blog.detailinfo}</td>
-                        <td><a href="updateblog?blogID=${blog.idblog}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                        <td><a href="deleteblog?blogID=${blog.idblog}" onclick="return confirmDelete()"><i class="fa-solid fa-trash"></i></a></td>
+                        <td>${bl.idblog}</td>
+                        <td>${bl.updatedate}</td>
+                        <td><img src="${bl.thumbnail}" width="100rem"  alt="alt"/></td>
+                        <td>${bl.title}</td>
+                        <td>${bl.briefinfo}</td>
+                        <td>${bl.detailinfo}</td>
+                        <td><a href="updateblog?blogID=${bl.idblog}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                        <td><a href="deleteblog?blogID=${bl.idblog}" onclick="return confirmDelete()"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>
                 </c:forEach>
 

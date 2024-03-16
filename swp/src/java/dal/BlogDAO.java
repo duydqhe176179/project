@@ -51,6 +51,7 @@ public class BlogDAO {
         }
         return BlogList;
     }
+
     // getBlog cho Admin
     public List<Blog> getBlog() {
         List<Blog> BlogList4 = new ArrayList<Blog>();
@@ -80,7 +81,7 @@ public class BlogDAO {
         }
         return BlogList4;
     }
-    
+
     public List<Blog> getBlogByIdMentor(int idAccount) {
         List<Blog> BlogList5 = new ArrayList<Blog>();
         Mentor m = menterDAO.getIDMentor(idAccount);
@@ -201,8 +202,10 @@ public class BlogDAO {
                 String title = rs.getString(5);
                 String brief = rs.getString(6);
                 String detail = rs.getString(7);
+                int ac = isAgree;
 
-                Blog b = new Blog(idBlog, idMentor, fullname, udate, thumbnail, title, brief, detail);
+//                Blog b = new Blog(idBlog, idMentor, fullname, udate, thumbnail, title, brief, detail);
+                Blog b = new Blog(idBlog, idMentor, fullname, udate, thumbnail, title, brief, detail, isAgree);
                 BlogList2.add(b);
             }
         } catch (Exception e) {
@@ -210,7 +213,7 @@ public class BlogDAO {
         }
         return BlogList2;
     }
-    
+
     public List<Blog> getBlogById(int id) {
         List<Blog> BlogList3 = new ArrayList<Blog>();
         Connection conn = null;
@@ -239,7 +242,7 @@ public class BlogDAO {
         }
         return BlogList3;
     }
-    
+
     public Blog getBlogByid(int id) {
         Connection conn = null;
         try {
@@ -267,7 +270,7 @@ public class BlogDAO {
         }
         return null;
     }
-    
+
     public boolean insertBlog(int idMentor, String updatedate, String thumbnail, String title, String briefinfo, String detailinfo, int isAgree) {
         Connection conn = null;
         String query = "INSERT INTO blog (idMentor, updatedate, thumbnail, title, briefinfo, detailinfo, isAgree) VALUES(?,?,?,?,?,?,?)";
@@ -368,9 +371,9 @@ public class BlogDAO {
 //            System.out.println(b);
 //            
 //        }
-        System.out.println(bd.searchByTitle("tắc"));
-        System.out.println(bd.count());
-        
-        
+//        System.out.println(bd.searchByTitle("tắc"));
+//        System.out.println(bd.count());
+
+        System.out.println(bd.pagingList(3, 1));
     }
 }

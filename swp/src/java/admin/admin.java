@@ -4,6 +4,7 @@
  */
 package admin;
 
+import dal.BlogDAO;
 import dal.DAO;
 import dal.MenteeDAO;
 import dal.RequestDAO;
@@ -21,6 +22,7 @@ import java.util.List;
 import model.AListMentor;
 import model.Account;
 import model.Adshowreq;
+import model.Blog;
 import model.CV;
 import model.Mentee;
 import model.Mentor;
@@ -198,9 +200,9 @@ public class admin extends HttpServlet {
                 page4 = Integer.parseInt(xpage4);
 
             }
-      List<CV> cvList = addao.getCV();
-           request.setAttribute("cvList", cvList);
-           
+            List<CV> cvList = addao.getCV();
+            request.setAttribute("cvList", cvList);
+
             int page8, numperpage8 = 5;
             int start8;
             int end8;
@@ -211,23 +213,19 @@ public class admin extends HttpServlet {
                 page8 = Integer.parseInt(xpage8);
 
             }
-            
-           DAO dal  =new DAO();
-           List<reportReq> ame  =dal.getreportReq();
-           int size8 = ame.size();
-           start8 = (page8 - 1) * numperpage8;
+
+            DAO dal = new DAO();
+            List<reportReq> ame = dal.getreportReq();
+            int size8 = ame.size();
+            start8 = (page8 - 1) * numperpage8;
             end8 = Math.min(page8 * numperpage8, size8);
-             int num8 = (size8 % 5 == 0 ? (size8 / 5) : ((size8 / 5)) + 1);
-           List<reportReq> amme = dal.getListSkillByPage(ame, start8, end8);
+            int num8 = (size8 % 5 == 0 ? (size8 / 5) : ((size8 / 5)) + 1);
+            List<reportReq> amme = dal.getListSkillByPage(ame, start8, end8);
             request.setAttribute("amme", amme);
             request.setAttribute("num8", num8);
             request.setAttribute("page8", page8);
-                   
-           
-           
-           
-           
-   List<News> listnews = addao.getAllnews();
+
+            List<News> listnews = addao.getAllnews();
             int size4 = listnews.size();
             start4 = (page4 - 1) * numperpage4;
             end4 = Math.min(page4 * numperpage4, size4);
@@ -237,7 +235,6 @@ public class admin extends HttpServlet {
             request.setAttribute("num4", num4);
             request.setAttribute("page4", page4);
 
-            
             int page6;
             String xpage6 = request.getParameter("page6");
 
@@ -337,6 +334,10 @@ public class admin extends HttpServlet {
                 request.setAttribute("totalPages", totalPagess);
                 request.setAttribute("currentPage", page);
             }
+            BlogDAO bd = new BlogDAO();
+            List<Blog> BlogList4 = bd.getBlog();
+
+            request.setAttribute("bloglist4", BlogList4);
             request.getRequestDispatcher("Admin/demo_admin.jsp").forward(request, response);
 
         } else {

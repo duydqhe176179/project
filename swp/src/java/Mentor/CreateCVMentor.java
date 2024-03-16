@@ -142,18 +142,24 @@ public class CreateCVMentor extends HttpServlet {
         int cost = Integer.parseInt(request.getParameter("cost"));
         //dao.deleteMentor(idMentor);
         String[] idSkill = request.getParameterValues("skills");
-//        for (String selectedSkill : idSkill) {
-//            dao.addHave_Skill(new Have_SKill(a.getId(), Integer.parseInt(selectedSkill)));
-//        }
         List<Skill> kkk = new ArrayList<>();
-        for (String id : idSkill) {
-            Skill skill = addao.getskillnamebyID(Integer.parseInt(id));
-            if (skill != null) {
-                kkk.add(new Skill(skill.getSkillName()));
-            } else {
-                System.out.println("None");
+
+        if (idSkill != null) {
+            for (String id : idSkill) {
+                Skill skill = addao.getskillnamebyID(Integer.parseInt(id));
+                System.out.println(skill);
+                if (skill != null) {
+                    kkk.add(new Skill(skill.getSkillName()));
+                } else {
+                    kkk.add(null);
+                }
             }
+        } else {
+            // Xử lý trường hợp idSkill là null ở đây
+            // Ví dụ: bạn có thể thêm một skill mặc định hoặc thực hiện hành động khác
+            kkk.add(new Skill(null));
         }
+
         String kkkString = kkk.toString();
         System.out.println(kkkString);
 
@@ -168,7 +174,7 @@ public class CreateCVMentor extends HttpServlet {
             request.setAttribute("msg", msg);
             request.getRequestDispatcher("Mentor/CreateCV.jsp").forward(request, response);
         } else {
-           dao.deleteMentorbyhaveskill(idMentor);
+            dao.deleteMentorbyhaveskill(idMentor);
             addao.insertr(r);
             System.out.println("ok");
             String msg = "success";

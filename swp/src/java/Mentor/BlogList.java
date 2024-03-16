@@ -69,7 +69,7 @@ public class BlogList extends HttpServlet {
 
         int idAccount = req.getIdAccountByUsername(userName);
         List<Blog> BlogList5 = bd.getBlogByIdMentor(idAccount);
-        request.setAttribute("bloglist5", BlogList5);   // blog (gom isAgree) sap xep theo giam dan date
+        request.setAttribute("bloglist55", BlogList5);   // blog (gom isAgree) sap xep theo giam dan date
         request.getRequestDispatcher("Mentor/ViewBlog.jsp").forward(request, response);
         
 

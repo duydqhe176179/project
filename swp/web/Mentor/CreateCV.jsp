@@ -221,6 +221,26 @@
                     phoneError.style.display = 'none';
                 }
             });
+            function validateSkills() {
+                var checkboxes = document.querySelectorAll('.skillCheckbox');
+                var checked = false;
+
+                checkboxes.forEach(function (checkbox) {
+                    if (checkbox.checked) {
+                        checked = true;
+                    }
+                });
+
+                return checked;
+            }
+
+            // Gắn hàm kiểm tra vào sự kiện onSubmit của form
+            document.getElementById('msform').addEventListener('submit', function (event) {
+                if (!validateSkills()) {
+                    alert('Vui lòng chọn ít nhất một kỹ năng.');
+                    event.preventDefault(); // Ngăn chặn việc gửi biểu mẫu nếu không có kỹ năng được chọn
+                }
+            });
         </script>
     </body>
 </html>
