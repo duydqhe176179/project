@@ -216,7 +216,7 @@
                                         <p>developed by FPT student</p>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -472,7 +472,7 @@
                 </div>
             </div>
 
-            
+
             <jsp:include page="footer.jsp"></jsp:include>
 
                 <div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-labelledby="statisticsModalLabel" aria-hidden="true">
@@ -524,6 +524,10 @@
                     </div>
                 </div>
             </div>
+
+
+
+          
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     var slideIndex = 1;

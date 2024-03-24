@@ -11,6 +11,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+             <!-- Bootstrap core CSS -->
+        <link href="assets/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="assets/jumbotron-narrow.css" rel="stylesheet">
+        <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-....." crossorigin="anonymous" />
         <title>List of Requests</title>
         <style>
@@ -168,26 +173,29 @@
                                 </td>
                             </c:if>         
                             <c:if test="${request.status == 'Accepted'}">
-                                <td style="width: 10%;text-align: center;">
-                                    <button class="rate"> <a class="rate-link" href="payment?idrequest=${request.idRequest}">Payment</a></button>   
-                                </td>
-                            </c:if>
-                            <c:if test="${request.status eq 'Completed'}">
-                                <td style="width: 10%;text-align: center;">
-                                    <button class="rate" onclick="hideRateButton(this)"><a href="rate?idrequest=${request.idRequest}&idMentor=${request.idMentor}&idMentee=${request.idMentee}" class="rate-link">Rate</a></button>
-                                </td>
-                            </c:if>
-                            <td>
-                                <c:if test="${request.status == 'Completed'}">
-                                    <button class="rate"><a onclick="showRePortForm(${request.idRequest},${request.idMentor});" >
-                                            Report
-                                        </a></button>
-                                    </c:if>
+                        <form id="paymentForm" action="vnpay" method="post">
+                            <input type="hidden" name="requestid" value="${request.idRequest}">
+                            <td style="width: 10%; text-align: center;">
+                                <button class="btn btn-default" type="submit">Payment</button>
                             </td>
-                        </tr>
-                    </c:forEach>
+                        </form>
+                    </c:if>
+                    <c:if test="${request.status eq 'Completed'}">
+                        <td style="width: 10%;text-align: center;">
+                            <button class="rate" onclick="hideRateButton(this)"><a href="rate?idrequest=${request.idRequest}&idMentor=${request.idMentor}&idMentee=${request.idMentee}" class="rate-link">Rate</a></button>
+                        </td>
+                    </c:if>
+                    <td>
+                        <c:if test="${request.status == 'Completed'}">
+                            <button class="rate"><a onclick="showRePortForm(${request.idRequest},${request.idMentor});" >
+                                    Report
+                                </a></button>
+                            </c:if>
+                    </td>
+                    </tr>
+                </c:forEach>
 
-                    <!-- Add more rows as needed -->
+                <!-- Add more rows as needed -->
                 </tbody>
                 <form id="ReportForm" method="get" action="ReportListall">
                     <input type="text" id="idRequest" name="idRequest"  style="display: none"> 
@@ -223,7 +231,33 @@
                 </form>
             </table>
         </section>
-
+         <script src="assets/jquery-1.11.3.min.js"></script>
+        <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
+<script type="text/javascript">
+            $("#paymentForm").submit(function () {
+                var postData = $("#paymentForm").serialize();
+                var submitUrl = $("#paymentForm").attr("action");
+                $.ajax({
+                    type: "POST",
+                    url: submitUrl,
+                    data: postData,
+                    dataType: 'JSON',
+                    success: function (x) {
+                        if (x.code === '00') {
+                            if (window.vnpay) {
+                                vnpay.open({width: 768, height: 600, url: x.data});
+                            } else {
+                                location.href = x.data;
+                            }
+                            return false;
+                        } else {
+                            alert(x.Message);
+                        }
+                    }
+                });
+                return false;
+            });
+        </script>   
         <script>
             function showRePortForm(idRequest, idMentor) {
                 document.getElementById('idRequest').value = idRequest;

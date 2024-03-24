@@ -185,13 +185,13 @@
                                             <c:if test="${a.getActive() eq 1}">
                                                 <td style="color: #01df1f">
                                                     <p style="font-size: large">Active</p>
-                                                    <a class="btn btn-danger" href="activementor?id=${a.getID()}"  style="width: 70%">Inactive</a>
+                                                    <a class="btn btn-danger" href="activementor?id=${a.getID()}#mentor"  style="width: 70%">Inactive</a>
                                                 </td>
                                             </c:if>
                                             <c:if test="${a.getActive() eq 0}">
                                                 <td style="color: #ff1921">
                                                     <p style="font-size: large">Inactive</p>
-                                                    <a class="btn" style="background-color: #4acd3d; color: white; width: 70%;" href="activementor?id=${a.getID()}" >Active</a>
+                                                    <a class="btn" style="background-color: #4acd3d; color: white; width: 70%;" href="activementor?id=${a.getID()}#mentor" >Active</a>
                                                 </td>
                                             </c:if>
 
@@ -214,7 +214,7 @@
                 <c:set var="page2" value="${requestScope.page2}"/>
                 <div class="pagination">
                     <c:forEach begin="1" end="${requestScope.num2}" var="i">
-                        <a class="${i==page2 ? 'active' : ''}" href="admin2?page2=${i}">${i}</a>
+                        <a class="${i==page2 ? 'active' : ''}" href="admin2?page2=${i}#mentee">${i}</a>
                     </c:forEach>
                 </div>
                 <table border="1px" class="container">

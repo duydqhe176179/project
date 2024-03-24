@@ -120,6 +120,7 @@
 
 
         <body>
+            
             <section>
 
                 <h1 style="text-align: center; color: white;">View </h1>
@@ -202,7 +203,7 @@
                                                 Reject
                                             </a>
                                         </c:when>
-                                        <c:when test="${a.status eq 'Learning'}">
+                                        <c:when test="${a.status eq 'Learning '}">
                                             <a href="endProcess?idRequest=${a.idRequest}" onclick="confirmEnd(${a.idRequest});" style="background-color:  #1BA345; border-radius: 5px; height: 30px; width: 70px; display: inline-block; text-align: center; line-height: 30px; color: white; text-decoration: none;">
                                                 Finish
                                             </a>
@@ -232,6 +233,7 @@
                     </div>
                 </div>
             </form>
+
         </section>
         <footer id="newsletter">
             <div class="container">

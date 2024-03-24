@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import model.Account;
 import EmailDAO.Email;
+import dal.WalletDAO;
 import model.Signup;
 
 /**
@@ -104,7 +105,7 @@ public class signup extends HttpServlet {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String registerDate = registrationTime.format(formatter);
-
+        WalletDAO walletdao=new WalletDAO();
         if (!check.IsUserExist(user)) { // nêu tài khoan dã tôn tai
 
             if (!check.isEmailUsed(email)) { // neu email da ton tai
@@ -112,6 +113,7 @@ public class signup extends HttpServlet {
                 if (repass.equals(pass)) {
                     dao.addAccount(user, pass, role, email);
                     Account a = dao.login(user, pass);
+                    walletdao.addWallet(a);
                     if (role.equalsIgnoreCase("Mentor")) {
                         dao.addMentor(a.getId(), fullname, phone, birth, gender, address, registerDate);
                     } else {

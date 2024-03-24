@@ -83,6 +83,7 @@
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="reqmentor" >View Request</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="createblog" >CREATE BLOG</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="bloglist" >VIEW BLOG</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="takeMoney" >Wallet</a></li>
                                                 </c:if>
                                             <!------------------------------- -->    
 
@@ -116,6 +117,6 @@
             </div>
         </header>
         <!-- ***** Header Area End ***** -->
-        
+        <br><br><br><br><br>
     </body>
 </html>

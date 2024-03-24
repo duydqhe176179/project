@@ -9,8 +9,7 @@
         <filter-name>filter</filter-name>
         <filter-class>Filter.filter</filter-class>
     </filter>
-    
-<!--    <filter-mapping>
+    <!--    <filter-mapping>
         <filter-name>home_filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
@@ -18,7 +17,6 @@
         <filter-name>filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping> -->
-        
     <servlet>
         <servlet-name>signup</servlet-name>
         <servlet-class>Guest.signup</servlet-class>
@@ -27,6 +25,10 @@
         <servlet-name>ConfirmAccount</servlet-name>
         <servlet-class>controller.ConfirmAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VnpayController</servlet-name>
+        <servlet-class>VNPay.VnpayController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>signup</servlet-name>
         <url-pattern>/signup</url-pattern>
@@ -34,6 +36,10 @@
     <servlet-mapping>
         <servlet-name>ConfirmAccount</servlet-name>
         <url-pattern>/confirm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VnpayController</servlet-name>
+        <url-pattern>/vnpay</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

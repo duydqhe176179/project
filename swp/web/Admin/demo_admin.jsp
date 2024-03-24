@@ -251,7 +251,7 @@
                                 <c:set var="page1" value="${requestScope.page1}"/>
                                 <div class="pagination">
                                     <c:forEach begin="1" end="${requestScope.num}" var="i">
-                                        <a class="${i==page1 ? 'active' : ''}" href="admin?page1=${i}">${i}</a>
+                                        <a class="${i==page1 ? 'active' : ''}" href="admin?page1=${i}#mentor">${i}</a>
                                     </c:forEach>
                                 </div>
 
@@ -284,13 +284,13 @@
                                                 <c:if test="${a.getActive() eq 1}">
                                                     <td style="color: #01df1f">
                                                         <p style="font-size: large">Active</p>
-                                                        <a class="btn btn-danger" href="activementor?id=${a.getID()}"  style="width: 70%;padding-right: 30px;">Inactive</a>
+                                                        <a class="btn btn-danger" href="activementor?id=${a.getID()}#mentor"  style="width: 70%;padding-right: 30px;">Inactive</a>
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${a.getActive() eq 0}">
                                                     <td style="color: #ff1921">
                                                         <p style="font-size: large">Inactive</p>
-                                                        <a class="btn" style="background-color: #4acd3d; color: white; width: 70%;" href="activementor?id=${a.getID()}" >Active</a>
+                                                        <a class="btn" style="background-color: #4acd3d; color: white; width: 70%;" href="activementor?id=${a.getID()}#mentor" >Active</a>
                                                     </td>
                                                 </c:if>
 
@@ -367,7 +367,7 @@
                     <c:set var="page2" value="${requestScope.page2}"/>
                     <div class="pagination">
                         <c:forEach begin="1" end="${requestScope.num2}" var="i">
-                            <a class="${i==page2 ? 'active' : ''}" href="admin?page2=${i}">${i}</a>
+                            <a class="${i==page2 ? 'active' : ''}" href="admin?page2=${i}#mentee">${i}</a>
                         </c:forEach>
                     </div>
                     <table border="1px" class="container">
@@ -398,7 +398,7 @@
                     <c:set var="page" value="${requestScope.page}"/>
                     <div class="pagination">
                         <c:forEach begin="1" end="${requestScope.num3}" var="i">
-                            <a class="${i==page ? 'active' : ''}" href="admin?page=${i}">${i}</a>
+                            <a class="${i==page ? 'active' : ''}" href="admin?page=${i}#skills">${i}</a>
                         </c:forEach>
                     </div>
                     <table class="table table-bordered">
@@ -426,16 +426,16 @@
                                     <c:if test="${s.getStatus() eq 'enable'}" >
                                         <td style="color: #01df1f">
                                             <p style="font-size: large">${s.getStatus()}</p>
-                                            <a class="btn btn-danger" href="activeSkill?idSkill=${s.getId()}" style="width: 70%">Disable</a>
+                                            <a class="btn btn-danger" href="activeSkill?idSkill=${s.getId()}#skills" style="width: 70%">Disable</a>
                                         </td>
                                     </c:if>
                                     <c:if test="${s.getStatus() ne 'enable'}" >
                                         <td style="color: #ff1921">
                                             <p style="font-size: large">${s.getStatus()}</p>
-                                            <a class="btn" style="background-color: #4acd3d; color: white;" href="activeSkill?idSkill=${s.getId()}" style="width: 70%">Enable</a>
+                                            <a class="btn" style="background-color: #4acd3d; color: white;" href="activeSkill?idSkill=${s.getId()}#skills" style="width: 70%">Enable</a>
                                         </td>
                                     </c:if>
-                                    <td><a href="updateSkill?idSkill=${s.getId()}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                    <td><a href="updateSkill?idSkill=${s.getId()}#skills"><i class="fa-solid fa-pen-to-square"></i></a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -450,7 +450,7 @@
                     <c:set var="page8" value="${requestScope.page8}"/>
                     <div class="pagination">
                         <c:forEach begin="1" end="${requestScope.num8}" var="i">
-                            <a class="${i==page8 ? 'active' : ''}" href="admin?page8=${i}">${i}</a>
+                            <a class="${i==page8 ? 'active' : ''}" href="admin?page8=${i}#report">${i}</a>
                         </c:forEach>
                     </div>
                     <table class="table table-bordered">
@@ -527,7 +527,7 @@
                                         <c:url value="admin" var="paginationUrl">
                                             <c:param name="page6" value="${i}" />
                                         </c:url>
-                                        <a href="${paginationUrl}" class="${i == page6 ? 'active' : ''}">${i}</a>
+                                        <a href="${paginationUrl}#request" class="${i == page6 ? 'active' : ''}">${i}</a>
                                     </c:forEach>
                                 </c:if>
                             </div>
@@ -631,10 +631,10 @@
                                         <td><a href="updateblog?blogID=${bl.idblog}"><i class="fa-solid fa-pen-to-square"></i></a></td>
                                         <td><a href="deleteblog?blogID=${bl.idblog}" onclick="return confirmDelete()"><i class="fa-solid fa-trash"></i></a></td>
                                         <td class="btn-container">
-                                            <button class="update-btn" > <a href="acceptblog?idblog=${bl.idblog}">Accept</a></button>
+                                            <button class="update-btn" > <a href="acceptblog?idblog=${bl.idblog}#blog">Accept</a></button>
                                         </td>
                                         <td class="btn-container">
-                                            <button class="delete-btn" > <a href="rejectblog?idblog=${bl.idblog}" onclick="return confirmReject()">Reject</a></button>
+                                            <button class="delete-btn" > <a href="rejectblog?idblog=${bl.idblog}#blog" onclick="return confirmReject()">Reject</a></button>
                                         </td>
                                     </tr>
                                 </c:forEach>
