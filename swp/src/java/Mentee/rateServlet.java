@@ -1,6 +1,10 @@
 package Mentee;
 
 import dal.DAO;
+import dal.HistoryPayDAO;
+import dal.MenteeDAO;
+import dal.RequestDAO;
+import dal.WalletDAO;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -10,10 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import model.Account;
+import model.HistoryWallet;
 import model.Mentor;
 import model.Rate;
 import model.Request;
+import model.Wallet;
 
 @WebServlet(name = "RateServlet", urlPatterns = {"/rate"})
 public class rateServlet extends HttpServlet {
@@ -26,15 +34,17 @@ public class rateServlet extends HttpServlet {
         // Check if the user has the role "Mentee"
         Account account = (Account) session.getAttribute("account");
         if (account == null || !"Mentee".equals(account.getRole())) {
-            // Handle the case where the user is not signed in or does not have the role "Mentee"
-            System.out.println("Error: User not signed in or does not have the role 'Mentee'");
             request.setAttribute("errorMess", "You do not have permission to access this page.");
             request.getRequestDispatcher("rate.jsp").forward(request, response);
         } else {
-            // Assuming you have a method in DAO to get all mentors
             DAO dao = new DAO();
+            RequestDAO requestDAO = new RequestDAO();
+            WalletDAO walletDAO = new WalletDAO();
+            HistoryPayDAO historyDAO = new HistoryPayDAO();
+            MenteeDAO menteeDAO = new MenteeDAO();
             List<Mentor> mentors = dao.getAllMentor();  // Assuming a correct method name
             int idRequest = Integer.parseInt(request.getParameter("idrequest"));
+            requestDAO.closeRequest(idRequest);
             request.setAttribute("idreq", idRequest);
             int idMentee = Integer.parseInt(request.getParameter("idMentee"));
             request.setAttribute("idreqd", idMentee);
@@ -54,8 +64,14 @@ public class rateServlet extends HttpServlet {
             // Set the account attribute to the session before forwarding
             session.setAttribute("account", account);
 
-            // Forward to rate.jsp
-            System.out.println("Successfully forwarded to rate.jsp");
+            Request requestt = requestDAO.getRequestById(idRequest);
+            Wallet walletMentor = walletDAO.getWalletByIdAccount(idMentor);
+            walletDAO.updateWallet(idMentor, walletMentor.getAmount() + requestt.getTotalCost()/10*9);
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String datePay = currentDateTime.format(formatter);
+            historyDAO.addHistoryPay(new HistoryWallet(0, idMentor, menteeDAO.getMenteeByAccountId(idMentee).getFullname(), requestt.getTotalCost()/10*9, datePay, "Thanh toán sau khóa học", "Deposit"));
+
             request.getRequestDispatcher("rate.jsp").forward(request, response);
         }
     }

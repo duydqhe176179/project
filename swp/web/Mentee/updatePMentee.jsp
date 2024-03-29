@@ -87,22 +87,31 @@
 
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet" href="assets/css/animated.css">
+        <link rel="stylesheet" href="assets/css/owl.css">
+        <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
+              crossorigin="anonymous" />
+        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+         <jsp:include page="../header.jsp"></jsp:include>
     </head>
     <body>
+       
+            <div class="form-container">  
+                          
+                <h1 class="header">
+                    Update
+                </h1>
+                <form action="update" method="post">
+                    <div class="wapper">
+                        <div class="input-pro">
+                            <label> Account: </label>
 
-        <div class="form-container">       
-            <a href="profileMentee">
-                <span class="fa-thin fa-user"></span>
-            </a>
-            <h1 class="header">
-                Update
-            </h1>
-            <form action="update" method="post">
-                <div class="wapper">
-                    <div class="input-pro">
-                        <label> Account: </label>
-
-                        <input type="text" name="accountname"  value="${account.user}" readonly>   
+                            <input type="text" name="accountname"  value="${account.user}" readonly>   
                     </div> 
                     <div class="input-pro">
                         <label> Email: </label>
@@ -158,5 +167,6 @@
 
     setMaxDate();
 </script>
+
 </body>
 </html>

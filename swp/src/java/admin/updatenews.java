@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import model.Account;
 import model.News;
 
 /**
@@ -133,7 +135,7 @@ public class updatenews extends HttpServlet {
                     Files.copy(fileInput, imagePath);
                 }
             } else {
-                
+
             }
 
             imageURL = "img/" + fileName;
@@ -151,7 +153,14 @@ public class updatenews extends HttpServlet {
             result = false;// Log the exception
         }
 
-        response.sendRedirect("admin");
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+// Chuyển hướng sau khi thêm tin tức
+        if (a.getRole().equals("Maketer")) {
+            response.sendRedirect("maketer");
+        } else if (a.getRole().equals("Manager")) {
+            response.sendRedirect("admin");
+        }
     }
 
     /**

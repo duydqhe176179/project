@@ -3,7 +3,7 @@
     Created on : Mar 6, 2024, 11:53:42 PM
     Author     : ADMIN
 --%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -14,13 +14,14 @@
         <link rel="stylesheet" href="style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cublog.css" />
+        
     </head>
     <body>
-        
+      
         <div class="container">
             <div class="title">Create Blog</div>
             <div class="content">
-                <form action="createblog" method="POST" enctype="multipart/form-data">
+                <form action="createblogMentor" method="POST" enctype="multipart/form-data">
                     <div class="user-details">
                         <div class="input-box">
                             <span class="details">Title</span>

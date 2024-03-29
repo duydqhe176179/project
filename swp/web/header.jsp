@@ -11,7 +11,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet" href="assets/css/animated.css">
+        <link rel="stylesheet" href="assets/css/owl.css">
+        <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
+              crossorigin="anonymous" />
+        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
         <style>
             .header-area{
                 height: 45px;
@@ -63,7 +71,7 @@
                             <c:if test="${account ne null}">
                                 <ul class="nav navbar-nav ">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.getUser()} <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.getUser()} </a>
                                         <ul class="dropdown-menu">
 
                                             <!--nếu là Mentee-->
@@ -81,9 +89,9 @@
 
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="#" data-toggle="modal" data-target="#statisticsModal">View Statistic</a></li>
                                                 <li class="scroll-to-section"><a  class="dropdown-item" href="reqmentor" >View Request</a></li>
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="createblog" >CREATE BLOG</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="createblogMentor" >CREATE BLOG</a></li>
                                                 <li class="scroll-to-section"><a class="dropdown-item"  href="bloglist" >VIEW BLOG</a></li>
-                                                <li class="scroll-to-section"><a class="dropdown-item"  href="takeMoney" >Wallet</a></li>
+                                                <li class="scroll-to-section"><a class="dropdown-item"  href="takeMoney?idAccount=${account.getId()}" >Wallet</a></li>
                                                 </c:if>
                                             <!------------------------------- -->    
 
@@ -91,7 +99,7 @@
 
                                             <li class="scroll-to-section"><a href="changePass">changePass</a></li>
                                             <li class="dropdown-divider"></li> <!-- Đường nằm ngang -->
-                                            <li><a href="logoutUser">Log out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                                            <li><a href="logoutUser">Log out</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -117,6 +125,18 @@
             </div>
         </header>
         <!-- ***** Header Area End ***** -->
-        <br><br><br><br><br>
+        <br><br><br><br>
+
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/owl-carousel.js"></script>
+        <script src="assets/js/animation.js"></script>
+        <script src="assets/js/imagesloaded.js"></script>
+        <script src="assets/js/popup.js"></script>
+        <script src="assets/js/custom.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -8,7 +8,7 @@
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         <link rel="stylesheet" href="css/style_rate.css"/>
-        <title>Rate&Comment</title>
+        <title>Happy Programing</title>
         <style>
             .btn.cancel {
                 background-color: #ff0000; /* Red background color */

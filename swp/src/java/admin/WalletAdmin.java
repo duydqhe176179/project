@@ -4,7 +4,10 @@
  */
 package admin;
 
-import admin.AdminDAO;
+import dal.DAO;
+import dal.HistoryPayDAO;
+import dal.TakeMoneyDAO;
+import dal.WalletDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,15 +15,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import model.Account;
+import model.GetMoney;
+import model.HistoryWallet;
 
 /**
  *
- * @author trang
+ * @author Admin
  */
-@WebServlet(name = "DeleteNews", urlPatterns = {"/deletenews"})
-public class DeleteNews extends HttpServlet {
+@WebServlet(name = "WalletAdmin", urlPatterns = {"/walletAdmin"})
+public class WalletAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +45,10 @@ public class DeleteNews extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteNews</title>");
+            out.println("<title>Servlet WalletAdmin</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteNews at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet WalletAdmin at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,30 +66,36 @@ public class DeleteNews extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int newsID = Integer.parseInt(request.getParameter("newsID"));
+        WalletDAO walletDAO = new WalletDAO();
+        TakeMoneyDAO takeMoneyDAO = new TakeMoneyDAO();
+        DAO dao = new DAO();
+        HistoryPayDAO historyDAO=new HistoryPayDAO();
 
-        // Gọi phương thức xóa tin tức từ DAO
-        AdminDAO admin = new AdminDAO();
-        boolean isDeleted = admin.deleteNews(newsID);
-
-        if (isDeleted) {
-            // Nếu xóa thành công, chuyển hướng về trang danh sách tin tức
-            request.setAttribute("message", "News deleted successfully");
-            System.out.println("xóa ok");
-//            response.sendRedirect("admin");
-
-        } else {
-            request.setAttribute("eror", "Failed to delete news with ID: " + newsID);
-            // Nếu xóa không thành công, có thể xử lý thông báo lỗi ở đây
+        String action = request.getParameter("action");
+        int idTakeMoney = Integer.parseInt(request.getParameter("id"));
+        GetMoney takeMoney = takeMoneyDAO.getTakeMoneyById(idTakeMoney);
+        Account a = dao.getAccountByUsername(takeMoney.getUsername());
+        
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String datePay = currentDateTime.format(formatter);
+        
+        if (action.equals("accept")) {
+            int walletBalance = walletDAO.getWalletBalance(14);
+            walletBalance -= takeMoney.getMoney();
+            walletDAO.updateWallet(14, walletBalance);
+            takeMoneyDAO.deleteTakeMoney(idTakeMoney);
+            //history of mentor
+            historyDAO.addHistoryPay(new HistoryWallet(0, a.getId(), "NULL", takeMoney.getMoney(), datePay, "Rút tiền về tài khoản ngân hàng", "Payment"));
+            //history of system
+            historyDAO.addHistoryPay(new HistoryWallet(0, 14, "NULL", takeMoney.getMoney(), datePay, "Thanh toán cho "+a.getUser(), "Payment"));
+        } else if (action.equals("reject")) {
+            
+            walletDAO.updateWallet(a.getId(), walletDAO.getWalletBalance(a.getId()) + takeMoney.getMoney());
+            takeMoneyDAO.deleteTakeMoney(idTakeMoney);
         }
-        HttpSession session = request.getSession();
-        Account a = (Account) session.getAttribute("account");
-// Chuyển hướng sau khi thêm tin tức
-        if (a.getRole().equals("Maketer")) {
-            response.sendRedirect("maketer");
-        } else if (a.getRole().equals("Manager")) {
-            response.sendRedirect("admin");
-        }
+        
+        response.sendRedirect("admin");
     }
 
     /**

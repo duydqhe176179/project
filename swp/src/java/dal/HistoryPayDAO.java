@@ -29,18 +29,46 @@ public class HistoryPayDAO extends DBContext {
             rs = stm.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                int amount = rs.getInt(3);
-                String datePay = rs.getString(4);
-                String content = rs.getString(5);
-                String stype = rs.getString(6);
+                String nameMentee = rs.getString(3);
+                int amount = rs.getInt(4);
+                String datePay = rs.getString(5);
+                String content = rs.getString(6);
+                String stype = rs.getString(7);
 
-                HistoryWallet h = new HistoryWallet(id, idAccount, amount, datePay, content, stype);
-                listHistoryWallet.add(h);
+                listHistoryWallet.add(new HistoryWallet(id, idAccount, nameMentee, amount, datePay, content, stype));
             }
         } catch (Exception e) {
             System.out.println("getHistoryWalletByIdAccount " + e);
         }
         return listHistoryWallet;
+    }
+
+    public boolean addHistoryPay(HistoryWallet h) {
+        try {
+            String sql = "INSERT INTO dbo.historyWallet\n"
+                    + "(\n"
+                    + "    idAccount,\n"
+                    + "    amount,\n"
+                    + "    datePay,\n"
+                    + "    content,\n"
+                    + "    stype\n"
+                    + ")\n"
+                    + "VALUES(?,?,?,?,?)";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, h.getIdAccount());
+            stm.setInt(2, h.getAmount());
+            stm.setString(3, h.getDatePay());
+            stm.setString(4, h.getContent());
+            stm.setString(5, h.getStype());
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            stm.close();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println("addHistoryPay "+e);
+        }
+        return false;
     }
 
     public static void main(String[] args) {

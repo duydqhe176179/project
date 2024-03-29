@@ -829,7 +829,7 @@ public class AdminDAO extends DBContext {
         ReDetail requestDetail = null;
         String sql = "SELECT m.idMentee, r.idRequest, a.username, m.fullname, m.dob, "
                 + "m.phone, m.sex, m.avatar, m.address, r.title, r.content, r.status, "
-                + "r.skill, r.startDate, r.deadline, r.hour, r.reasonReject\n"
+                + "r.skill, r.startDate, r.endDate, r.hour, r.reasonReject\n"
                 + "FROM mentee AS m \n"
                 + "JOIN request AS r ON m.idMentee = r.idMentee\n"
                 + "JOIN account AS a ON m.idMentee = a.idAccount\n"

@@ -39,13 +39,16 @@
                 </div> 
                 <p style="margin-bottom: 10px;color: red;font-size: large">${mess}</p>
                 <div class="remember">
-                    <label style="text-align: left"><input type="checkbox" id="remember" name="remember pass" >Remember password</label> 
-                    <a href="reset-password">Reset password</a> 
+                    <label style="text-align: left;font-size: small"><input type="checkbox" id="remember" name="remember pass" >Remember password</label> 
+<!--                    <a href="reset-password" style="font-size: small">Reset password</a> -->
                 </div>
 
                 <button class="button" type="submit" name="signup">
                     LOGIN
                 </button>
+                <div class="resiter-link">
+                    <p>Forgot your password ? </p> <a href="reset-password" style="font-size: small"> click to reset</a> 
+                </div>
                 <div class="resiter-link">
                     <p>Don't have an account? </p>
                     <a ><a href="signup" >Register</a>

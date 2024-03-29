@@ -67,11 +67,12 @@
 
         <script
         <script src="https://cdn.tiny.cloud/1/v2saiqx68nn924zq9xagmn8galaqifhtnlhjbr6jeofrd8n1/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-        ></script>
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@2/dist/tinymce-jquery.min.js"></script>
 
 </head>
 <body>
+
     <div>
         <a href="home" style=" text-decoration: none; color: white; display: flex; align-items: center; margin-top: 30px;">
             <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
@@ -134,33 +135,33 @@
             </div>
             <div class="form-group">
                 <label class="fieldlabels">Introduction: </label> 
-                <textarea  name="intro" placeholder="Introduction" value="${mentor.pro_introduc}"></textarea>
+                <textarea  name="intro" placeholder="Introduction">${mentor.pro_introduc}</textarea>
             </div>
         </section>
 
         <section>
             <div class="form-group">
                 <label class="fieldlabels">Experience: </label> 
-                <textarea name="experience" placeholder="Experience" value="${mentor.experience}"></textarea> 
+                <textarea name="experience" placeholder="Experience" >${mentor.experience}</textarea> 
             </div>
             <div class="form-group">
                 <label class="fieldlabels">My Services: </label> 
-                <textarea  name="service" placeholder="My Services" value="${mentor.myservice}"></textarea>
+                <textarea  name="service" placeholder="My Services" >${mentor.myservice}</textarea>
             </div>
             <div class="form-group">
                 <label class="fieldlabels">Education: </label> 
-                <textarea name="education" placeholder="Education" value="${mentor.education}"></textarea>
+                <textarea name="education" placeholder="Education" >${mentor.education}</textarea>
             </div>
         </section>
 
         <section>
             <div class="form-group">
                 <label class="fieldlabels">Achivement: </label> 
-                <textarea name="achivement" placeholder="Achivement" value="${mentor.archivement_sescition}"></textarea>
+                <textarea name="achivement" placeholder="Achivement" >${mentor.archivement_sescition}</textarea>
             </div>
             <div class="form-group">
                 <label class="fieldlabels">Framework: </label> 
-                <textarea name="framework" placeholder="Framework" value="${mentor.framework}"></textarea>
+                <textarea name="framework" placeholder="Framework" >${mentor.framework}</textarea>
             </div>
             <div class="form-group">
                 <label class="fieldlabels">$/1h: </label> 
@@ -194,7 +195,8 @@
     </form>
     <c:if test="${msg != null}">
         <div class="alert alert-success" role="alert">
-            Create successful!
+            Create successful! 
+           
         </div>
     </c:if>
     <c:if test="${param.fail != null}">

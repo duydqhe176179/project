@@ -66,6 +66,7 @@ public class UpdateCV extends HttpServlet {
 
         CV cv = addAO.getCVbyID(idmentor);
         MentorDAO mdao = new MentorDAO();
+         mdao.deleteMentorbyhaveskill(idmentor);
         CV sss = addAO.getCVbyID(idmentor);
         String fullname = sss.getFullname();
         String avartar = sss.getAvatar();

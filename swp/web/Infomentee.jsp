@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Happy Programing</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -43,7 +43,7 @@
                 background-clip: border-box;
                 border: 0 solid rgba(0,0,0,.125);
                 border-radius: .25rem;
-                height: 410px;
+                height: 450px;
             }
 
             .card-body {

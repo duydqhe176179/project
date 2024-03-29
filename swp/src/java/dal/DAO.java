@@ -104,7 +104,7 @@ public class DAO extends DBContext {
                 int confirm = resultSet.getInt(6);
                 int active = resultSet.getInt(7);
 
-                return new Account(idAccount, user, email, pass, role, confirm,active);
+                return new Account(idAccount, user, email, pass, role, confirm, active);
             }
         } catch (Exception e) {
             System.out.println("Login: " + e.getMessage());
@@ -616,7 +616,25 @@ public class DAO extends DBContext {
 
     public List<News> getAllnews() {
         try {
-            String strSelect = "select * from news";
+            String strSelect = "SELECT * \n"
+                    + "FROM news\n"
+                    + "ORDER BY eventYear, \n"
+                    + "         CASE \n"
+                    + "            WHEN eventMonth = 'January' THEN 1\n"
+                    + "            WHEN eventMonth = 'February' THEN 2\n"
+                    + "            WHEN eventMonth = 'March' THEN 3\n"
+                    + "            WHEN eventMonth = 'April' THEN 4\n"
+                    + "            WHEN eventMonth = 'May' THEN 5\n"
+                    + "            WHEN eventMonth = 'June' THEN 6\n"
+                    + "            WHEN eventMonth = 'July' THEN 7\n"
+                    + "            WHEN eventMonth = 'August' THEN 8\n"
+                    + "            WHEN eventMonth = 'September' THEN 9\n"
+                    + "            WHEN eventMonth = 'October' THEN 10\n"
+                    + "            WHEN eventMonth = 'November' THEN 11\n"
+                    + "            WHEN eventMonth = 'December' THEN 12\n"
+                    + "            ELSE 99 -- For unexpected cases\n"
+                    + "         END,\n"
+                    + "         eventDay;";
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {

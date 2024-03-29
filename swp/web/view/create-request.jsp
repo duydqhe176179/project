@@ -131,9 +131,10 @@
                 background-color: #0056b3; /* Darker background color on hover */
             }
         </style>
+
     </head>
     <body style="background-image: url(../assets/images/client-bg.png)">
-        <jsp:include page="../head_foot/header.jsp"></jsp:include>
+        <jsp:include page="../header.jsp"></jsp:include>
             <div class="main-banner-container">
                 <h2>Create Request</h2>
                 <form action="Request?action=create" method="post">
@@ -178,10 +179,7 @@
                         <label for="deadlineHour">Total learn hour:</label>
                         <input type="text" id="learnHour" name="deadlineHour" required>
                     </div>
-                    <div class="col-2">
-                        <label for="totalButton">click this</label>
-                        <button type="button" id="totalButton">Total</button>
-                    </div>
+                    
                 </div>
                 <div>
                     <input name="totalCost" id="total" value="" style="display: none">
@@ -213,6 +211,50 @@
 
         </div>
         <script>
+// Get references to the input fields
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+
+// Get the current date
+            const currentDate = new Date();
+            const currentDateString = currentDate.toISOString().split('T')[0]; // Format to yyyy-mm-dd
+
+// Set the minimum value of the startDate input field to the current date
+            startDateInput.min = currentDateString;
+
+// Add event listener to the startDate input field
+            startDateInput.addEventListener('change', function () {
+// Get the selected start date
+                const startDate = new Date(this.value);
+
+// Check if the selected start date is greater than or equal to the current date
+                if (startDate < currentDate) {
+                    alert('Start date must be greater than or equal to the current date.');
+                    this.value = currentDateString;
+                }
+
+// Check if the selected start date is greater than the end date
+                if (endDateInput.value && startDate >= new Date(endDateInput.value)) {
+                    alert('Start date must be less than end date.');
+                    this.value = currentDateString;
+                }
+            });
+
+// Add event listener to the endDate input field
+            endDateInput.addEventListener('change', function () {
+// Get the selected start date
+                const startDate = new Date(startDateInput.value);
+// Get the selected end date
+                const endDate = new Date(this.value);
+
+// Check if the selected end date is greater than the start date
+                if (endDate <= startDate) {
+                    alert('End date must be greater than the start date.');
+                    this.value = '';
+                }
+            });
+        </script>
+        <script>
             // Lấy thẻ input và button
             var learnHourInput = document.getElementById("learnHour");
             var totalButton = document.getElementById("totalButton");
@@ -229,7 +271,7 @@
                 }
             });
             // Thêm sự kiện click vào button "Total"
-            totalButton.addEventListener("click", function () {
+            learnHourInput.addEventListener("input", function () {
                 // Lấy giá trị nhập vào từ input
                 var learnHourValue = parseFloat(learnHourInput.value);
 
@@ -244,17 +286,7 @@
                 }
             });
         </script>
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/owl-carousel.js"></script>
-        <script src="assets/js/animation.js"></script>
-        <script src="assets/js/imagesloaded.js"></script>
-        <script src="assets/js/popup.js"></script>
-        <script src="assets/js/custom.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     </body>
 </html>
 </html>

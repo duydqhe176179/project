@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package User;
+package Mentor;
 
 import admin.AdminDAO;
 import dal.MentorDAO;
@@ -167,19 +167,19 @@ public class CreateCVMentor extends HttpServlet {
         CV aa = addao.getCVbyID(idMentor);
         if (aa != null) {
             addao.deleteCV(idMentor);
-            dao.deleteMentorbyhaveskill(idMentor);
+
             addao.insertr(r);
             System.out.println("ok");
             String msg = "success";
             request.setAttribute("msg", msg);
-            request.getRequestDispatcher("Mentor/CreateCV.jsp").forward(request, response);
+            request.getRequestDispatcher("Succesfull.jsp").forward(request, response);
         } else {
-            dao.deleteMentorbyhaveskill(idMentor);
+
             addao.insertr(r);
             System.out.println("ok");
             String msg = "success";
             request.setAttribute("msg", msg);
-            request.getRequestDispatcher("Mentor/CreateCV.jsp").forward(request, response);
+            request.getRequestDispatcher("Succesfull.jsp").forward(request, response);
         }
 
 //

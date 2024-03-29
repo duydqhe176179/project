@@ -112,26 +112,24 @@ public class filter implements Filter {
         String url = req.getServletPath();
         HttpSession session = req.getSession();
         Account a = (Account) session.getAttribute("account");
-        
-        // rate,ListRequest chưa phân quyền
-        
+
         if (url.endsWith("signin") || url.endsWith("signup")) {
             if (a != null) {
                 res.sendRedirect("home");
             }
-        } else if (url.endsWith("updatereq")) {
+        } else if (url.endsWith("updatereq") || url.endsWith("updatereq") || url.endsWith("rate")) {
             if (a == null) {
                 res.sendRedirect("redirect.jsp");
             } else if (a != null && !a.getRole().equals("Mentee")) {
                 res.sendRedirect("home");
             }
-        } else if (url.endsWith("createcv") ||url.endsWith("reqmentor")) {
+        } else if (url.endsWith("createcv") || url.endsWith("reqmentor") || url.endsWith("accept") || url.endsWith("bloglist") || url.endsWith("createblogMentor")||url.endsWith("takeMoney")) {
             if (a == null) {
                 res.sendRedirect("redirect.jsp");
             } else if (a != null && !a.getRole().equals("Mentor")) {
                 res.sendRedirect("home");
             }
-        } else if (url.endsWith("viewrequestmentee")) {
+        } else if (url.endsWith("listrequest") || url.endsWith("ReportListall") || url.endsWith("statisticreq")) {
             if (a == null) {
                 res.sendRedirect("redirect.jsp");
             } else if (a != null && !a.getRole().equals("Mentee")) {
@@ -145,16 +143,26 @@ public class filter implements Filter {
             }
 
             // bắt đầu role manager
+        } else if (url.endsWith("profileMentee") || url.endsWith("deletecourse")) {
+            if (a == null) {
+                res.sendRedirect("redirect.jsp");
+            } else if (a != null && !a.getRole().equals("Mentee")) {
+                res.sendRedirect("home");
+            }
         } else if (url.endsWith("detailreq") || url.endsWith("search") || url.endsWith("activeSkill") || url.endsWith("addSkill") || url.endsWith("updateSkill") || url.endsWith("statistic") || url.endsWith("viewall")) {
             if (a == null) {
-                res.sendRedirect("signinAdmin");
+                res.sendRedirect("home");
             } else if (a != null && !a.getRole().equals("Manager")) {
                 res.sendRedirect("home");
             }
-            
+
             //bắt đầu các thao tác với tài khoản
-        } else if (url.endsWith("changePass")||url.endsWith("reset-password")) {
-            if(a==null){
+        } else if (url.endsWith("createblog") || url.endsWith("newsdetail") || url.endsWith("walletAdmin") || url.endsWith("profileMtor")) {
+            if (a == null) {
+                res.sendRedirect("home");
+            }
+        } else if (url.endsWith("changePass") || url.endsWith("reset-password")) {
+            if (a == null) {
                 res.sendRedirect("home");
             }
         }

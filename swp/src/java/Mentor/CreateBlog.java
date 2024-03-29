@@ -20,13 +20,15 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import model.Account;
+import model.Blog;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "CreateBlog", urlPatterns = {"/createblog"})
+@WebServlet(name = "CreateBlogMentor", urlPatterns = {"/createblogMentor"})
 @MultipartConfig
 public class CreateBlog extends HttpServlet {
 
@@ -69,7 +71,7 @@ public class CreateBlog extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getRequestDispatcher("Mentor/CreatBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("Mentor/CreatBlogMentor.jsp").forward(request, response);
     }
 
     /**
@@ -97,7 +99,7 @@ public class CreateBlog extends HttpServlet {
         String brief = request.getParameter("brief");
         String detail = request.getParameter("detail");
         String date = request.getParameter("date");
-       Part filePart = request.getPart("image");
+        Part filePart = request.getPart("image");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
         // Define the folder where you want to save the file
@@ -118,9 +120,14 @@ public class CreateBlog extends HttpServlet {
 
         // Add the file URL to your database
         String fileUrl = "img/" + fileName;
-        
-        bd.insertBlog(idAccount, date, fileUrl, title, brief, detail,0);
-        response.sendRedirect("bloglist");
+
+        bd.insertBlog(idAccount, date, fileUrl, title, brief, detail, 0);
+//        response.sendRedirect("bloglist");
+
+
+        List<Blog> BlogList5 = bd.getBlogByIdMentor(idAccount);
+        request.setAttribute("bloglist55", BlogList5);   // blog (gom isAgree) sap xep theo giam dan date
+        request.getRequestDispatcher("Mentor/ViewBlog.jsp").forward(request, response);
     }
 
     /**

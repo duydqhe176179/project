@@ -72,9 +72,21 @@
                 text-decoration: none;
                 border-radius: 5px;
             }
+            .about-aboutMe p{
+                font-weight: bold;
+                white-space: pre-line;
+
+            }
+            .line-down p{
+                font-weight: bold;
+                white-space: pre-line;
+            }
         </style>
+
+
     </head>
     <body>
+
         <div class="background gradient">
 
         </div>
@@ -94,10 +106,10 @@
                         <span class="link">Contact</span>
                     </a>
                     <c:if test="${update eq 'accept'}">
-                    <a href="createcv?idMentor=${cx.getId()}">
-                        <span class="fa-solid fa-pen-nib"></span>
-                        <span class="link">Update</span>
-                    </a>
+                        <a href="createcv?idMentor=${cx.getId()}">
+                            <span class="fa-solid fa-pen-nib"></span>
+                            <span class="link">Update</span>
+                        </a>
                     </c:if>
                     <a href="home.jsp">
                         <span class="fa-thin fa-house"></span>
@@ -114,12 +126,7 @@
                         </div>
                         <h1 class="profile-name" id="nombre"> ${cv.fullname}</h1>
                         <h2 class="profile-profession"> ${cv.profession}</h2>
-                        <!--                        <div class="profile-social" id="profile-social">
-                                                    <a href="${cs.link}"><i class="fa-brands fa-facebook"></i> </a>
-                                                    <a href="www.instagram.com" class="fa-brands fa-instagram"></a>
-                                                    <a href="www.twitter.com" class="fa-brands fa-twitter"></a>
-                        
-                        </div>-->
+
                     </div>
 
                     <c:if test="${action eq 'request'}">
@@ -209,9 +216,9 @@
                             </section>
                             <section class="line-left">
                                 <h4 class="line-down"><i class="fas fa-code"></i> FRAMEWORK</h4>
-
-                                <div>${cv.framework}</div>
-
+                                <article class="line-down">
+                                    <p>${cv.framework}</p>
+                                </article>
 
 
                             </section>
@@ -285,4 +292,5 @@
         })
 
     </script>
+
 </html>

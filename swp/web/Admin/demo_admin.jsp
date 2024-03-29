@@ -153,6 +153,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#withdrawal">Wallet</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#news">News</a>
                     </li>
                     <li class="nav-item">
@@ -166,11 +169,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
-                        
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#report">Report</a>
-                        
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#request">Requests</a>
@@ -180,10 +183,79 @@
                     </li>
                 </ul>
             </div>
+            <div>
+                <a class="nav-link js-scroll-trigger" href="logoutAdmin">Log out</a>
+            </div>
         </nav>
 
         <div class="container-fluid p-0">
+            <section class="resume-section p-3 p-lg-5 d-flex d-column row" id="withdrawal">
+                <div class="my-auto col-7">
+                    <h1 class="mb-0">
+                        <span class="text-primary">Wallet</span>
+                    </h1>
 
+                    <div class="table-responsive">
+                        <table class="table table-bordered" style="text-align: center">
+                            <thead>
+                                <tr>
+                                    <th>Fullname</th>
+                                    <th>Username</th>
+                                    <th>Money</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="h" items="${listTakeMoney}" >
+                                    <tr>
+                                        <td>${h.getFullname()}</td>
+                                        <td>${h.getUsername()}</td>
+                                        <td>${h.getMoney()} VNÐ</td>
+                                        <td><a href="walletAdmin?action=accept&id=${h.getId()}" class="btn btn-success">Accept</a></td>
+                                        <td><a href="walletAdmin?action=reject&id=${h.getId()}" class="btn btn-danger">Reject</a></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-5" style="margin-top: 87px">
+                    <div style="border: solid;box-sizing: border-box;padding-left: 30px">
+                        <h3>Total income</h3>
+                        <h3>${totalIncome} VNÐ</h3>
+                    </div>
+                    <div style="border: solid;box-sizing: border-box;padding-left: 30px; margin-top: 30px">
+                        <h3>Wallet System</h3>
+                        <h3>${walletSystem} VNÐ</h3>
+                    </div>
+                    <br>
+                    <div>History Payment</div>
+                    <table class="table table-bordered" style="text-align: center;border: solid">
+                        <thead>
+                            <tr>
+                                <th>Content</th>
+                                <th>Money</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${listHistory}" var="l">
+                                <tr>
+                                    <td>${l.getContent()}</td>
+                                    <c:if test="${l.getStype() eq 'Deposit'}">
+                                        <td style="color: green">+ ${l.getAmount()}</td>
+                                    </c:if>
+                                    <c:if test="${l.getStype() eq 'Payment'}">
+                                        <td style="color: red">- ${l.getAmount()}</td>
+                                    </c:if>
+                                    <td>${l.getDatePay()}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
             <section class="resume-section p-3 p-lg-5 d-flex d-column" id="news">
                 <div class="my-auto">
                     <h1 class="mb-0">
@@ -395,7 +467,7 @@
             <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
                 <div class="my-auto">
                     <h2 class="mb-5">Skills <a href="addSkill"><i class="fa-solid fa-plus"></i></a></h2>
-                    <c:set var="page" value="${requestScope.page}"/>
+                            <c:set var="page" value="${requestScope.page}"/>
                     <div class="pagination">
                         <c:forEach begin="1" end="${requestScope.num3}" var="i">
                             <a class="${i==page ? 'active' : ''}" href="admin?page=${i}#skills">${i}</a>
@@ -442,9 +514,9 @@
                     </table>
                 </div>
             </section>
-                    
-                    
-                    <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="report">
+
+
+            <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="report">
                 <div class="my-auto">
                     <h2 class="mb-5">Report</h2>
                     <c:set var="page8" value="${requestScope.page8}"/>
@@ -460,7 +532,7 @@
                                 <th>ID</th>
                                 <th>Title</th>
                                 <th>Content</th>
-                              
+
                             </tr>
                         </thead>
                         <tbody>
@@ -628,13 +700,13 @@
                                         <td>${bl.title}</td>
                                         <td>${bl.briefinfo}</td>
                                         <td>${bl.detailinfo}</td>
-                                        <td><a href="updateblog?blogID=${bl.idblog}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                                        <td><a href="deleteblog?blogID=${bl.idblog}" onclick="return confirmDelete()"><i class="fa-solid fa-trash"></i></a></td>
-                                        <td class="btn-container">
-                                            <button class="update-btn" > <a href="acceptblog?idblog=${bl.idblog}#blog">Accept</a></button>
+                                        <td style="vertical-align: middle;"><a href="updateblog?blogID=${bl.idblog}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                        <td style="vertical-align: middle;"><a href="deleteblog?blogID=${bl.idblog}" onclick="return confirmDelete()"><i class="fa-solid fa-trash"></i></a></td>
+                                        <td class="btn-container" style="vertical-align: middle;">
+                                            <a class="btn btn-primary" href="acceptblog?idblog=${bl.idblog}#blog">Accept</a>
                                         </td>
-                                        <td class="btn-container">
-                                            <button class="delete-btn" > <a href="rejectblog?idblog=${bl.idblog}#blog" onclick="return confirmReject()">Reject</a></button>
+                                        <td class="btn-container" style="vertical-align: middle;">
+                                            <a class="btn btn-danger" href="rejectblog?idblog=${bl.idblog}#blog" onclick="return confirmReject()">Reject</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -672,18 +744,18 @@
 
 
 
-</div>
+        </div>
 
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Plugin JavaScript -->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Plugin JavaScript -->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Custom scripts for this template -->
-<script src="js/resume.min.js"></script>
+        <!-- Custom scripts for this template -->
+        <script src="js/resume.min.js"></script>
 
-</body>
+    </body>
 
 </html>

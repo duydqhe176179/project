@@ -43,36 +43,23 @@ public class RequestDAO extends DBContext {
         return true;
     }
 
-//    public boolean updateRequest(Request request) {
-//        String query = "UPDATE request SET "
-//                + "idMentee = ?, "
-//                + "title = ?, "
-//                + "content = ?, "
-//                + "skill = ?, "
-//                + "status = ?, "
-//                + "deadlineDate = ?, "
-//                + "deadlineHour = ? "
-//                + "WHERE idRequest = ?";
-//
-//        try ( Connection connection = this.connection;  PreparedStatement pstmt = connection.prepareStatement(query)) {
-//
-//            pstmt.setInt(1, request.getIdMentee());
-//            pstmt.setString(2, request.getTitle());
-//            pstmt.setString(3, request.getContent());
-//            pstmt.setString(4, request.getSkill());
-//            pstmt.setString(5, request.getStatus());
-//            pstmt.setString(6, request.getDeadlineDate());
-//            pstmt.setBigDecimal(7, request.getDeadlineHour());;
-//            pstmt.setInt(8, request.getIdRequest());
-//
-//            int rowsAffected = pstmt.executeUpdate();
-//            return rowsAffected > 0;
-//        } catch (SQLException e) {
-//            // Handle database access or SQL exception
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    public boolean closeRequest(int idRequest) {
+        try {
+            String sql = "UPDATE dbo.request\n"
+                    + "SET status='Closed'\n"
+                    + "WHERE idRequest=?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, idRequest);
+            int rowsAffected = stm.executeUpdate();
+
+            // Close the prepared statement
+            stm.close();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println("closeRequest " + e);
+            return false;
+        }
+    }
 
     public List<Request> getAllRequests() {
         List<Request> requests = new ArrayList<>();
@@ -166,7 +153,7 @@ public class RequestDAO extends DBContext {
         );
     }
 
-    public boolean UpdateRequest(int idRequest, String title, String content, String nameSkill, String startDate, String endDate,Float hour, int totalCost) {
+    public boolean UpdateRequest(int idRequest, String title, String content, String nameSkill, String startDate, String endDate, Float hour, int totalCost) {
         Connection conn = null;
         String query = "UPDATE [dbo].[request]\n"
                 + "   SET [title] = ?\n"
@@ -231,9 +218,8 @@ public class RequestDAO extends DBContext {
 
     public static void main(String[] args) {
         // Assuming you have a Request object ready for testing
-        
+
         // Call the createRequest method and handle the result
-       
     }
 
 }

@@ -62,6 +62,24 @@ public class searchMentor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        MentorDAO dao = new MentorDAO();
+        AdminDAO admin = new AdminDAO();
+        List<Mentor> list = new ArrayList<>();
+        List<Mentor> listM = new ArrayList<>();
+        String search = request.getParameter("searchBySkill");
+        list = dao.listMentorBySkill(search);
+
+        float rate;
+        int totalRequest, totalInvite;
+        for (Mentor m : list) {
+            rate = (float) (Math.round(dao.getRate(m.getIdMentor()) * 10.0) / 10.0);
+            totalRequest = dao.totalRequest(m.getIdMentor());
+            totalInvite = dao.totalInvite(m.getIdMentor());
+            String img = admin.getSkillById(m.getIdSkill()).getImage();
+            System.out.println(img);
+            listM.add(new Mentor(m.getIdMentor(), m.getFullname(), rate, m.getUser(), totalRequest, totalInvite, m.getIdSkill(), m.getSkillName(), img));
+        }
+        request.setAttribute("listM", listM);
 //        response.sendRedirect("suggestMentor.jsp");
         request.getRequestDispatcher("suggestMentor.jsp").forward(request, response);
     }
@@ -78,7 +96,7 @@ public class searchMentor extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         MentorDAO dao = new MentorDAO();
-        AdminDAO admin=new AdminDAO();
+        AdminDAO admin = new AdminDAO();
         List<Mentor> list = new ArrayList<>();
         List<Mentor> listM = new ArrayList<>();
         String search = request.getParameter("searchBySkill");
@@ -90,9 +108,9 @@ public class searchMentor extends HttpServlet {
             rate = (float) (Math.round(dao.getRate(m.getIdMentor()) * 10.0) / 10.0);
             totalRequest = dao.totalRequest(m.getIdMentor());
             totalInvite = dao.totalInvite(m.getIdMentor());
-            String img=admin.getSkillById(m.getIdSkill()).getImage();
+            String img = admin.getSkillById(m.getIdSkill()).getImage();
             System.out.println(img);
-            listM.add(new Mentor(m.getIdMentor(), m.getFullname(), rate, m.getUser(), totalRequest, totalInvite, m.getIdSkill(), m.getSkillName(),img));
+            listM.add(new Mentor(m.getIdMentor(), m.getFullname(), rate, m.getUser(), totalRequest, totalInvite, m.getIdSkill(), m.getSkillName(), img));
         }
         request.setAttribute("listM", listM);
 //        response.sendRedirect("suggestMentor.jsp");

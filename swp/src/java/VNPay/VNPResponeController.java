@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import dal.HistoryPayDAO;
 import dal.MentorDAO;
 import dal.RequestDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -22,6 +23,8 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -32,6 +35,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import model.Account;
 import model.Have_SKill;
+import model.HistoryWallet;
 import model.Mentor;
 import model.Request;
 
@@ -50,6 +54,12 @@ public class VNPResponeController extends HttpServlet {
 
         RequestDAO dao = new RequestDAO();
         dao.UpdateRequestStatus(requestId, "Learning ");
+        Request requestt=dao.getRequestById(Integer.parseInt(requestId));
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String datePay = currentDateTime.format(formatter);
+        HistoryPayDAO historyDAO=new HistoryPayDAO();
+        historyDAO.addHistoryPay(new HistoryWallet(0, 14, "NULL", requestt.getTotalCost(), datePay, "Mentee thanh toán khóa học", "Deposit"));
 
         dal.ListRequest req = new dal.ListRequest();
         HttpSession session = request.getSession(true );

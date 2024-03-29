@@ -134,7 +134,7 @@ public class viewrequestmetor extends HttpServlet {
         dal.ListRequest lr = new dal.ListRequest();
         Account account = (Account) request.getSession().getAttribute("account");
         if (selectedValues != null && selectedValues.length > 0) {
-            String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.deadline, r.hour\n"
+            String sql = "SELECT r.idRequest, r.idMentee, r.idMentor, m.fullname AS FullName, r.title, r.content, r.skill, r.status, r.startDate, r.endDate, r.hour\n"
                     + "FROM request r\n"
                     + "JOIN mentee m ON r.idMentee = m.idMentee WHERE";
             for (int i = 0; i < selectedValues.length; i++) {

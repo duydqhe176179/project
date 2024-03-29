@@ -57,7 +57,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="../head_foot/header.jsp"></jsp:include>
+        <jsp:include page="../header.jsp"></jsp:include>
             <div class="container">
                 <div class="main-body">
 
@@ -150,10 +150,10 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="check"> <a href="home.jsp" style=" color: white; background: red;padding: 2px 10px">Back</a></div>
-                                        <div class="check"> <a href="update" style=" color: white; background: green;padding: 2px 10px">Edit</a></div>
+                                <div class="row" >
+                                    <div class="col-sm-12" style="display: flex;">
+                                        <div class="check"> <a href="home.jsp" style=" color: white; background: red;padding:10px;margin:10px;">Back</a></div>
+                                        <div class="check"> <a href="update" style=" color: white; background: green;padding:10px;margin:10px;">Edit</a></div>
 
                                     </div>
                                 </div>

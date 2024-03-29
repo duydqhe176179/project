@@ -46,17 +46,31 @@
       .bb{
           margin-bottom: 30px;
       }
+      .checkmark{
+          text-align: center;
+          margin-left: 50px;
+      }
     </style>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet" href="assets/css/animated.css">
+        <link rel="stylesheet" href="assets/css/owl.css">
+        <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
+              crossorigin="anonymous" />
+        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <body>
-        
-        <p class="bb"><a href = "profilecv" >ProfileCV</a></p>
+        <jsp:include page="header.jsp"></jsp:include>
+      
       <div class="card">
       <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
         <i class="checkmark">✓</i>
       </div>
-        <h1>Success</h1> 
-        <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
+          <h1 style="text-align: center;">Send Successfully</h1> 
+        
       </div>
+        <jsp:include page="footer.jsp"></jsp:include>
     </body>
 </html>
 

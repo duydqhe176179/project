@@ -21,7 +21,7 @@
             <div class="title">Update Blog</div>
             <div class="content">
                 <form action="updateblog" method="POST" enctype="multipart/form-data">
-                    <input type="text" value="${b.idblog}" name="idblog">
+                    <input type="text" value="${b.idblog}" name="idblog" style="display: none">
                     <div class="user-details">
                         <div class="input-box">
                             <span class="details">Title</span>

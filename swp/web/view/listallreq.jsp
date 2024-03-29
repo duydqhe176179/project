@@ -11,13 +11,22 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-             <!-- Bootstrap core CSS -->
+        <!-- Bootstrap core CSS -->
         <link href="assets/bootstrap.min.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="assets/jumbotron-narrow.css" rel="stylesheet">
         <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-....." crossorigin="anonymous" />
         <title>List of Requests</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet" href="assets/css/animated.css">
+        <link rel="stylesheet" href="assets/css/owl.css">
+        <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
+              crossorigin="anonymous" />
+        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -27,7 +36,7 @@
             }
 
             header {
-                background-color: #3931af;
+                /*                background-color: #3931af;*/
                 color: #fff;
                 padding: 10px;
                 text-align: center;
@@ -82,7 +91,7 @@
 
             .wrapper{
                 width: 470px;
-                background: #ddd;
+               background: lightblue;
                 border-radius: 5px;
                 padding: 25px 25px 30px;
                 box-shadow: 8px 8px 10px rgba(0,0,0,0.06);
@@ -125,48 +134,55 @@
                 color: red;
 
             }
+              .rate{
+                padding: 8px;
+                border-radius: 2px;
+            }
         </style>
-    </head>
-    <body>
 
-        <header style="background: #48CEFA;margin: 20px;">
-            <!--            <h1>List of Requests</h1>-->
-            <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
-                <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
-                Home
-            </a>
-            <h1 style="margin-left: auto; padding-bottom: 20px;">List of Requests</h1>
-        </header>
+        <jsp:include page="../header.jsp"></jsp:include>
+        </head>
+        <body>
+            <br/><!-- comment -->
+            <br/>
+            <header>
+                <!--            <h1>List of Requests</h1>-->
+                <!--                <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
+                                    <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
+                                    Home
+                                </a>-->
+                <h1 style="margin-left: auto; padding-bottom: 20px; color: #000;">List of Requests</h1>
+            </header>
 
-        <section>
-            <table border="1" style="margin:auto">
-                <thead style="border: 1px solid black; background:#48CEFA;">
-                    <tr>
-                        <th style="width: 10%;text-align: center;">Title</th>
-                        <th style="width: 10%;text-align: center;">Skills</th>
-                        <th style="width: 10%;text-align: center;">Description</th>
-                        <th style="width: 10%;text-align: center;">Start Learn</th>
-                        <th style="width: 10%;text-align: center;">Day Complete</th>
-                        <th style="width: 10%;text-align: center;">Total learn hour</th>
-                        <th style="width: 10%;text-align: center;">Status</th>
-                        <th style="width: 10%;text-align: center;">Total money</th>
-                        <th style="width: 10%;text-align: center;">Actions</th>
-                        <th style="width: 10%;text-align: center;">Report</th>
+            <section>
+                <table border="1" style="margin:auto">
+                    <thead style="border: 1px solid black; background:#48CEFA;">
+                        <tr>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Title</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Skills</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Description</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Start Learn</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Day Complete</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Total learn hour</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Status</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Total money</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Actions</th>
+                            <th style="width: 10%;text-align: center;font-size: 15px;">Report</th>
 
-                    </tr>
-                </thead>
-                <tbody>
+                        </tr>
+                    </thead>
+                    <tbody>
 
                     <c:forEach var="request" items="${listReq}">
                         <tr>
-                            <td style="width: 10%;text-align: center;">${request.title}</td>
-                            <td style="width: 10%;text-align: center;">${request.skill}</td>
-                            <td style="width: 10%;text-align: center;">${request.content}</td>
-                            <td style="width: 10%;text-align: center;">${request.startDate}</td>
-                            <td style="width: 10%;text-align: center;">${request.endDate}</td>
-                            <td style="width: 10%;text-align: center;">${request.hour}</td>
-                            <td style="width: 10%;text-align: center;">${request.status}</td>
-                            <td style="width: 10%;text-align: center;">${request.getTotalCost()}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.title}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.skill}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.content}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.startDate}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.endDate}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.hour}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.status}</td>
+                            <td style="width: 10%;text-align: center;font-size: 15px;">${request.getTotalCost()}</td>
                             <c:if test="${request.status eq 'Open' || request.status eq 'Rejected'}">
                                 <td class="btn-container" style="width: 10%;text-align: center;">
                                     <button class="rate" > <a href="updatereq?idrequest=${request.idRequest} " class="rate-link">Update</a></button>
@@ -181,8 +197,8 @@
                         </form>
                     </c:if>
                     <c:if test="${request.status eq 'Completed'}">
-                        <td style="width: 10%;text-align: center;">
-                            <button class="rate" onclick="hideRateButton(this)"><a href="rate?idrequest=${request.idRequest}&idMentor=${request.idMentor}&idMentee=${request.idMentee}" class="rate-link">Rate</a></button>
+                        <td class="btn-container" style="width: 10%;text-align: center;">
+                            <a href="rate?idrequest=${request.idRequest}&idMentor=${request.idMentor}&idMentee=${request.idMentee}" class="btn btn-lg btn-primary">Finish</a>
                         </td>
                     </c:if>
                     <td>
@@ -202,9 +218,9 @@
                     <input type="text" id="idMentor" name="idMentor"  style="display: none"> 
                     <div class="wrapper" style="display:none; text-align: center;" >
                         <h2>Create Report</h2>
-                        <div style="margin: 20px;">To continue learning, please click here <a id="reportLink" href="#">Click</a></div>
+                        <div style="margin: 20px; font-size: 15px;">To continue learning, please click here <a id="reportLink" href="#">Click</a></div>
 
-                        <select name="badreport" id="badreport" style="font-size: larger; text-align: center; margin:20px;">
+                        <select name="badreport" id="badreport" style="font-size: 15px; text-align: center; margin:20px;">
                             <option value="Poor quality">Poor quality</option>
                             <option value="The Mentor lacks unprofessional skills">The Mentor lacks unprofessional skills</option>
                             <option value="Teaching is not on time">Teaching is not on time</option>
@@ -214,8 +230,8 @@
                         <textarea id="auto-resize-textarea" name="reasonReport" spellcheck="false" placeholder="Type something here..." required></textarea>
                         <br>
                         <div class="button "style="text-align: center;">
-                            <button style="background-color: #28a745; margin: 10px;" type="submit">Submit</button>
-                            <button style="background-color: #dc3545; margin: 10px;" type="button" onclick="cancelRejectForm()">Cancel</button>
+                            <button style="background-color: #28a745; margin: 10px; padding: 8px;" type="submit">Submit</button>
+                            <button style="background-color: #dc3545; margin: 10px; padding: 8px;" type="button" onclick="cancelRejectForm()">Cancel</button>
                         </div>
                     </div>
                     <c:if test="${msg != null}">
@@ -231,32 +247,33 @@
                 </form>
             </table>
         </section>
-         <script src="assets/jquery-1.11.3.min.js"></script>
+        <jsp:include page="../footer.jsp"></jsp:include>
+        <script src="assets/jquery-1.11.3.min.js"></script>
         <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
-<script type="text/javascript">
-            $("#paymentForm").submit(function () {
-                var postData = $("#paymentForm").serialize();
-                var submitUrl = $("#paymentForm").attr("action");
-                $.ajax({
-                    type: "POST",
-                    url: submitUrl,
-                    data: postData,
-                    dataType: 'JSON',
-                    success: function (x) {
-                        if (x.code === '00') {
-                            if (window.vnpay) {
-                                vnpay.open({width: 768, height: 600, url: x.data});
-                            } else {
-                                location.href = x.data;
-                            }
-                            return false;
-                        } else {
-                            alert(x.Message);
-                        }
-                    }
-                });
-                return false;
-            });
+        <script type="text/javascript">
+                                $("#paymentForm").submit(function () {
+                                    var postData = $("#paymentForm").serialize();
+                                    var submitUrl = $("#paymentForm").attr("action");
+                                    $.ajax({
+                                        type: "POST",
+                                        url: submitUrl,
+                                        data: postData,
+                                        dataType: 'JSON',
+                                        success: function (x) {
+                                            if (x.code === '00') {
+                                                if (window.vnpay) {
+                                                    vnpay.open({width: 768, height: 600, url: x.data});
+                                                } else {
+                                                    location.href = x.data;
+                                                }
+                                                return false;
+                                            } else {
+                                                alert(x.Message);
+                                            }
+                                        }
+                                    });
+                                    return false;
+                                });
         </script>   
         <script>
             function showRePortForm(idRequest, idMentor) {
@@ -270,7 +287,10 @@
 
             }
 
-
+            function cancelRejectForm() {
+                // Hide reject popup form
+                document.querySelector('.wrapper').style.display = 'none';
+            }
 
             const textarea = document.getElementById("auto-resize-textarea");
             textarea.addEventListener("input", function () {
@@ -278,5 +298,6 @@
                 this.style.height = (this.scrollHeight) + "px";
             });
         </script>
+
     </body>
 </html>

@@ -24,12 +24,7 @@
                 background-color: #f4f4f4;
             }
 
-            header {
-                background-color: #87cefa;
-                color: #fff;
-                padding: 10px;
-                text-align: center;
-            }
+            
 
             section {
                 margin: 20px;
@@ -48,8 +43,7 @@
             }
 
             th {
-                background-color: #333;
-                color: #fff;
+                background-color: whitesmoke;
             }
 
             .btn-container {
@@ -83,17 +77,17 @@
     </head>
     <body>
 
-        <header>
-            <!--            <h1>List of Requests</h1>-->
-            <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
-                <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
-                Home
-            </a>
-            <h1 style="margin-left: auto;">BLOG LIST</h1>
-        </header>
+        <!--        <header>
+                                <h1>List of Requests</h1>
+                    <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
+                        <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
+                        Home
+                    </a>
+                    <h1 style="margin-left: auto;">BLOG LIST</h1>
+                </header>-->
 
-       
-            <table>
+        <jsp:include page="../header.jsp"></jsp:include>
+        <table class="container">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -108,7 +102,7 @@
                 </thead>
                 <tbody>
 
-                    <c:forEach items="${bloglist55}" var="bl">
+                <c:forEach items="${bloglist55}" var="bl">
                     <tr>
                         <td>${bl.idblog}</td>
                         <td>${bl.updatedate}</td>
@@ -122,18 +116,10 @@
                 </c:forEach>
 
                 <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-       
-        <footer>
-            <div class = "social-links">
-                <a href = "#"><i class = "fab fa-facebook-f"></i></a>
-                <a href = "#"><i class = "fab fa-twitter"></i></a>
-                <a href = "#"><i class = "fab fa-instagram"></i></a>
-                <a href = "#"><i class = "fab fa-pinterest"></i></a>
-            </div>
-            <span>Happy Programming</span>
-        </footer>
+            </tbody>
+        </table>
+
+        <jsp:include page="../footer.jsp"></jsp:include>
         <script>
             function confirmDelete() {
                 var result = confirm("Do you want to delete this blog");

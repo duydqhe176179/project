@@ -66,7 +66,7 @@
                             </table>
                         </div>
                         <div class="mt-3">
-                            <a href="viewall" class="btn btn-secondary">Back</a>
+                            <a href="admin#request" class="btn btn-secondary">Back</a>
                         </div>
                     </div>
                 </div>

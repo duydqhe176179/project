@@ -16,7 +16,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import model.Account;
 
 import model.News;
 
@@ -74,15 +76,20 @@ public class addnews extends HttpServlet {
             String fileUrl = "img/" + fileName;
 
             // Thêm tin tức vào cơ sở dữ liệu
-            AdminDAO admin=new AdminDAO();
+            AdminDAO admin = new AdminDAO();
             News news = new News(title, content, fileUrl, postdate, day, month, year, summary);
             admin.addNews(news);
 
             // Chuyển hướng sau khi thêm tin tức
             request.setAttribute("message", "Add news successfully!");
-
+            HttpSession session = request.getSession();
+            Account a = (Account) session.getAttribute("account");
 // Chuyển hướng sau khi thêm tin tức
-            response.sendRedirect("maketer");
+            if (a.getRole().equals("Maketer")) {
+                response.sendRedirect("maketer");
+            } else if (a.getRole().equals("Manager")){
+                response.sendRedirect("admin");
+            }
         } else {
             // Nếu có bất kỳ tham số nào là null, in ra thông báo lỗi
             System.out.println("Error: One or more parameters are null");

@@ -10,17 +10,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+       
     </head>
     <body>
         <footer id="newsletter">
             <div class="container">
                 <div class="row">
-                    
+
                     <div class="col-lg-6 offset-lg-3">
                         <form id="search" action="#" method="GET">
                             <div class="row">
-                                
-                                
+
+
                             </div>
                         </form>
                     </div>
@@ -84,5 +85,5 @@
                 </div>
             </div>
         </footer>
-    </body>
+           </body>
 </html>

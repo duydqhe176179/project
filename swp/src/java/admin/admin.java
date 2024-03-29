@@ -6,8 +6,11 @@ package admin;
 
 import dal.BlogDAO;
 import dal.DAO;
+import dal.HistoryPayDAO;
 import dal.MenteeDAO;
 import dal.RequestDAO;
+import dal.TakeMoneyDAO;
+import dal.WalletDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,6 +27,8 @@ import model.Account;
 import model.Adshowreq;
 import model.Blog;
 import model.CV;
+import model.GetMoney;
+import model.HistoryWallet;
 import model.Mentee;
 import model.Mentor;
 import model.News;
@@ -334,10 +339,22 @@ public class admin extends HttpServlet {
                 request.setAttribute("totalPages", totalPagess);
                 request.setAttribute("currentPage", page);
             }
+                        
+            TakeMoneyDAO takeMoneyDAo=new TakeMoneyDAO();
+            WalletDAO walletDAO=new WalletDAO();
+            HistoryPayDAO historyDAO=new HistoryPayDAO();
+            List<GetMoney> listTakeMoney=takeMoneyDAo.getAllTakeMoney();
+            request.setAttribute("listTakeMoney", listTakeMoney);
+            int walletSystem=walletDAO.getWalletBalance(14);
+            request.setAttribute("walletSystem", walletSystem);
+            int income=walletDAO.incomeSystem();
+            request.setAttribute("totalIncome", income);
+            List<HistoryWallet> listHistory=historyDAO.getHistoryWalletByIdAccount(14);
+            request.setAttribute("listHistory", listHistory);
             BlogDAO bd = new BlogDAO();
             List<Blog> BlogList4 = bd.getBlog();
-
             request.setAttribute("bloglist4", BlogList4);
+
             request.getRequestDispatcher("Admin/demo_admin.jsp").forward(request, response);
 
         } else {

@@ -11,21 +11,20 @@ package model;
 public class HistoryWallet {
 
     int id, idAccount, amount;
-    String datePay, content, stype;
+    String nameMentee,datePay, content, stype;
 
     public HistoryWallet() {
     }
 
-    public HistoryWallet(int id, int idAccount, int amount, String datePay, String content, String stype) {
+    public HistoryWallet(int id, int idAccount, String nameMentee,int amount, String datePay, String content, String stype) {
         this.id = id;
         this.idAccount = idAccount;
         this.amount = amount;
+        this.nameMentee = nameMentee;
         this.datePay = datePay;
         this.content = content;
         this.stype = stype;
     }
-
-    
 
     public int getId() {
         return id;
@@ -51,6 +50,14 @@ public class HistoryWallet {
         this.amount = amount;
     }
 
+    public String getNameMentee() {
+        return nameMentee;
+    }
+
+    public void setNameMentee(String nameMentee) {
+        this.nameMentee = nameMentee;
+    }
+
     public String getDatePay() {
         return datePay;
     }
@@ -58,8 +65,6 @@ public class HistoryWallet {
     public void setDatePay(String datePay) {
         this.datePay = datePay;
     }
-
-    
 
     public String getContent() {
         return content;
@@ -79,9 +84,10 @@ public class HistoryWallet {
 
     @Override
     public String toString() {
-        return "HistoryWallet{" + "id=" + id + ", idAccount=" + idAccount + ", amount=" + amount + ", datePay=" + datePay + ", content=" + content + ", stype=" + stype + '}';
+        return "HistoryWallet{" + "id=" + id + ", idAccount=" + idAccount + ", amount=" + amount + ", nameMentee=" + nameMentee + ", datePay=" + datePay + ", content=" + content + ", stype=" + stype + '}';
     }
 
+    
    
     
     

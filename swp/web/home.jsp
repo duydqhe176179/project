@@ -165,7 +165,7 @@
             <div class="container">  
                 <div class="row">
                     <c:forEach   items="${listSkill}" var = "item">
-                        <div class="col-lg-3">
+                        <div class="col-lg-4" style="margin-bottom: 10px">
                             <div class="service-item first-service">
                                 <div  >
                                     <img src="${item.image}" height="237" width="246" alt="alt"/>
@@ -173,7 +173,7 @@
                                 <h4> ${item.title} ${item.skillName}</h4>
                                 <p> ${item.skill_description}</p>
                                 <div class="text-button">
-                                    <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
+                                    <a href="searchMentor?searchBySkill=${item.getSkillName()}">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -557,7 +557,7 @@
 
             </script>
             <!-- Scripts -->
-            <script src="vendor/jquery/jquery.min.js"></script>
+<!--            <script src="vendor/jquery/jquery.min.js"></script>
             <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="assets/js/owl-carousel.js"></script>
             <script src="assets/js/animation.js"></script>
@@ -567,6 +567,6 @@
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
     </body>
 </html>

@@ -63,7 +63,7 @@ public class ResetPasswordController extends HttpServlet {
                         System.out.println("password expired.");
                         timer.cancel(); // Hủy Timer sau khi hủy OTP
                     }
-                }, 10000); // 5 phút (5 * 60 * 1000 mili giây)
+                }, 5 * 60 * 1000); // 5 phút (5 * 60 * 1000 mili giây)
 
                 request.setAttribute("message", "ok");
             }

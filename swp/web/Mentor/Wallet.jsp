@@ -12,27 +12,34 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap core CSS -->
-        <link href="assets/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom styles for this template -->
-        <link href="assets/jumbotron-narrow.css" rel="stylesheet">
-        <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-....." crossorigin="anonymous" />
-        <title>List of Requests</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+        <title>Happy Programming</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+        <link rel="stylesheet" href="assets/css/animated.css">
+        <link rel="stylesheet" href="assets/css/owl.css">
+        <script src="https://kit.fontawesome.com/4c292f6960.js" crossorigin="anonymous"></script>
+
+        <title>My Wallet</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #f4f4f4;
-            }
 
-            header {
-                background-color: #3931af;
-                color: #fff;
-                padding: 10px;
-                text-align: center;
+                /*                background-color: #f4f4f4;*/
             }
-
             section {
                 margin: 20px;
             }
@@ -46,7 +53,7 @@
             th, td {
                 border: 1px solid #ddd;
                 padding: 8px;
-                text-align: left;
+                text-align: center;
             }
 
             th {
@@ -90,7 +97,7 @@
                 margin-left: 36%;
                 margin-bottom: 20px;
             }
-            .wrapper h2{
+            .wrapper h3{
                 color: #4671EA;
                 font-size: 28px;
                 text-align: center;
@@ -125,21 +132,7 @@
                 color: red;
 
             }
-            #contact {
-                -webkit-user-select: none; /* Chrome/Safari */
-                -moz-user-select: none; /* Firefox */
-                -ms-user-select: none; /* IE10+ */
-                margin: 4em auto;
-                width: 100px;
-                height: 30px;
-                line-height: 30px;
-                background: teal;
-                color: white;
-                font-weight: 700;
-                text-align: center;
-                cursor: pointer;
-                border: 1px solid white;
-            }
+
 
             #contact:hover {
                 background: #666;
@@ -151,7 +144,7 @@
             #contactForm {
                 display: none;
 
-                border: 6px solid salmon;
+                border: 1px solid #41A6F4;
                 padding: 2em;
                 width: 400px;
                 text-align: center;
@@ -190,72 +183,130 @@
                 border: none;
                 height: 30px;
             }
+            .notification {
+                display: none;
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                padding: 20px 80px;
+                border-radius: 5px;
+                z-index: 1000;
+            }
+
+            .success {
+                background-color: #7DE276;
+                color: white;
+            }
+
+            .error {
+                background-color: #f44336;
+                color: white;
+            }
+
+            .close-btn {
+                cursor: pointer;
+                float: right;
+                font-weight: bold;
+                font-size: 20px;
+                line-height: 20px;
+            }
 
         </style>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     </head>
     <body>
+        <jsp:include page="../header.jsp"></jsp:include>
+            <div id="notification" class="notification">
+                <span id="notificationText"></span>
+                <!--                <span class="close-btn" onclick="closeNotification()">×</span>-->
+            </div>
+            <div class="container row" style="width: 1150px;">
+                <div class="col-6">
+                    <h3>Wallet balance : ${walletBalance} VNÐ</h3>
+                <div style="font-size: smaller;color: #8A7A7A">Welcome to your wallet !</div>
+            </div>
+            <div class="col-6" style="position: absolute;right: 0">
+                <h3>Total Income : ${totalIncome} VNÐ</h3>
+            </div>
+            <br><br>
+            <div style="display: flex;align-items: center;justify-content: space-between">
+                <span>History Payment</span>
+                <button type="button" id="contact" class="btn btn-primary">Withdraw money</button>
+            </div>
+            <br><br><br>
+            <section>
+                <table border="1" style="margin:auto">
+                    <thead style="border: 1px solid black; background:#48CEFA;">
+                        <tr>
+                            <th style="width: 10%;text-align: center;">Mentee</th>
+                            <th style="width: 10%;text-align: center;">Money</th>
+                            <th style="width: 10%;text-align: center;">Date</th>
+                            <th style="width: 10%;text-align: center;">Content</th>
+                            <th style="width: 10%;text-align: center;">Stype</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="h" items="${historyWallet}">
+                            <tr>
+                                <td>${h.getNameMentee()}</td>
+                                <c:if test="${h.getStype() eq 'Deposit'}">
+                                    <td style="color: green">+ ${h.getAmount()} VNÐ</td>
+                                </c:if>
+                                <c:if test="${h.getStype() eq 'Payment'}">
+                                    <td style="color: red">- ${h.getAmount()} VNÐ</td>
+                                </c:if>
+                                <td>${h.getDatePay()}</td>
+                                <td>${h.getContent()}</td>
+                                <c:if test="${h.getStype() eq 'Deposit'}">
+                                    <td style="color: green">${h.getStype()}</td>
+                                </c:if>
+                                <c:if test="${h.getStype() eq 'Payment'}">
+                                    <td style="color: red">${h.getStype()}</td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
 
-        <header style="background: #48CEFA;margin: 20px;">
-            <!--            <h1>List of Requests</h1>-->
-            <a href="home" style="text-decoration: none; color: white; display: flex; align-items: center;">
-                <i class="fa fa-home" style="font-size: 24px; margin-right: 10px;"></i>
-                Home
-            </a>
-            <h1 style="margin-left: auto; padding-bottom: 20px; margin: 20px;">List of Wallet</h1>
-        </header>
+                </table>
+            </section>
+        </div>
 
-        <section>
-            <table border="1" style="margin:auto">
-                <thead style="border: 1px solid black; background:#48CEFA;">
-                    <tr>
-                        <th style="width: 10%;text-align: center;">idAccount</th>
-                        <th style="width: 10%;text-align: center;">Amount</th>
-                        <th style="width: 10%;text-align: center;">DatePay</th>
-                        <th style="width: 10%;text-align: center;">Content</th>
-                        <th style="width: 10%;text-align: center;">Stype</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>23$</td>
-                        <td>23-11-2024</td>
-                        <td>K co</td>
-                        <td><div id="contact">Contact</div></td>
-                    </tr>
-
-                    <!-- Add more rows as needed -->
-                </tbody>
-
-            </table>
-        </section>
         <div id="contactForm">
 
-            <h1>View Money</h1>        
-            <h2>Surplus : </h2>
-            <form action="#">
 
-                <h4>Amount to withdraw: </h4>
-                <input placeholder="Money" type="text" required />
-                <c:if test="${mess eq 'ok'}">
-                    <div class="alert alert-success" role="alert">
-                        Submitted withdrawal request successfully
-                    </div>
-                </c:if>
-                <c:if test="${param.fail != null}">
-                    <div class="alert alert-danger" role="alert">
-                        Create failed. Please try again.
-                    </div>
-                </c:if>
+            <form action="takeMoney?idAccount=${idAccount}" method="post" onsubmit="return validateForm()">
+                <h4>Enter the money: </h4>
+                <div style="font-size: smaller;color: #8A7A7A">The money more than 50000</div>
+                <input id="money" name="money" placeholder="50000" type="text" required />
+                <div id="amountAlert" style="color: red;"></div>
                 <button class="formBtn" type="submit" >Request</button>
-
             </form>
-
+        </div>
+        <jsp:include page="../footer.jsp"></jsp:include>
             <script src="assets/jquery-1.11.3.min.js"></script>
+            <script>
+                function validateForm() {
+                    var amountInput = document.getElementById("money");
+                    var amount = amountInput.value;
+                    var amountAlert = document.getElementById("amountAlert");
 
+                    if (isNaN(amount)||amount<50000) {
+                        amountAlert.textContent = "Please enter a valid number.";
+                        return false;
+                    }
 
+                    if (amount > ${walletBalance}) {
+                        amountAlert.textContent = "The money exceed the wallet balance";
+                        return false;
+                    }
+
+                    // Clear the alert if the input is valid
+                    amountAlert.textContent = "";
+
+                    return true;
+                }
+
+            </script>
             <script>
 
                 $(function () {
@@ -276,5 +327,38 @@
 
                 });
             </script>
+            <script>
+                // Extracting the value of 'mess' from the request attribute
+                var message = '<%= request.getAttribute("mess") %>';
+
+                // Function to show notification based on the value of 'mess'
+                function showNotification(message) {
+                    var notification = document.getElementById("notification");
+                    var notificationText = document.getElementById("notificationText");
+
+                    if (message === 'ok') {
+                        notification.className = "notification success";
+                        notificationText.textContent = "Send request successfully!";
+                    } else if (message === 'ko') {
+                        notification.className = "notification error";
+                        notificationText.textContent = "Error when send request, try again!";
+                    }
+
+                    notification.style.display = "block";
+                    setTimeout(function () {
+                        notification.style.display = "none";
+                    }, 3000); // 3 seconds
+                }
+
+                function closeNotification() {
+                    var notification = document.getElementById("notification");
+                    notification.style.display = "none";
+                }
+
+                // Calling the function to show notification
+                showNotification(message);
+        </script>
     </body>
+
+
 </html>

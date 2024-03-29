@@ -97,7 +97,7 @@ public class StatisticRequest extends HttpServlet {
         request.setAttribute("mentorNames", mentorNames);
 
         request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
-        request.getRequestDispatcher("view/statisticreq.jsp").forward(request, response);
+        
     }
 
     /**
